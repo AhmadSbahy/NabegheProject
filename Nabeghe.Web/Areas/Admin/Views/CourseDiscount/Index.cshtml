@@ -1,0 +1,109 @@
+﻿@using Nabeghe.Domain.ViewModels.Course
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Nabeghe.Application.Convertor
+@using Nabeghe.Application.Extensions
+@using Nabeghe.Application.Services.Interfaces
+@using Nabeghe.Application.Statics
+@using Nabeghe.Domain.Enums.User
+@using Nabeghe.Domain.ViewModels.CourseDiscount
+@model Nabeghe.Domain.ViewModels.CourseDiscount.FilterCourseDiscountViewModel
+@inject ICourseService CourseService
+@{
+	ViewData["Title"] = "لیست تخفیف های دوره ها";
+}
+<div class="card">
+	<div class="card-body">
+		<div class="d-flex align-items-center justify-content-between mb-3">
+			<h5 class="mb-0">@ViewData["Title"]</h5>
+			<form asp-action="Index" id="filter-search" class="d-flex align-items-center">
+				<input type="hidden" asp-for="Page" />
+
+				<div class="row g-2">
+					<!-- فیلد ورودی برای جستجوی عنوان -->
+					<div class="col-auto">
+						<label asp-for="Param" class="form-label"></label>
+						<input asp-for="Param" class="form-control" placeholder="عنوان" />
+					</div>
+					<!-- فیلد انتخاب وضعیت -->
+					<div class="col-auto">
+						<label asp-for="FilterCourseDiscountStatus" class="form-label"></label>
+						<select asp-for="FilterCourseDiscountStatus" class="form-select">
+							@foreach (var item in Enum.GetValues(typeof(FilterCourseDiscountStatus)).Cast<FilterCourseDiscountStatus>().ToList())
+							{
+								if (Model.FilterCourseDiscountStatus == item)
+								{
+									<option selected value="@item">@item.GetDisplayName()</option>
+								}
+								else
+								{
+									<option value="@item">@item.GetDisplayName()</option>
+								}
+							}
+						</select>
+					</div>
+
+					<!-- دکمه جستجو -->
+					<div class="col-auto d-flex align-items-end">
+						<button type="submit" class="btn btn-success">جستجو</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div class="table-responsive mt-3">
+			<table class="table align-middle">
+				<thead class="table-secondary">
+					<tr>
+						<th>تصوير محصول</th>
+						<th>نام محصول</th>
+						<th>قیمت</th>
+						<th>تاریخ شروع</th>
+						<th>تاریخ پایان</th>
+						<th>دستورات</th>
+					</tr>
+				</thead>
+				<tbody>
+					@if (Model.Entities.CheckValue())
+					{
+						@foreach (var item in Model.Entities)
+						{
+							<tr>
+								<td>
+									<img src="@PathTools.CourseImagePath@item.Course.CourseImageName" style="max-height:140px" />
+								</td>
+								<td>@item.Course.CourseTitle</td>
+								<td>
+									@if (CourseService.IsCourseHasDiscount(item.Course.CourseDiscount))
+									{
+										<del style="color:red">@item.Course.CoursePrice.ToMoney()</del>
+										<h6 style="color:green">@item.Course.CoursePrice.GetPriceAfterDiscount(item.Course.CourseDiscount.DiscountPercent)</h6>
+									}else
+									{
+										@item.Course.CoursePrice.ToMoney()
+									}
+								</td>
+								<td>@item.StartDate.Toshamsi()</td>
+								<td>@item.EndDate.Toshamsi()</td>
+								<td>
+@* 									<a onclick="confirmDelete('@Url.Action("Delete","Course",new {id=item.Id})',event)" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Delete" aria-label="Delete">
+										<ion-icon name="trash-outline" role="img" class="md hydrated" aria-label="trash outline"></ion-icon>
+									</a>
+									<a asp-action="Edit" asp-route-id="@item.Id" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit">
+										<ion-icon name="pencil-outline" role="img" class="md hydrated" aria-label="pencil outline"></ion-icon>
+									</a>
+									<a asp-controller="CourseComment" asp-action="Index" asp-route-CourseId="@item.Id" class="text-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Comments" aria-label="Edit">
+										<i style="width:20px" class="lni lni-comments"></i>
+									</a>
+									<a asp-controller="CourseEpisode" asp-action="Index" asp-route-CourseId="@item.Id" type="button" class="text-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Episode" aria-label="Episode">
+										<ion-icon name="logo-microsoft" role="img" class="md hydrated" aria-label="logo microsoft"></ion-icon>
+									</a> *@
+								</td>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<partial name="_AdminPaging" model="@Model.GetCurrentPaging()" />

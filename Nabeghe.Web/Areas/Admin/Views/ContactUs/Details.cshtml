@@ -1,0 +1,48 @@
+﻿@using Nabeghe.Application.Extensions
+@using Nabeghe.Domain.ViewModels.ContactUs
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ContactUsViewModel
+
+<div class="card">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-md-6 p-2">
+				<label class="form-label">نام و نام خانواگی</label>
+				<input asp-for="FullName" disabled="" class="form-control">
+			</div>
+			<div class="col-md-6 p-2">
+				<label class="form-label">شماره تماس</label>
+				<input asp-for="Mobile" disabled="" class="form-control">
+			</div>
+			<div class="col-md-6 p-2">
+				<label class="form-label">Ip</label>
+				<input asp-for="Ip" disabled="" class="form-control">
+			</div>
+			<div class="col-md-6 p-2">
+				<label class="form-label">ایمیل</label>
+				<input asp-for="Email" disabled="" class="form-control">
+			</div>
+			<div class="col-md-12 p-2">
+				<label class="form-label">متن پیام</label>
+				<textarea asp-for="Message" disabled="" class="form-control"></textarea>
+			</div>
+			@if (Model.AnswerUser != null)
+			{
+				<div class="col-12 col-md-12 p-2">
+					<div class="form-group">
+						<label class="form-label">متن پاسخ</label>
+						<input class="form-control" value="@Model.Answer" disabled="" />
+					</div>
+				</div>
+			}
+			else
+			{
+				<partial name="_AnswerContactUs" model="@(new CreateAnswerContactUsViewModel())" />
+			}
+		</div>
+	</div>
+</div>	
+
+@section Scripts {
+	<script src="/AdminContent/assets/js/admin-contactus.js"></script>
+}

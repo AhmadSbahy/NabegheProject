@@ -1,0 +1,39 @@
+﻿@using Nabeghe.Domain.ViewModels.CourseCategory
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Nabeghe.Domain.ViewModels.CourseStatus
+@model Nabeghe.Domain.ViewModels.CourseEpisode.UpdateCourseEpisodeViewModel
+@{
+	ViewData["Title"] = "ویرایش قسمت";
+}
+
+<form method="post" enctype="multipart/form-data">
+	<input type="hidden" asp-for="CourseId"/>
+	<input type="hidden" asp-for="EpisodeVideoName"/>
+	<input type="hidden" asp-for="CreateDate"/>
+	<input type="hidden" asp-for="Id"/>
+	<input class="form-control mb-3" asp-for="@Model.EpisodeTitle" placeholder="عنوان قسمت" aria-label="default input example">
+	<p>
+		<span asp-validation-for="@Model.EpisodeTitle" class="text-danger"></span>
+	</p>
+
+	<input class="form-control mb-3" type="text" asp-for="@Model.EpisodeTime" placeholder="زمان قسمت" aria-label="default input example">
+	<p>
+		<span asp-validation-for="@Model.EpisodeTime" class="text-danger"></span>
+	</p>
+
+	<div class="mb-3 pt-3">
+		<label for="avatar" class="form-label">فایل قسمت</label>
+		<input class="form-control" type="file" id="avatar" asp-for="NewEpisodeFile"/>
+		<p>
+			<span asp-validation-for="@Model.NewEpisodeFile" class="text-danger"></span>
+		</p>
+	</div>
+
+	<button type="submit" class="btn btn-outline-warning px-5 mb-3">ویرایش</button>
+</form>
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

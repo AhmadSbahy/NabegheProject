@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Nabeghe.Domain.ViewModels.CourseCategory
+@model UpdateCourseCategoryViewModel
+@{
+	ViewData["Title"] = "ویرایش دسته بندی";
+
+	var parentCategories = ViewData["ParentCategories"] as List<CourseCategoryViewModel> ?? new List<CourseCategoryViewModel>();
+
+	var parentItems = new SelectList(parentCategories, "Id", "Title");
+}
+<form method="post" enctype="multipart/form-data">
+	<input type="hidden" asp-for="Id"/>
+	<input class="form-control mb-3" asp-for="Title" placeholder="عنوان" aria-label="default input example">
+	<p>
+		<span asp-validation-for="Title" class="text-danger"></span>
+	</p>
+
+	<div class="form-group">
+		<label asp-for="ParentId" class="control-label"></label>
+		<select asp-for="ParentId" asp-items="parentItems" class="form-control">
+			<option value="">انتخاب کنید ...</option>
+		</select>
+		<span asp-validation-for="ParentId" class="text-danger"></span>
+	</div>
+
+	<button type="submit" class="btn btn-outline-warning px-5 mb-3">ویرایش</button>
+</form>

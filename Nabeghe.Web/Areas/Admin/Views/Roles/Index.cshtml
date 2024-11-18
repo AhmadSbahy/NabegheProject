@@ -1,0 +1,54 @@
+﻿@using Nabeghe.Application.Convertor
+@model Nabeghe.Domain.ViewModels.Role.FilterRoleViewModel
+
+
+@{
+	ViewData["Title"] = "ليست نقش";
+}
+<div class="card">
+	<div class="card-body">
+		<div class="d-flex align-items-center justify-content-between mb-3">
+			<h5 class="mb-0">ليست نقش ها</h5>
+			<form asp-action="Index" id="filter-search" class="d-flex align-items-center">
+				<input type="hidden" asp-for="Page" />
+				<div class="row g-2">
+					<div class="col-auto">
+						<label asp-for="Param" class="form-label"></label>
+						<input asp-for="Param" class="form-control" placeholder="عنوان" />
+					</div>
+					<div class="col-auto d-flex align-items-end">
+						<button type="submit" class="btn btn-success">جستجو</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="table-responsive mt-3">
+			<table class="table align-middle">
+				<thead class="table-secondary">
+				<tr>
+					<th>عنوان نقش</th>
+					<th>تاریخ ایجاد</th>
+					<th>دستورات</th>
+				</tr>
+				</thead>
+				<tbody>
+				@foreach (var item in Model.Entities)
+				{
+					<tr>
+						<td>@item.RoleTitle</td>
+						<td>@item.CreateDate.Toshamsi()</td>
+						<td>
+							<a onclick="confirmDelete('@Url.Action("Delete","Roles",new {id=item.Id})',event)" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Delete" aria-label="Delete">
+								<ion-icon name="trash-outline" role="img" class="md hydrated" aria-label="trash outline"></ion-icon>
+							</a>
+							<a href="/Admin/Roles/Edit/@item.Id" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit">
+								<ion-icon name="pencil-outline" role="img" class="md hydrated" aria-label="pencil outline"></ion-icon>
+							</a>
+						</td>
+					</tr>
+				}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

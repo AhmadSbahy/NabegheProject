@@ -1,0 +1,128 @@
+﻿
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Nabeghe.Domain.Models.User
+@model Nabeghe.Domain.ViewModels.Role.CreateRoleViewModel
+
+@{
+	ViewData["Title"] = "افزودن نقش";
+
+	var permissions = ViewData["Permissions"] as List<Permission>; 
+}
+<form method="post">
+	<div class="col-12">
+		<label for="Product_ProductName" class="form-label">عنوان نقش</label>
+		<input class="form-control mb-3" asp-for="RoleTitle" placeholder="عنوان نقش" aria-label="default input example">
+		<span class="text text-danger" asp-validation-for="RoleTitle"></span>
+	</div>
+	<label class="form-label">دسترسى هاى نقش</label>
+    <div class="border p-2">
+        @foreach (var per in permissions.Where(p => p.ParentId == null))
+        {
+            <ul>
+                <li>
+                    <div class="form-check">
+                        <label class="form-check-label" for="parent-@per.PermissionId">@per.PermissionTitle</label>
+                        <input class="form-check-input parent-checkbox"
+                               type="checkbox"
+                               value="@per.PermissionId"
+                               id="parent-@per.PermissionId"
+                               disabled />
+                    </div>
+                </li>
+
+                @if (permissions.Any(p => p.ParentId == per.PermissionId))
+                {
+                    <ul>
+                        @foreach (var sub in permissions.Where(p => p.ParentId == per.PermissionId))
+                        {
+                            <li>
+                                <div class="form-check">
+                                    <label class="form-check-label" for="sub-@sub.PermissionId">@sub.PermissionTitle</label>
+                                    <input class="form-check-input"
+                                           name="selectedPermissions"
+                                           type="checkbox"
+                                           value="@sub.PermissionId"
+                                           id="sub-@sub.PermissionId" />
+                                </div>
+                            </li>
+                            @if (permissions.Any(p => p.ParentId == sub.PermissionId))
+                            {
+                                <ul>
+                                    @foreach (var sub2 in permissions.Where(p => p.ParentId == sub.PermissionId))
+                                    {
+                                        <li>
+                                            <div class="form-check">
+                                                <label class="form-check-label" for="sub2-@sub2.PermissionId">@sub2.PermissionTitle</label>
+                                                <input class="form-check-input"
+                                                       name="selectedPermissions"
+                                                       type="checkbox"
+                                                       value="@sub2.PermissionId"
+                                                       id="sub2-@sub2.PermissionId" />
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        }
+                    </ul>
+                }
+            </ul>
+        }
+    </div>
+
+	<button type="submit" class="btn btn-outline-success px-5 mb-3">افزودن</button>
+</form>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const allCheckboxes = document.querySelectorAll('.form-check-input');
+
+            allCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    if (this.checked) {
+                        const parentLi = this.closest('ul')?.previousElementSibling;
+                        if (parentLi) {
+                            const parentCheckbox = parentLi.querySelector('.form-check-input.parent-checkbox');
+                            if (parentCheckbox) {
+                                parentCheckbox.checked = true;
+
+                                // بررسی اگر hidden input موجود نیست، آن را ایجاد کن
+                                if (!parentLi.querySelector(`input[type="hidden"][value="${parentCheckbox.value}"]`)) {
+                                    const hiddenInput = document.createElement('input');
+                                    hiddenInput.type = 'hidden';
+                                    hiddenInput.name = 'selectedPermissions';
+                                    hiddenInput.value = parentCheckbox.value;
+                                    parentLi.appendChild(hiddenInput);
+                                }
+                            }
+                        }
+                    } else {
+                        // بررسی کنید که اگر تمام زیرگروه‌ها غیرفعال شوند، hidden input حذف شود
+                        const parentUl = this.closest('ul');
+                        if (parentUl) {
+                            const parentLi = parentUl.previousElementSibling;
+                            if (parentLi) {
+                                const parentCheckbox = parentLi.querySelector('.form-check-input.parent-checkbox');
+                                if (parentCheckbox) {
+                                    const siblingCheckboxes = parentUl.querySelectorAll('.form-check-input:checked');
+                                    if (siblingCheckboxes.length === 0) {
+                                        parentCheckbox.checked = false;
+
+                                        // حذف hidden input
+                                        const hiddenInput = parentLi.querySelector(`input[type="hidden"][value="${parentCheckbox.value}"]`);
+                                        if (hiddenInput) {
+                                            hiddenInput.remove();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

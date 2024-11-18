@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Nabeghe.Domain.ViewModels.ContactUs.CreateAnswerContactUsViewModel
+
+<form asp-action="Answer"
+      data-ajax="true"
+      data-ajax-mehtod="post"
+      data-ajax-success="onSuccessAnswerContactUs">
+    <input type="hidden" asp-for="Id" />
+    <div class="row">
+        <div class="col-12 col-md-12 p-2">
+            <div class="form-group">
+                <label asp-for="Answer" class="control-label p-1"></label>
+                <textarea class="form-control" asp-for="Answer"></textarea>
+                <span asp-validation-for="Answer"></span>
+            </div>
+        </div>
+        <div class="col-12 p-2">
+            <div class="form-group">
+	            <button type="submit" class="btn btn-outline-success px-5 mb-3">ثبت پاسخ</button>
+                <button asp-area="Admin" asp-controller="ContactUs" asp-action="Index" class="btn btn-outline-primary px-5 mb-3">بازگشت</button>
+            </div>
+        </div>
+    </div>
+</form>

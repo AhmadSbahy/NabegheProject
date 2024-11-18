@@ -1,0 +1,101 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Nabeghe.Application.Convertor
+@using Nabeghe.Application.Extensions
+@using Nabeghe.Domain.ViewModels.ContactUs
+@using Nabeghe.Domain.ViewModels.User
+@model Nabeghe.Domain.ViewModels.ContactUs.FilterContactUsViewModel
+@{
+	ViewData["Title"] = "لیست تماس با ما ها";
+}
+<div class="card">
+	<div class="card-body">
+		<div class="d-flex align-items-center justify-content-between mb-3">
+			<h5 class="mb-0">@ViewData["Title"]</h5>
+			<form asp-action="Index" id="filter-search" class="d-flex align-items-center">
+				<input type="hidden" asp-for="Page" />
+
+				<div class="row g-2">
+					<!-- فیلد ورودی برای جستجوی عنوان -->
+					<div class="col-auto">
+						<label asp-for="Param" class="form-label"></label>
+						<input asp-for="Param" class="form-control" placeholder="عنوان" />
+					</div>
+
+					<!-- فیلد انتخاب وضعیت -->
+					<div class="col-auto">
+						<label asp-for="FilterContactUsStatus" class="form-label"></label>
+						<select asp-for="FilterContactUsStatus" class="form-select">
+							@foreach (var item in Enum.GetValues(typeof(FilterContactUsStatus)).Cast<FilterContactUsStatus>().ToList())
+							{
+								if (Model.FilterContactUsStatus == item)
+								{
+									<option selected value="@item">@item.GetDisplayName()</option>
+								}
+								else
+								{
+									<option value="@item">@item.GetDisplayName()</option>
+								}
+
+							}
+						</select>
+					</div>
+
+					<!-- دکمه جستجو -->
+					<div class="col-auto d-flex align-items-end">
+						<button type="submit" class="btn btn-success">جستجو</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div class="table-responsive mt-3">
+			<table class="table align-middle">
+				<thead class="table-secondary">
+					<tr>
+						<th>نام و نام خانوادگی</th>
+						<th>ایمیل</th>
+						<th>موبایل</th>
+						<th>وضعیت پاسخ</th>
+						<th>تاریخ ایجاد</th>
+						<th>ای پی کاربر</th>
+						<th>دستورات</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in Model.Entities)
+					{
+						<tr>
+							<td>@item.FullName</td>
+							<td>
+								@item.Email
+							</td>
+							<td>@item.Mobile</td>
+							<td>
+								@if (item.AnswerUserId.HasValue)
+								{
+									<span class="text-success">
+										پاسخ داده شده
+									</span>
+								}
+								else
+								{
+									<span class="text-danger">
+										پاسخ داده نشده
+									</span>
+								}
+							</td>
+							<td>@item.CreateDate.Toshamsi()</td>
+							<td>@item.Ip</td>
+							<td>
+								<a asp-area="Admin" asp-controller="ContactUs" asp-action="Details" asp-route-id="@item.Id" class="text-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="detail info" aria-label="detail">
+									<ion-icon name="eye-outline" role="img" class="md hydrated" aria-label="detail outline"></ion-icon>
+								</a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<partial name="_AdminPaging" model="@Model.GetCurrentPaging()" />

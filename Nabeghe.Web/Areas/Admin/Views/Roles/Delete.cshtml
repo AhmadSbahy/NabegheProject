@@ -1,0 +1,18 @@
+﻿@model Nabeghe.Domain.Models.User.Role
+
+@{
+	ViewData["Title"] = "حذف نقش";
+}
+
+<h3>ايا از حذف "@Model.RoleTitle" مطمين هستيد؟</h3>
+<div>
+	<div class="mb-4">
+		<label for="Product_ProductName" class="form-label">عنوان نقش</label>
+		<input class="form-control mb-3" asp-for="RoleTitle" readonly placeholder="عنوان نقش" aria-label="default input example">
+
+	</div>
+	<form method="post">
+		<input type="hidden" asp-for="Id" />
+		<input type="submit" value="حذف" class="btn btn-danger" />
+	</form>
+</div>

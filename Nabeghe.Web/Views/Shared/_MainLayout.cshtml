@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+	<partial name="_MetaTags" />
+	<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
+	<partial name="_StyleReferences" />
+	<title>@ViewBag.Title | سایت اموزشی نابغه</title>
+</head>
+
+<body>
+
+	<div class="flex flex-col min-h-screen bg-background">
+		<!-- header -->
+		<partial name="_PageHeader" />
+		<!-- end header -->
+		<main class="flex-auto py-5">
+			@RenderBody()
+		</main>
+		<!-- footer -->
+		<partial name="_Footer" />
+		<!-- end footer -->
+	</div>
+
+	<partial name="_JsReferences" />
+	<partial name="_SiteNotification" />
+	@RenderSection("Scripts", false)
+
+</body>
+
+</html>

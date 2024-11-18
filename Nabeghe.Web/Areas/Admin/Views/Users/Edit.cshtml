@@ -1,0 +1,85 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Nabeghe.Domain.Models.User
+@model Nabeghe.Domain.ViewModels.User.AdminSideEditUserViewModel
+@{  ViewData["Title"] = "ویرایش";
+    List<Role>? roles = ViewData["Roles"] as List<Role>;
+}
+<form method="post" enctype="multipart/form-data">
+	<input type="hidden" asp-for="Status"/>
+	<input type="hidden" asp-for="Id"/>
+	<input type="hidden" asp-for="Avatar"/>
+	<input class="form-control mb-3" asp-for="@Model.FirstName" placeholder="نام" aria-label="default input example">
+	<p>
+		<span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+	</p>
+
+	<input class="form-control mb-3" asp-for="@Model.LastName" placeholder="نام خانوادگی" aria-label="default input example">
+	<p>
+		<span asp-validation-for="@Model.LastName" class="text-danger"></span>
+	</p>
+
+	<input class="form-control mb-3" asp-for="@Model.Mobile" maxlength="11" type="text" placeholder="شماره تماس" aria-label="default input example">
+	<p>
+		<span asp-validation-for="@Model.Mobile" class="text-danger"></span>
+	</p>
+
+	<input class="form-control mb-3" asp-for="@Model.Email" placeholder="ايميل" aria-label="default input example">
+	<p>
+		<span asp-validation-for="@Model.Email" class="text-danger"></span>
+	</p>
+
+	<input type="hidden" asp-for="Password" id="hiddenPassword" />
+
+	<!-- فیلد قابل مشاهده برای وارد کردن کلمه عبور جدید -->
+	<input class="form-control mb-3" type="password" placeholder="كلمه عبور جدید" id="visiblePassword" />
+
+	<p class="text-muted">در صورت پر کردن فیلد كلمه عبور , كلمه عبور كاربر تغغير ميكند</p>
+	<p>
+		<span asp-validation-for="@Model.Password" class="text-danger"></span>
+	</p>
+	<div class="mb-3">
+		<label for="avatar" class="form-label">پروفایل کاربر</label>
+		<input class="form-control" type="file" id="avatar" asp-for="NewAvatar"/>
+	</div>
+	<label class="form-label">نقش هاى كاربر</label>
+	@{
+		List<int>? userRoles = ViewBag.UserRoles as List<int>;
+	}
+	@if (roles != null && roles.Any())
+	{
+		<div class="border p-2">
+			@foreach (var item in roles)
+			{
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" name="RoleIds" value="@item.Id" @((Model.RoleIds.Any(r => r == item.Id) ? "checked" : "")) />
+					<label class="form-check-label" for="role_@item.Id">@item.RoleTitle</label>
+				</div>
+			}
+		</div>
+	}
+	else
+	{
+		<div class="alert alert-warning">
+			نقشى وجود ندارد
+		</div>
+	}
+
+	<button type="submit" class="btn btn-outline-warning px-5 mb-3">ویرایش</button>
+</form>
+
+@section Scripts {
+	<script>
+		// نظارت بر تغییرات در فیلد قابل مشاهده
+		document.getElementById("visiblePassword").addEventListener("input", function () {
+			var visiblePassword = document.getElementById("visiblePassword").value;
+
+			// اگر کاربر مقداری وارد کرد، آن را به فیلد مخفی منتقل کن
+			if (visiblePassword) {
+				document.getElementById("hiddenPassword").value = visiblePassword;
+			}
+		});
+	</script>
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

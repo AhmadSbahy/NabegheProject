@@ -1,0 +1,65 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Nabeghe.Domain.Models.User
+@model Nabeghe.Domain.ViewModels.User.AdminSideCreateUserViewModel
+@{
+    List<Role> roles = ViewData["Roles"] as List<Role>;
+}
+<form method="post" enctype="multipart/form-data">
+    <input class="form-control mb-3" asp-for="@Model.FirstName" placeholder="نام" aria-label="default input example">
+    <p>
+        <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+    </p>
+
+    <input class="form-control mb-3" asp-for="@Model.LastName" placeholder="نام خانوادگی" aria-label="default input example">
+    <p>
+        <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+    </p>
+
+    <input class="form-control mb-3" asp-for="@Model.Mobile" maxlength="11" type="text" placeholder="شماره تماس" aria-label="default input example">
+    <p>
+        <span asp-validation-for="@Model.Mobile" class="text-danger"></span>
+    </p>
+
+    <input class="form-control mb-3" asp-for="@Model.Email" placeholder="ايميل" aria-label="default input example">
+    <p>
+        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+    </p>
+
+    <input class="form-control mb-3" type="text" asp-for="@Model.Password" placeholder="كلمه عبور" aria-label="default input example">
+    <p>
+        <span asp-validation-for="@Model.Password" class="text-danger"></span>
+    </p>
+
+    <div class="mb-3">
+        <label for="avatar" class="form-label">پروفایل کاربر</label>
+        <input class="form-control" type="file" id="avatar" asp-for="Avatar" />
+    </div>
+
+    <label class="form-label">نقش هاى كاربر</label>
+    @if (roles != null && roles.Any())
+    {
+        <div class="border p-2">
+            @foreach (var item in roles)
+            {
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="RoleIds" value="@item.Id" id="role_@item.Id" />
+                    <label class="form-check-label" for="role_@item.Id">@item.RoleTitle</label>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            نقشى وجود ندارد
+        </div>
+    }
+
+    <button type="submit" class="btn btn-outline-success px-5 mb-3">افزودن</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

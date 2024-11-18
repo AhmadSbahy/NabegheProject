@@ -1,0 +1,84 @@
+﻿@using Nabeghe.Domain.ViewModels.CourseCategory
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Nabeghe.Domain.ViewModels.CourseStatus
+@model Nabeghe.Domain.ViewModels.Course.UpdateCourseViewModel
+@{
+	ViewData["Title"] = "ویرایش محصول";
+
+	var categories = ViewData["Categories"] as List<CourseCategoryViewModel> ?? new List<CourseCategoryViewModel>();
+	var categoriesList = new SelectList(categories, "Id", "Title");
+
+	var status = ViewData["CourseStatus"] as List<CourseStatusViewModel> ?? new List<CourseStatusViewModel>();
+	var statusList = new SelectList(status, "Id", "StatusTitle");
+
+}
+<form method="post" enctype="multipart/form-data">
+	<input type="hidden" asp-for="TeacherId" />
+	<input type="hidden" asp-for="Id" />
+	<input type="hidden" asp-for="ImageName" />
+	<input type="hidden" asp-for="CreateDate" />
+	
+	<input class="form-control mb-3" asp-for="@Model.CourseTitle" placeholder="عنوان دوره" aria-label="default input example">
+	<p>
+		<span asp-validation-for="@Model.CourseTitle" class="text-danger"></span>
+	</p>
+	
+	<input class="form-control mb-3" asp-for="@Model.Slug" placeholder="Slug" aria-label="default input example">
+	<p>
+		<span asp-validation-for="@Model.Slug" class="text-danger"></span>
+	</p>
+
+	<input class="form-control mb-3" asp-for="@Model.CourseSubTitle" placeholder="توضیح عنوان" aria-label="default input example">
+	<p>
+		<span asp-validation-for="@Model.CourseSubTitle" class="text-danger"></span>
+	</p>
+
+	<textarea class="form-control mb-3" asp-for="@Model.CourseDescription" placeholder="توضیحات" aria-label="default input example"></textarea>
+	<p>
+		<span asp-validation-for="@Model.CourseDescription" class="text-danger"></span>
+	</p>
+
+	<input class="form-control mb-3" asp-for="@Model.CoursePrice" placeholder="قیمت" aria-label="default input example">
+	<p class="text-muted">برای رایگان گذاشتن دوره قیمت را '0' بگذارید.</p>
+	<p>
+		<span asp-validation-for="@Model.CoursePrice" class="text-danger"></span>
+	</p>
+
+	<div class="form-group">
+		<label asp-for="CategoryId" class="control-label"></label>
+		<select asp-for="CategoryId" asp-items="categoriesList" class="form-control">
+			<option value="">انتخاب کنید ...</option>
+		</select>
+		<span asp-validation-for="CategoryId" class="text-danger"></span>
+	</div>
+
+	<div class="form-group pt-3">
+		<label asp-for="StatusId" class="control-label"></label>
+		<select asp-for="StatusId" asp-items="statusList" class="form-control">
+			<option value="">انتخاب کنید ...</option>
+		</select>
+		<span asp-validation-for="StatusId" class="text-danger"></span>
+	</div>
+
+
+	<div class="mb-3 pt-3">
+		<label for="avatar" class="form-label">تصویر دوره</label>
+		<input class="form-control" type="file" id="avatar" asp-for="NewImageFile" />
+	</div>
+
+	<button type="submit" class="btn btn-outline-warning px-5 mb-3">ویرایش</button>
+</form>
+
+@section Scripts {
+	<script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+	<script>
+
+		CKEDITOR.replace('CourseDescription', {
+			customConfig: '/js/site.js'
+		});
+
+	</script>
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

@@ -1,0 +1,110 @@
+﻿@using Nabeghe.Application.Extensions
+@using Nabeghe.Application.Statics
+@using Nabeghe.Domain.Enums.Course
+@model List<Nabeghe.Domain.ViewModels.User.UserCourseCommentViewModel>
+@{
+	ViewData["Title"] = "دیدگاه های من";
+}
+
+<div class="lg:col-span-9 md:col-span-8">
+    <div class="space-y-10">
+        <div class="space-y-5">
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1">
+                    <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                    <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                </div>
+                <div class="font-black text-foreground">دیدگاه و پرسشهای شما</div>
+            </div>
+            <div class="space-y-5" x-data="{ activeTab: 'tabOne'}">>
+                <div>
+                    <div x-show="activeTab === 'tabOne'">
+                        <div class="divide-y divide-dashed divide-border">
+                            @if (Model.CheckValue())
+                            {
+	                            foreach (var comment in Model)
+	                            {
+                                    <div class="flex sm:flex-nowrap flex-wrap items-start gap-3 relative py-6">
+                                        <div class="sm:w-4/12 w-full relative z-10">
+                                            <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-slug="@comment.Slug" class="block">
+                                                <img src="@PathTools.CourseImagePath@comment.CourseImage" class="max-w-full rounded-3xl" alt="...">
+                                            </a>
+                                        </div>
+                                        <div class="sm:w-8/12 w-full">
+                                            <div class="bg-gradient-to-b from-secondary to-background rounded-3xl">
+                                                <div class="bg-background rounded-b-3xl p-5 mx-5">
+                                                    <h2 class="font-bold text-sm text-foreground">
+                                                        <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-slug="@comment.Slug" class="line-clamp-1 transition-colors hover:text-primary">
+                                                            @comment.CourseTitle
+                                                        </a>
+                                                    </h2>
+                                                </div>
+                                                <div class="space-y-3 p-5">
+	                                                @switch (comment.Status)
+	                                                {
+		                                                case CourseCommentStatus.Pending:
+		                                                {
+			                                                <div class="flex items-center gap-2">
+                                                                    <div style="background-color: hsl(35.5deg 100% 50% / 28%);" class="flex-shrink-0 rounded-full p-1">
+                                                                        <div style="background-color: hsl(35.5deg 100% 50%);" class="h-1.5 w-1.5 rounded-full bg-secondary">
+					                                                </div>
+				                                                </div>
+                                                                    <span style="color: hsl(35.5deg 100% 50%);" class="font-bold text-sm">
+					                                                در حال برسی
+				                                                </span>
+			                                                </div>
+			                                                break;
+		                                                }
+		                                                case CourseCommentStatus.Confirmed:
+		                                                {
+			                                                <div class="flex items-center gap-2">
+				                                                <div class="flex-shrink-0 rounded-full bg-green-500/20 p-1">
+					                                                <div class="h-1.5 w-1.5 rounded-full bg-green-500">
+					                                                </div>
+				                                                </div>
+				                                                <span class="font-bold text-sm text-green-500">
+					                                                تایید
+					                                                شده
+				                                                </span>
+			                                                </div>
+			                                                break;
+		                                                }
+		                                                case CourseCommentStatus.Rejected:
+		                                                {
+			                                                <div class="flex items-center gap-2">
+                                                                    <div style="background-color: hsl(0deg 100% 50% / 28%);" class="flex-shrink-0 rounded-full p-1">
+                                                                        <div class="h-1.5 w-1.5 rounded-full bg-red-500">
+					                                                </div>
+				                                                </div>
+                                                                    <span class="font-bold text-sm text-red-500">
+					                                               رد شده
+				                                                </span>
+			                                                </div>
+                                                            break;
+		                                                }
+	                                                }
+                                                    <p class="text-sm text-muted">
+                                                       @comment.CommentText
+                                                    </p>
+                                                    <a asp-area="" asp-controller="Course" asp-action="Details" asp-route-slug="@comment.Slug" class="h-10 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
+                                                        <span class="font-semibold text-sm">
+                                                            مشاهده در صفحه
+                                                            دوره
+                                                        </span>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                            <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd"></path>
+                                                        </svg>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+	                            }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

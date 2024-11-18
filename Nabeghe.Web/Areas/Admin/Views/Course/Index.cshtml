@@ -1,0 +1,123 @@
+﻿@using Nabeghe.Domain.ViewModels.Course
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Nabeghe.Application.Convertor
+@using Nabeghe.Application.Extensions
+@using Nabeghe.Application.Services.Interfaces
+@using Nabeghe.Application.Statics
+@using Nabeghe.Domain.Enums.User
+@model AdminSideFilterCourseViewModel
+@inject ICourseService CourseService
+@{
+	ViewData["Title"] = "لیست دوره ها";
+}
+<div class="card">
+	<div class="card-body">
+		<div class="d-flex align-items-center justify-content-between mb-3">
+			<h5 class="mb-0">ليست دوره های سايت</h5>
+			<form asp-action="Index" id="filter-search" class="d-flex align-items-center">
+				<input type="hidden" asp-for="Page" />
+				<div class="row g-2">
+					<!-- فیلد ورودی برای جستجوی عنوان -->
+					<div class="col-auto">
+						<label asp-for="Param" class="form-label"></label>
+						<input asp-for="Param" class="form-control" placeholder="عنوان" />
+					</div>
+					<div class="col-auto">
+						<label asp-for="Price" class="form-label"></label>
+						<input asp-for="Price" class="form-control" placeholder="عنوان" />
+					</div>
+					<!-- فیلد انتخاب وضعیت -->
+					<div class="col-auto">
+						<label asp-for="Status" class="form-label"></label>
+						<select asp-for="Status" class="form-select">
+							@foreach (var item in Enum.GetValues(typeof(FilterCourseStatus)).Cast<FilterCourseStatus>().ToList())
+							{
+								if (Model.Status == item)
+								{
+											<option selected value="@item">@item.GetDisplayName()</option>
+								}
+								else
+								{
+											<option value="@item">@item.GetDisplayName()</option>
+								}
+
+							}
+						</select>
+					</div>
+
+					<!-- دکمه جستجو -->
+					<div class="col-auto d-flex align-items-end">
+						<button type="submit" class="btn btn-success">جستجو</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div class="table-responsive mt-3">
+			<table class="table align-middle">
+				<thead class="table-secondary">
+					<tr>
+						<th>تصویر دوره</th>
+						<th>عنوان</th>
+						<th>قیمت</th>
+						<th>تاریخ ایجاد</th>
+						<th>دستورات</th>
+						<th>تخفیف</th>
+					</tr>
+				</thead>
+				<tbody>
+					@if (Model.Entities.CheckValue())
+					{
+						@foreach (var item in Model.Entities)
+						{
+							<tr>
+								<td>
+									<img src="@PathTools.CourseImagePath@item.CourseImage" style="max-height:140px" />
+								</td>
+								<td>@item.CourseTitle</td>
+								<td>
+									@if (CourseService.IsCourseHasDiscount(item.CourseDiscount))
+									{
+										<del style="color:red">@item.CoursePrice.ToMoney()</del>
+										<h6 style="color:green">@item.CoursePrice.GetPriceAfterDiscount(item.CourseDiscount.DiscountPercent)</h6>
+									}
+									else
+									{
+										@item.CoursePrice.ToMoney()
+									}
+								</td>
+								<td>@item.CreateDate.Toshamsi()</td>
+								<td>
+									<a onclick="confirmDelete('@Url.Action("Delete", "Course", new { id = item.Id })',event)" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Delete" aria-label="Delete">
+										<ion-icon name="trash-outline" role="img" class="md hydrated" aria-label="trash outline"></ion-icon>
+									</a>
+									<a asp-action="Edit" asp-route-id="@item.Id" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit">
+										<ion-icon name="pencil-outline" role="img" class="md hydrated" aria-label="pencil outline"></ion-icon>
+									</a>
+									<a asp-controller="CourseComment" asp-action="Index" asp-route-CourseId="@item.Id" class="text-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Comments" aria-label="Edit">
+										<i style="width:20px" class="lni lni-comments"></i>
+									</a>
+									<a asp-controller="CourseEpisode" asp-action="Index" asp-route-CourseId="@item.Id" type="button" class="text-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Episode" aria-label="Episode">
+										<ion-icon name="logo-microsoft" role="img" class="md hydrated" aria-label="logo microsoft"></ion-icon>
+									</a>
+								</td>
+								<td>
+									@if (!CourseService.IsCourseHasDiscount(item.CourseDiscount))
+									{
+										<a asp-area="Admin" asp-controller="CourseDiscount" asp-action="Create" asp-route-id="@item.Id" type="button" class="btn btn-sm btn-outline-primary px-2"><ion-icon name="pricetags-sharp" role="img" class="md hydrated" aria-label="pricetags sharp"></ion-icon>افزودن تخفیف</a>
+									}
+									else
+									{
+										<a asp-area="Admin" asp-controller="CourseDiscount" asp-action="Edit" asp-route-id="@item.CourseDiscount.DiscountId" type="button" class="btn btn-sm btn-outline-warning px-2"><ion-icon name="pricetags-sharp" role="img" class="md hydrated" aria-label="pricetags sharp"></ion-icon>ویرایش تخفیف</a>
+										<a onclick="confirmDelete('@Url.Action("Delete", "CourseDiscount", new { id = @item.CourseDiscount.DiscountId })',event)" type="button" class="btn btn-sm btn-outline-danger px-2"><ion-icon name="pricetags-sharp" role="img" class="md hydrated" aria-label="pricetags sharp"></ion-icon>حذف تخفیف</a>
+									}
+								</td>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<partial name="_AdminPaging" model="@Model.GetCurrentPaging()" />

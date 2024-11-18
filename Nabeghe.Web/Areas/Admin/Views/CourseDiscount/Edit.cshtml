@@ -1,0 +1,57 @@
+﻿@model Nabeghe.Domain.ViewModels.CourseDiscount.UpdateCourseDiscountViewModel
+@{
+    ViewData["Title"] = "افزودن تخفیف";
+}
+<!-- اضافه کردن کتابخانه‌ی Mh1PersianDatePicker از CDN -->
+<script src="/AdminContent/assets/js/jalalidatepicker.js"></script>
+<link href="/AdminContent/assets/css/jalalidatepicker.css" rel="stylesheet">
+
+
+<form method="post">
+	<input type="hidden" asp-for="DiscountId" />
+	<div class="mb-4">
+		<label class="form-label">درصد تخفیف</label>
+		<input type="number" class="form-control mb-3" asp-for="DiscountPercent" placeholder="درصد تخفیف" aria-label="default input example">
+		<span class="text text-danger" asp-validation-for="DiscountPercent"></span>
+	</div>
+	<div class="mb-4">
+		<label class="form-label">تاریخ شروع</label>
+        <input data-jdp="" asp-for="StartDate" data-jdp-only-date="" autocomplete="off">
+		<span class="text text-danger" asp-validation-for="StartDate"></span>
+	</div>
+	<div class="mb-4">
+		<label class="form-label">تاریخ انتها</label>
+        <input data-jdp="" asp-for="EndDate" data-jdp-only-date="" autocomplete="off">
+		<span class="text text-danger" asp-validation-for="EndDate"></span>
+	</div>
+	<button type="submit" class="btn btn-outline-warning px-5 mb-3">ویرایش</button>
+</form>
+@section Scripts {
+    <script>
+        jalaliDatepicker.startWatch({
+            minDate: "attr",
+            maxDate: "attr",
+            minTime: "attr",
+            maxTime: "attr",
+            time: true,
+            date: true,
+            hasSecond: false,
+            hideAfterChange: false,
+            autoHide: true,
+            showTodayBtn: true,
+            showEmptyBtn: true,
+            topSpace: 10,
+            bottomSpace: 30,
+            overflowSpace: -10,
+            dayRendering(opt, input) {
+                return {
+                    isHollyDay: opt.day == 1,
+                };
+            },
+        });
+
+        document.getElementById("aaa").addEventListener("jdp:change", function (e) {
+            console.log(e);
+        });
+    </script>
+}
