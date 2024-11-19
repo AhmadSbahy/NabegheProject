@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Nabeghe.Domain.Models.Blog;
 using Nabeghe.Domain.Models.ContactUs;
 using Nabeghe.Domain.Models.Course;
 using Nabeghe.Domain.Models.CourseCategory;
@@ -14,16 +15,16 @@ namespace Nabeghe.Infra.Data.Context
 		public NabegheContext(DbContextOptions<NabegheContext> options)
 			: base(options)
 		{
+      
+        }
 
-		}
+        #endregion
 
-		#endregion
+        #region Dbsets
 
-		#region Dbsets
+        #region User
 
-		#region User
-
-		public DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
 		public DbSet<Role> Roles { get; set; }
 		public DbSet<UserRole> UserRoles { get; set; }
 
@@ -54,11 +55,20 @@ namespace Nabeghe.Infra.Data.Context
 
         public DbSet<CourseDiscount> CourseDiscounts { get; set; }
 
+		#endregion
+
+        #region Blog
+
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<BlogComment> BlogComments { get; set; }
+        public DbSet<BlogCommentLike> BlogCommentLikes { get; set; }
+        public DbSet<BlogCommentReply> BlogCommentReplies { get; set; }
+
         #endregion
 
-        #region Course Comment
+		#region Course Comment
 
-        public DbSet<CourseComment> CourseComments { get; set; }
+		public DbSet<CourseComment> CourseComments { get; set; }
 
         public DbSet<CommentReply> CommentReplies { get; set; }
 
@@ -80,5 +90,17 @@ namespace Nabeghe.Infra.Data.Context
         #endregion
 
 		#endregion
-	}
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                entityType.GetForeignKeys()
+                    .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade)
+                    .ToList()
+                    .ForEach(fk => fk.DeleteBehavior = DeleteBehavior.Restrict);
+            }
+            base.OnModelCreating(modelBuilder);
+        }
+    }
 }

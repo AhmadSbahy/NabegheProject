@@ -21,5 +21,11 @@ namespace Nabeghe.Application.Statics
         public static string GetAvatarPath => "/Avatars/";
 
         #endregion
+
+        #region Blog
+
+        public static string BlogImagePath => "/Content/Images/Blog/";
+
+        #endregion
     }
 }

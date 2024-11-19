@@ -1,20 +1,13 @@
-﻿using Nabeghe.Application.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Nabeghe.Application.Convertor;
+using Nabeghe.Application.Services.Interfaces;
 using Nabeghe.Domain.Interfaces;
 using Nabeghe.Domain.Models.Course;
 using Nabeghe.Domain.ViewModels.CourseDiscount;
-using Nabeghe.Domain.Models.User;
-using Nabeghe.Domain.ViewModels.Role;
 using System.Globalization;
-using Nabeghe.Application.Convertor;
 
 namespace Nabeghe.Application.Services.Implementation
 {
-	public class CourseDiscountService(ICourseDiscountRepository courseDiscountRepository) : ICourseDiscountService
+    public class CourseDiscountService(ICourseDiscountRepository courseDiscountRepository) : ICourseDiscountService
 	{
 		public async Task<CreateCourseDiscountResult> CreateAsync(CreateCourseDiscountViewModel model)
 		{
@@ -61,9 +54,9 @@ namespace Nabeghe.Application.Services.Implementation
 
 			string[] std = model.StartDate.Split('/');
 			string[] edd = model.EndDate.Split('/');
-			// ویرایش مقادیر موجودیت قدیمی به جای ساختن شیء جدید
-			courseDiscount.EndDate = new DateTime(int.Parse(edd[0]), int.Parse(edd[1]), int.Parse(edd[2]), new PersianCalendar());
-			courseDiscount.StartDate = new DateTime(int.Parse(std[0]), int.Parse(std[1]), int.Parse(std[2]), new PersianCalendar());
+            // ویرایش مقادیر موجودیت قدیمی به جای ساختن شیء جدید
+            courseDiscount.StartDate = new DateTime(int.Parse(std[0]), int.Parse(std[1]), int.Parse(std[2]), new PersianCalendar());
+            courseDiscount.EndDate = new DateTime(int.Parse(edd[0]), int.Parse(edd[1]), int.Parse(edd[2]), new PersianCalendar());
 			courseDiscount.DiscountPercent = model.DiscountPercent;
 
 			courseDiscountRepository.Update(courseDiscount);
@@ -83,6 +76,5 @@ namespace Nabeghe.Application.Services.Implementation
 
 			return DeleteCourseDiscountResult.Success;
 		}
-
 	}
 }

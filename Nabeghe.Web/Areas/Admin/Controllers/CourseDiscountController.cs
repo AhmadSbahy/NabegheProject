@@ -1,16 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Nabeghe.Application.Services.Implementation;
 using Nabeghe.Application.Services.Interfaces;
 using Nabeghe.Domain.Shared;
 using Nabeghe.Domain.ViewModels.CourseDiscount;
-using Nabeghe.Domain.ViewModels.Role;
 
 namespace Nabeghe.Web.Areas.Admin.Controllers
 {
     public class CourseDiscountController(ICourseDiscountService discountService) : AdminBaseController
     {
 		#region Create
-		// GET: Admin/CourseDiscount/Create
+		// GET: Admin/CourseDiscount/Create/1
 		public IActionResult Create(int id)
 		{
 			return View(new CreateCourseDiscountViewModel()

@@ -2,6 +2,7 @@
 using Nabeghe.Domain.Models.Common;
 using Nabeghe.Domain.Models.Course;
 using System.ComponentModel.DataAnnotations;
+using Nabeghe.Domain.Models.Blog;
 
 namespace Nabeghe.Domain.Models.User
 {
@@ -50,6 +51,10 @@ namespace Nabeghe.Domain.Models.User
 		public ICollection<CommentLike>? CommentLikes { get; set; }
         public ICollection<CourseLike>? CourseLikes { get; set; }
         public ICollection<ContactUs.ContactUs>? ContactUs { get; set; }
+        public ICollection<Blog.Blog>? Blogs { get; set; }
+        public ICollection<Blog.BlogComment>? BlogComments { get; set; }
+        public ICollection<Blog.BlogCommentReply>? BlogCommentReplies { get; set; }
+        public ICollection<BlogCommentLike>? BlogCommentLikes { get; set; }
 
         #endregion
     }

@@ -24,12 +24,14 @@ namespace Nabeghe.Infra.IoC.Container
 			services.AddScoped<IRoleService, RoleService>();
 			services.AddScoped<IContactUsService, ContactUsService>();
 			services.AddScoped<ICourseDiscountService, CourseDiscountService>();
+            services.AddScoped<IBlogService, BlogService>();
+            services.AddScoped<IBlogCommentService, BlogCommentService>();
 
-			#endregion
+            #endregion
 
-			#region Repositories
+            #region Repositories
 
-			services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IRoleRepository, RoleRepository>();
 			services.AddScoped<ICourseCategoryRepository, CourseCategoryRepository>();
 			services.AddScoped<ICourseRepository, CourseRepository>();
@@ -37,8 +39,12 @@ namespace Nabeghe.Infra.IoC.Container
 			services.AddScoped<ICourseEpisodeRepository, CourseEpisodeRepository>();
 			services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 			services.AddScoped<ICourseDiscountRepository, CourseDiscountRepository>();
-			
-			#endregion
-		}
-	}
+            services.AddScoped<IBlogRepository, BlogRepository>();
+            services.AddScoped<IBlogCommentRepository, BlogCommentRepository>();
+            services.AddScoped<IBlogCommentReplyRepository, BlogCommentReplyRepository>();
+            services.AddScoped<IBlogCommentLikeRepository, BlogCommentLikeRepository>();
+
+            #endregion
+        }
+    }
 }	
