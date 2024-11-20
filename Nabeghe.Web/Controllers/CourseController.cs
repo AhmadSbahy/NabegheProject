@@ -155,13 +155,13 @@ namespace Nabeghe.Web.Controllers
 					status = 400
 				});
 			}
-			if (commentRepository.IsUserLikedComment(User.GetUserId(), model.commentId))
+			if (commentRepository.IsUserLikedComment(User.GetUserId(), model.CommentId))
 			{
-				await commentRepository.DeleteCommentLikeAsync(User.GetUserId(), model.commentId);
+				await commentRepository.DeleteCommentLikeAsync(User.GetUserId(), model.CommentId);
 			}
 			else
 			{
-				await commentRepository.AddCommentLikeAsync(User.GetUserId(), model.commentId);
+				await commentRepository.AddCommentLikeAsync(User.GetUserId(), model.CommentId);
 			}
 
 			return Json(new { success = true });

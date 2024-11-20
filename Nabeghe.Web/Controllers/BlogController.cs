@@ -5,6 +5,7 @@ using Nabeghe.Domain.Enums.Blog;
 using Nabeghe.Domain.Models.Blog;
 using Nabeghe.Domain.Models.Course;
 using Nabeghe.Domain.ViewModels.Blog;
+using Nabeghe.Domain.ViewModels.Course;
 using Nabeghe.Domain.ViewModels.CourseComment;
 
 namespace Nabeghe.Web.Controllers
@@ -45,32 +46,32 @@ namespace Nabeghe.Web.Controllers
 
         #endregion
 
-        //#region AddCourseLike
+        #region Add Blog Like
 
-        //[HttpPost]
-        //public async Task<IActionResult> AddCourseLike([FromBody] CreateCourseLikeViewModel model)
-        //{
-        //    if (!User.Identity.IsAuthenticated)
-        //    {
-        //        return Json(new
-        //        {
-        //            success = false,
-        //            status = 400
-        //        });
-        //    }
-        //    if (_courseService.IsUserLikedCourse(User.GetUserId(), model.CourseId))
-        //    {
-        //        await _courseService.DeleteCourseLikeAsync(User.GetUserId(), model.CourseId);
-        //    }
-        //    else
-        //    {
-        //        await _courseService.CreateCourseLikeAsync(User.GetUserId(), model.CourseId);
-        //    }
+        [HttpPost]
+        public async Task<IActionResult> AddBlogLike([FromBody] CreateBlogLikeViewModel model)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Json(new
+                {
+                    success = false,
+                    status = 400
+                });
+            }
+            if (await blogService.IsUserLikedBlogAsync(User.GetUserId(), model.BlogId))
+            {
+                await blogService.RemoveBlogLike(User.GetUserId(), model.BlogId);
+            }
+            else
+            {
+                await blogService.AddBlogLikeAsync(model);
+            }
 
-        //    return Json(new { success = true });
-        //}
+            return Json(new { success = true });
+        }
 
-        //#endregion
+        #endregion
 
         #region Comments
 
@@ -146,17 +147,17 @@ namespace Nabeghe.Web.Controllers
                     status = 400
                 });
             }
-            if (blogCommentService.IsUserLikedBlogComment(User.GetUserId(), model.commentId))
+            if (blogCommentService.IsUserLikedBlogComment(User.GetUserId(), model.CommentId))
             {
-                 blogCommentService.DeleteBlogCommentLike(User.GetUserId(), model.commentId);
+                await blogCommentService.DeleteBlogCommentLike(User.GetUserId(), model.CommentId);
             }
             else
             {
 	            var blogComment = new BlogCommentLike()
 	            {
 		            UserId = User.GetUserId(),
-		            CommentId = model.commentId
-	            };
+		            CommentId = model.CommentId
+				};
                 await blogCommentService.LikeCommentAsync(blogComment);
             }
 

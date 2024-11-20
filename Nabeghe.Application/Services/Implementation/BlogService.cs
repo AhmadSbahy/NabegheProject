@@ -43,5 +43,20 @@ namespace Nabeghe.Application.Services.Implementation
         {
             return await _blogRepository.FilterBlogAsync(model);
         }
+
+        public async Task AddBlogLikeAsync(CreateBlogLikeViewModel model)
+        {
+	        await _blogRepository.AddBlogLikeAsync(model);
+        }
+
+        public async Task RemoveBlogLike(int userId, int blogId)
+        {
+	        await _blogRepository.RemoveBlogLike(userId, blogId);
+        }
+
+        public async Task<bool> IsUserLikedBlogAsync(int userId, int blogId)
+        {
+	        return await _blogRepository.IsUserLikedBlogAsync(userId, blogId);
+        }
     }
 }

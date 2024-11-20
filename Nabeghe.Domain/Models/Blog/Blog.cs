@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Nabeghe.Domain.Enums.Blog;
 using Nabeghe.Domain.Enums.Course;
 using Nabeghe.Domain.Models.Common;
 using Nabeghe.Domain.Models.Course;
@@ -39,76 +38,29 @@ namespace Nabeghe.Domain.Models.Blog
         [ForeignKey(nameof(AuthorId))]
         public User.User? User { get; set; }
 
-        public ICollection<BlogComment> BlogComments { get; set; }
+        public ICollection<BlogComment>? BlogComments { get; set; }
+        public ICollection<BlogLike>? BlogLikes { get; set; }
 
         #endregion
     }
-    public class BlogComment : BaseEntity<int>
+    public class BlogLike
     {
-        #region Properties
+	    #region Properties
 
-        public int BlogId { get; set; }
-        public int UserId { get; set; }
-        [Display(Name = "کامنت مقاله")]
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [MaxLength(800, ErrorMessage = "تعداد کاراکتر وارد شده بیش از حد مجاز است.")]
-        public string CommentText { get; set; }
-        public BlogCommentStatus Status { get; set; }
+	    public int Id { get; set; }
+	    public int UserId { get; set; }
+	    public int BlogId { get; set; }
 
-        #endregion
+	    #endregion
 
-        #region Relations
+	    #region Relations
 
-        [ForeignKey(nameof(BlogId))]
-        public Blog? Blog { get; set; }
+	    [ForeignKey(nameof(UserId))]
+	    public User.User User { get; set; }
 
-        [ForeignKey(nameof(UserId))]
-        public User.User? User { get; set; }
+	    [ForeignKey(nameof(BlogId))]
+	    public Blog Blog { get; set; }
 
-        public List<BlogCommentReply>? Replies { get; set; }
-        public List<BlogCommentLike>? CommentLikes { get; set; }
-
-        #endregion
-    }
-    public class BlogCommentReply : BaseEntity<int>
-    {
-        #region Properties
-
-        public int CommentId { get; set; }
-        public int UserId { get; set; }
-        [Display(Name = "پاسخ کامنت مقاله")]
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [MaxLength(800, ErrorMessage = "تعداد کاراکتر وارد شده بیش از حد مجاز است.")]
-        public string ReplyText { get; set; }
-
-        #endregion
-
-        #region Relations
-
-        [ForeignKey(nameof(UserId))]
-        public User.User? User { get; set; }
-
-        [ForeignKey(nameof(CommentId))]
-        public BlogComment? BlogComment { get; set; }
-
-        #endregion
-    }
-    public class BlogCommentLike
-    {
-        #region Properties
-        [Key]
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public int CommentId { get; set; }
-        #endregion
-
-        #region Relations
-        [ForeignKey(nameof(UserId))]
-        public User.User User { get; set; }
-
-        [ForeignKey(nameof(CommentId))]
-        public BlogComment? BlogComment { get; set; }
-        #endregion
-
+	    #endregion
     }
 }

@@ -10,6 +10,8 @@ namespace Nabeghe.Application.Services.Interfaces
         Task EditBlogAsync(Blog blog);
         Task DeleteBlogAsync(int blogId);
         Task<ClientSideFilterBlogViewModel> FilterBlogAsync(ClientSideFilterBlogViewModel model);
-
+        Task AddBlogLikeAsync(CreateBlogLikeViewModel model);
+        Task RemoveBlogLike(int userId,int blogId);
+        Task<bool> IsUserLikedBlogAsync(int userId,int blogId);
     }
 }

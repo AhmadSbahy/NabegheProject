@@ -63,6 +63,7 @@ namespace Nabeghe.Infra.Data.Context
         public DbSet<BlogComment> BlogComments { get; set; }
         public DbSet<BlogCommentLike> BlogCommentLikes { get; set; }
         public DbSet<BlogCommentReply> BlogCommentReplies { get; set; }
+        public DbSet<BlogLike> BlogLikes { get; set; }
 
         #endregion
 

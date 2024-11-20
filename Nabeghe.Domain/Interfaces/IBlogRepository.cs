@@ -16,5 +16,8 @@ namespace Nabeghe.Domain.Interfaces
         Task UpdateBlogAsync(Blog blog);
         Task DeleteBlogAsync(int id);
         Task<ClientSideFilterBlogViewModel> FilterBlogAsync(ClientSideFilterBlogViewModel model);
-    }
+        Task AddBlogLikeAsync(CreateBlogLikeViewModel model);
+        Task RemoveBlogLike(int userId, int blogId);
+        Task<bool> IsUserLikedBlogAsync(int userId, int blogId);
+	}
 }

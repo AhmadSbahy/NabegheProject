@@ -55,6 +55,7 @@ namespace Nabeghe.Domain.Models.User
         public ICollection<Blog.BlogComment>? BlogComments { get; set; }
         public ICollection<Blog.BlogCommentReply>? BlogCommentReplies { get; set; }
         public ICollection<BlogCommentLike>? BlogCommentLikes { get; set; }
+        public ICollection<BlogLike>? BlogLikes { get; set; }
 
         #endregion
     }

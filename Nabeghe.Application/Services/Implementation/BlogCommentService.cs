@@ -45,8 +45,8 @@ public class BlogCommentService : IBlogCommentService
 	    return _likeRepository.IsUserLikedBlogComment(userId, commentId);
 	}
 
-    public void DeleteBlogCommentLike(int userId, int commentId)
+    public async Task DeleteBlogCommentLike(int userId, int commentId)
     {
-	    _likeRepository.RemoveLikeAsync(userId, commentId);
+	   await  _likeRepository.RemoveLikeAsync(userId, commentId);
     }
 }

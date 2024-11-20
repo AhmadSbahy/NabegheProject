@@ -9,5 +9,5 @@ public interface IBlogCommentService
     Task AddReplyToCommentAsync(BlogCommentReply reply);
     Task LikeCommentAsync(BlogCommentLike like);
     bool IsUserLikedBlogComment(int userId, int commentId);
-    void DeleteBlogCommentLike(int userId, int commentId);
+    Task DeleteBlogCommentLike(int userId, int commentId);
 }

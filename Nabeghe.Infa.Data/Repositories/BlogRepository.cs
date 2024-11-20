@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Nabeghe.Domain.Enums.Blog;
 using Nabeghe.Domain.ViewModels.Blog;
 
@@ -57,6 +58,7 @@ namespace Nabeghe.Infra.Data.Repositories
         {
             var query = _context.Blogs
                 .Include(b => b.User)
+                .Include(b=>b.BlogLikes)
                 .Include(b => b.BlogComments)
                 .ThenInclude(c => c.CommentLikes)
                 .AsQueryable();
@@ -106,8 +108,9 @@ namespace Nabeghe.Infra.Data.Repositories
                 CreateDate = b.CreateDate,
                 Status = b.BlogComments.Any(c => c.Status == BlogCommentStatus.Confirmed) ? "منتشر شده" : "در انتظار",
                 CommentCount = b.BlogComments.Count,
-                LikeCount = b.BlogComments.SelectMany(c => c.CommentLikes).Count()
-            }).ToList();
+                LikeCount = b.BlogComments.SelectMany(c => c.CommentLikes).Count(),
+                BlogLikes = b.BlogLikes
+			}).ToList();
 
             // صفحه‌بندی
             await model.Paging(blogViewModelList.AsQueryable());
@@ -115,6 +118,31 @@ namespace Nabeghe.Infra.Data.Repositories
             return model;
         }
 
+        public async Task AddBlogLikeAsync(CreateBlogLikeViewModel model)
+        {
+            BlogLike blogLike = new BlogLike()
+            {
+                UserId = model.UserId,
+                BlogId = model.BlogId
+            };
+            await _context.BlogLikes.AddAsync(blogLike);
+            await _context.SaveChangesAsync();
+        }
 
+        public async Task RemoveBlogLike(int userId, int blogId)
+        {
+	        var blogLike = await _context.BlogLikes.FirstOrDefaultAsync(b => b.UserId == userId && b.BlogId == blogId);
+
+	        if (blogLike != null)
+	        {
+		        _context.BlogLikes.Remove(blogLike);
+                await _context.SaveChangesAsync();
+	        }
+        }
+
+        public async Task<bool> IsUserLikedBlogAsync(int userId, int blogId)
+        {
+	        return await _context.BlogLikes.AnyAsync(b => b.UserId == userId && b.BlogId == blogId);
+        }
     }
 }

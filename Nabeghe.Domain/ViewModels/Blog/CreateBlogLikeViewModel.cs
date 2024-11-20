@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nabeghe.Domain.ViewModels.CourseComment
+namespace Nabeghe.Domain.ViewModels.Blog
 {
-	public class AddCommentLikeViewModel
+	public class CreateBlogLikeViewModel
 	{
-		public int CommentId { get; set; }
+		public int UserId { get; set; }
 		public int BlogId { get; set; }
 	}
 }

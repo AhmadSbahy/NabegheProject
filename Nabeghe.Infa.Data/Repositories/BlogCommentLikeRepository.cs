@@ -25,7 +25,7 @@ public class BlogCommentLikeRepository : IBlogCommentLikeRepository
 		var like = await _context.BlogCommentLikes.FirstOrDefaultAsync(l=>l.UserId == userId && l.CommentId == commentId);
 		if (like != null)
 		{
-			_context.BlogCommentLikes.Remove(like);
+			 _context.BlogCommentLikes.Remove(like);
 			await _context.SaveChangesAsync();
 		}
 	}
