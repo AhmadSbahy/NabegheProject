@@ -14,5 +14,7 @@ namespace Nabeghe.Application.Services.Interfaces
         Task RemoveBlogLike(int userId,int blogId);
         Task<bool> IsUserLikedBlogAsync(int userId,int blogId);
         Task<AdminFilterBlogViewModel> FilterBlogAsync(AdminFilterBlogViewModel model);
+        Task<Blog> GetBlogDetailsByIdAsync(int blogId);
+
     }
 }

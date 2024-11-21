@@ -1,7 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Nabeghe.Application.Services.Interfaces;
+using Nabeghe.Domain.Enums.Blog;
+using Nabeghe.Domain.Enums.Course;
 using Nabeghe.Domain.Interfaces;
 using Nabeghe.Domain.Models.Blog;
+using Nabeghe.Domain.ViewModels.BlogComment;
+using Nabeghe.Infra.Data.Repositories;
 
 namespace Nabeghe.Application.Services.Implementation;
 
@@ -49,4 +53,35 @@ public class BlogCommentService : IBlogCommentService
     {
 	   await  _likeRepository.RemoveLikeAsync(userId, commentId);
     }
+
+    public async Task<FilterBlogCommentViewModel> FilterBlogCommentAsync(FilterBlogCommentViewModel model)
+    {
+	    return await _commentRepository.FilterBlogCommentAsync(model);
+    }
+
+    public async Task<(bool Success, string Message, int StatusCode)> ConfirmComment(int commentId)
+    {
+		var comment = await _commentRepository.GetCommentByIdAsync(commentId);
+
+		if (comment == null)
+			return (false, "کامنت مشخص شده پیدا نشد.", 101);
+
+		comment.Status = BlogCommentStatus.Confirmed;
+		await _commentRepository.UpdateCommentAsync(comment);
+
+		return (true, "کامنت مدنظر شما تایید شد.", 100);
+	}
+
+    public async Task<(bool Success, string Message, int StatusCode)> RejectComment(int commentId)
+    {
+		var comment = await _commentRepository.GetCommentByIdAsync(commentId);
+
+		if (comment == null)
+			return (false, "کامنت مشخص شده پیدا نشد.", 101);
+
+		comment.Status = BlogCommentStatus.Rejected;
+		await _commentRepository.UpdateCommentAsync(comment);
+
+		return (true, "کامنت مدنظر شما رد شد.", 100);
+	}
 }

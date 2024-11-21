@@ -29,7 +29,7 @@ namespace Nabeghe.Web.Controllers
         [HttpGet("/blog-details/{id}")]
         public async Task<IActionResult> Details(int id)
         {
-            var blog = await blogService.GetBlogDetailsAsync(id);
+            var blog = await blogService.GetBlogDetailsByIdAsync(id);
 
             if (blog == null)
                 return NotFound();

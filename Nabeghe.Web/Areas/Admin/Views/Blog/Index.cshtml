@@ -57,6 +57,9 @@
 							</td>
 							<td>@item.CreateDate.Toshamsi()</td>
 							<td>
+								<a asp-controller="BlogComment" asp-action="Index" asp-route-BlogId="@item.Id" class="text-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Comments" aria-label="Edit">
+									<i style="width:20px" class="lni lni-comments"></i>
+								</a>
 								<a onclick="confirmDelete('@Url.Action("Delete", "Blog", new { id = item.Id })',event)" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Delete" aria-label="Delete">
 									<ion-icon name="trash-outline" role="img" class="md hydrated" aria-label="trash outline"></ion-icon>
 								</a>

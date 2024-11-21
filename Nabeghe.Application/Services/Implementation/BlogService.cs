@@ -21,6 +21,11 @@ namespace Nabeghe.Application.Services.Implementation
 			_blogRepository = blogRepository;
 		}
 
+		public async Task<Blog> GetBlogDetailsByIdAsync(int blogId)
+		{
+			return await _blogRepository.GetBlogByIdAsync(blogId);
+		}
+
 		public async Task<AdminEditBlogViewModel?> GetBlogDetailsAsync(int blogId)
 		{
 			var blog = await _blogRepository.GetBlogByIdAsync(blogId);

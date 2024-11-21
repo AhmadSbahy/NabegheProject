@@ -6,6 +6,8 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 {
 	public class CourseCommentController(ICourseCommentService courseCommentService) : AdminBaseController
 	{
+		#region List
+
 		public async Task<IActionResult> Index(FilterCourseCommentViewModel filter)
 		{
 			if (filter.CourseId < 1)
@@ -15,6 +17,10 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 			
 			return View(comments);
 		}
+
+		#endregion
+
+		#region Confirm
 
 		public async Task<IActionResult> ConfirmComment(int commentId)
 		{
@@ -26,11 +32,17 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 			return Ok(new { message = result.Message, status = result.StatusCode });
 		}
 
+		#endregion
+
+		#region Reject
+
 		public async Task<IActionResult> RejectComment(int commentId)
 		{
 			var result = await courseCommentService.RejectComment(commentId);
 
 			return Ok(result);
 		}
+
+		#endregion
 	}
 }
