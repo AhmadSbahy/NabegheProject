@@ -1,0 +1,74 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Nabeghe.Application.Convertor
+@using Nabeghe.Application.Statics
+@model Nabeghe.Domain.ViewModels.Blog.AdminFilterBlogViewModel
+@{
+	ViewData["Title"] = "لیست مقالات";
+}
+<div class="card">
+	<div class="card-body">
+		<div class="d-flex align-items-center justify-content-between mb-3">
+			<h5 class="mb-0">ليست مقالات سايت</h5>
+			<form asp-action="Index" id="filter-search" class="d-flex align-items-center">
+				<input type="hidden" asp-for="Page" />
+
+				<div class="row g-2">
+					<!-- فیلد ورودی برای جستجوی عنوان -->
+					<div class="col-auto">
+						<label asp-for="SearchParam" class="form-label"></label>
+						<input asp-for="SearchParam" class="form-control" placeholder="عنوان" />
+					</div>
+					<div class="col-auto">
+						<label asp-for="AuthorName" class="form-label"></label>
+						<input asp-for="AuthorName" class="form-control" placeholder="عنوان" />
+					</div>
+
+					<!-- دکمه جستجو -->
+					<div class="col-auto d-flex align-items-end">
+						<button type="submit" class="btn btn-success">جستجو</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div class="table-responsive mt-3">
+			<table class="table align-middle">
+				<thead class="table-secondary">
+					<tr>
+						<th>تصویر مقاله</th>
+						<th>عنوان مقاله</th>
+						<th>نویسنده مقاله</th>
+						<th>تاریخ ایجاد</th>
+						<th>دستورات</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in Model.Entities)
+					{
+						<tr>
+							<td>
+								<img src="@PathTools.BlogImagePath@item.BlogImage" style="max-height:140px" />
+							</td>
+							<td>
+								@item.BlogTitle
+							</td>
+							<td>
+								@item.AuthorName
+							</td>
+							<td>@item.CreateDate.Toshamsi()</td>
+							<td>
+								<a onclick="confirmDelete('@Url.Action("Delete", "Blog", new { id = item.Id })',event)" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Delete" aria-label="Delete">
+									<ion-icon name="trash-outline" role="img" class="md hydrated" aria-label="trash outline"></ion-icon>
+								</a>
+								<a asp-action="Edit" asp-route-id="@item.Id" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit">
+									<ion-icon name="pencil-outline" role="img" class="md hydrated" aria-label="pencil outline"></ion-icon>
+								</a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<partial name="_AdminPaging" model="@Model.GetCurrentPaging()" />

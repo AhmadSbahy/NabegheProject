@@ -39,6 +39,6 @@ namespace Nabeghe.Domain.ViewModels.Blog
         [Display(Name = "تعداد لایک‌ها")]
         public int LikeCount { get; set; }
 
-        public ICollection<BlogLike> BlogLikes { get; set; }
+        public ICollection<BlogLike>? BlogLikes { get; set; }
     }
 }

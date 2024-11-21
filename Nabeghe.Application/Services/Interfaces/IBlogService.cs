@@ -5,13 +5,14 @@ namespace Nabeghe.Application.Services.Interfaces
 {
     public interface IBlogService
     {
-        Task<Blog> GetBlogDetailsAsync(int blogId);
-        Task AddNewBlogAsync(Blog blog);
-        Task EditBlogAsync(Blog blog);
-        Task DeleteBlogAsync(int blogId);
+        Task<AdminEditBlogViewModel?> GetBlogDetailsAsync(int blogId);
+        Task<AdminCreateBlogStatus> AddNewBlogAsync(AdminCreateBlogViewModel model);
+        Task<AdminEditBlogStatus> EditBlogAsync(AdminEditBlogViewModel model);
+        Task<AdminDeleteBlogStatus> DeleteBlogAsync(int blogId);
         Task<ClientSideFilterBlogViewModel> FilterBlogAsync(ClientSideFilterBlogViewModel model);
         Task AddBlogLikeAsync(CreateBlogLikeViewModel model);
         Task RemoveBlogLike(int userId,int blogId);
         Task<bool> IsUserLikedBlogAsync(int userId,int blogId);
+        Task<AdminFilterBlogViewModel> FilterBlogAsync(AdminFilterBlogViewModel model);
     }
 }

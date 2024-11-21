@@ -22,7 +22,7 @@ namespace Nabeghe.Infra.Data.Repositories
             _context = context;
         }
 
-        public async Task<Blog> GetBlogByIdAsync(int id)
+        public async Task<Blog?> GetBlogByIdAsync(int id)
         {
             return await _context.Blogs.Include(b => b.User).FirstOrDefaultAsync(b => b.Id == id);
         }
@@ -49,8 +49,8 @@ namespace Nabeghe.Infra.Data.Repositories
             var blog = await GetBlogByIdAsync(id);
             if (blog != null)
             {
-                _context.Blogs.Remove(blog);
-                await _context.SaveChangesAsync();
+                blog.IsDeleted = true;
+                _context.Blogs.Update(blog);
             }
         }
 
@@ -61,6 +61,7 @@ namespace Nabeghe.Infra.Data.Repositories
                 .Include(b=>b.BlogLikes)
                 .Include(b => b.BlogComments)
                 .ThenInclude(c => c.CommentLikes)
+                .Where(b=> !b.IsDeleted)
                 .AsQueryable();
 
             #region Filters
@@ -144,5 +145,51 @@ namespace Nabeghe.Infra.Data.Repositories
         {
 	        return await _context.BlogLikes.AnyAsync(b => b.UserId == userId && b.BlogId == blogId);
         }
+
+		public async Task<AdminFilterBlogViewModel> FilterBlogAsync(AdminFilterBlogViewModel model)
+		{
+			var query = _context.Blogs
+				.Include(b => b.User)
+				.Include(b => b.BlogComments)
+				.ThenInclude(c => c.CommentLikes)
+				.Where(b => !b.IsDeleted).AsQueryable();
+
+			#region Filters
+			if (!string.IsNullOrWhiteSpace(model.SearchParam))
+			{
+				query = query.Where(b => b.BlogTitle.Contains(model.SearchParam)
+				                         || b.BlogDescription.Contains(model.SearchParam));
+			}
+
+			if (!string.IsNullOrWhiteSpace(model.AuthorName))
+			{
+				query = query.Where(b => b.User.FirstName.Contains(model.AuthorName)
+				                         || b.User.LastName.Contains(model.AuthorName));
+			}
+
+			#endregion
+
+			query = query.OrderByDescending(b => b.CreateDate);
+
+			var blogList = await query.ToListAsync();
+
+			var blogViewModelList = blogList.Select(b => new AdminBlogViewModel
+			{
+				Id = b.Id,
+				BlogTitle = b.BlogTitle,
+				AuthorName = b.User != null ? $"{b.User.FirstName} {b.User.LastName}" : "نامشخص",
+				CreateDate = b.CreateDate,
+				BlogImage = b.BlogImage
+			}).ToList();
+
+			await model.Paging(blogViewModelList.AsQueryable());
+
+			return model;
+		}
+
+		public async Task SaveAsync()
+		{
+			await _context.SaveChangesAsync();
+		}
     }
 }

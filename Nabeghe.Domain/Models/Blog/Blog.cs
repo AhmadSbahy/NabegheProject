@@ -31,6 +31,8 @@ namespace Nabeghe.Domain.Models.Blog
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public string BlogDescription { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
+
         #endregion
 
         #region Relations
@@ -42,25 +44,5 @@ namespace Nabeghe.Domain.Models.Blog
         public ICollection<BlogLike>? BlogLikes { get; set; }
 
         #endregion
-    }
-    public class BlogLike
-    {
-	    #region Properties
-
-	    public int Id { get; set; }
-	    public int UserId { get; set; }
-	    public int BlogId { get; set; }
-
-	    #endregion
-
-	    #region Relations
-
-	    [ForeignKey(nameof(UserId))]
-	    public User.User User { get; set; }
-
-	    [ForeignKey(nameof(BlogId))]
-	    public Blog Blog { get; set; }
-
-	    #endregion
     }
 }

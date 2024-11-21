@@ -65,7 +65,14 @@ namespace Nabeghe.Domain.Shared
 		public static string DeleteCourseDiscountSuccessfullyDone = "تخفیف برای دوره با موفقیت حذف شد.";
 
 		#endregion
-			
+
+		#region Blog
+
+		public static string CreateBlogSuccessfullyDone = "مقاله با موفقیت ساخته شد.";
+		public static string UpdateBlogSuccessfullyDone = "مقاله با موفقیت ویرایش شد.";
+		public static string DeleteBlogSuccessfullyDone = "مقاله با موفقیت حذف شد.";
+		#endregion
+
 	}
 
 	public class ErrorMessages
@@ -110,6 +117,12 @@ namespace Nabeghe.Domain.Shared
 		#region Course Discount
 
 		public static string CourseDiscountNotFound = "تخفیفی پیدا نشد.";
+
+		#endregion
+
+		#region Blog
+
+		public static string BlogNotFound = "مقاله ای پیدا نشد.";
 
 		#endregion
 	}

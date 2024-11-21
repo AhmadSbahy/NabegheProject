@@ -10,7 +10,7 @@ namespace Nabeghe.Domain.Interfaces
 {
     public interface IBlogRepository
     {
-        Task<Blog> GetBlogByIdAsync(int id);
+        Task<Blog?> GetBlogByIdAsync(int id);
         Task<IEnumerable<Blog>> GetAllBlogsAsync();
         Task AddBlogAsync(Blog blog);
         Task UpdateBlogAsync(Blog blog);
@@ -19,5 +19,7 @@ namespace Nabeghe.Domain.Interfaces
         Task AddBlogLikeAsync(CreateBlogLikeViewModel model);
         Task RemoveBlogLike(int userId, int blogId);
         Task<bool> IsUserLikedBlogAsync(int userId, int blogId);
-	}
+        Task<AdminFilterBlogViewModel> FilterBlogAsync(AdminFilterBlogViewModel model);
+        Task SaveAsync();
+    }
 }

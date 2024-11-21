@@ -61,6 +61,7 @@
 	<div class="mb-3 pt-3">
 		<label for="avatar" class="form-label">تصویر دوره</label>
 		<input class="form-control" type="file" id="avatar" asp-for="CourseImage"/>
+		<span asp-validation-for="CourseImage" class="text-danger"></span>
 	</div>
 
 	<button type="submit" class="btn btn-outline-success px-5 mb-3">افزودن</button>
