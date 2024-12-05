@@ -15,6 +15,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.RegisterServices();
 
+builder.Services.AddHttpClient();
+
 #endregion
 
 #region DbContext

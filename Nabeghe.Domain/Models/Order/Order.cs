@@ -10,6 +10,10 @@ namespace Nabeghe.Domain.Models.Order
 
         public bool IsFinally { get; set; }
 
+        public string? Authority { get; set; } = string.Empty;
+
+        public string? RefId { get; set; } = string.Empty;
+
         #endregion
 
         #region Relations

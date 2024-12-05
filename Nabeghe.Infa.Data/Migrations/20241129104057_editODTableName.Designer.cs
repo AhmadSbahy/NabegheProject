@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nabeghe.Infra.Data.Context;
 
@@ -11,9 +12,11 @@ using Nabeghe.Infra.Data.Context;
 namespace Nabeghe.Infra.Data.Migrations
 {
     [DbContext(typeof(NabegheContext))]
-    partial class NabegheContextModelSnapshot : ModelSnapshot
+    [Migration("20241129104057_editODTableName")]
+    partial class editODTableName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -508,17 +511,11 @@ namespace Nabeghe.Infra.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Authority")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsFinally")
                         .HasColumnType("bit");
-
-                    b.Property<string>("RefId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");

@@ -25,7 +25,9 @@ namespace Nabeghe.Infra.IoC.Container
 			services.AddScoped<IContactUsService, ContactUsService>();
 			services.AddScoped<ICourseDiscountService, CourseDiscountService>();
             services.AddScoped<IBlogService, BlogService>();
+            services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IBlogCommentService, BlogCommentService>();
+            services.AddScoped<INovinoService, NovinoService>();
 
             #endregion
 
@@ -41,6 +43,7 @@ namespace Nabeghe.Infra.IoC.Container
 			services.AddScoped<ICourseDiscountRepository, CourseDiscountRepository>();
             services.AddScoped<IBlogRepository, BlogRepository>();
             services.AddScoped<IBlogCommentRepository, BlogCommentRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IBlogCommentReplyRepository, BlogCommentReplyRepository>();
             services.AddScoped<IBlogCommentLikeRepository, BlogCommentLikeRepository>();
 

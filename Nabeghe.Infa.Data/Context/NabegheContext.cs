@@ -80,7 +80,7 @@ namespace Nabeghe.Infra.Data.Context
         #region Order
 
         public DbSet<Order> Orders { get; set; }
-		public DbSet<OrderDetail> OrdersDetails { get; set; }
+		public DbSet<OrderDetail> OrderDetails { get; set; }
 
 		#endregion
 

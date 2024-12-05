@@ -27,6 +27,5 @@ namespace Nabeghe.Application.Services.Interfaces
         Task<User?> GetByIdAsync(int id);
         Task<List<UserFavoriteCourseViewModel>> GetCourseFavoriteListAsync(int userId);
         Task<List<UserCourseCommentViewModel>> GetUserCourseCommentListAsync(int userId);
-
 	}
 }

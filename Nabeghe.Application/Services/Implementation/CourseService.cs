@@ -205,6 +205,11 @@ namespace Nabeghe.Application.Services.Implementation
 
 			return false;
 		}
+
+		public async Task<Course?> GetCourseByIdAsync(int courseId)
+		{
+			return await _courseRepository.GetByIdAsync(courseId);
+		}
 	}
 }
 
