@@ -17,5 +17,23 @@ namespace Nabeghe.Application.Convertor
                            pc.GetDayOfMonth(value).ToString("00");
             return Toshamsi;
         }
-    }
+        public static string ToshamsiWithMonthName(this DateTime gregorianDate)
+        {
+	        PersianCalendar persianCalendar = new PersianCalendar();
+
+	        int year = persianCalendar.GetYear(gregorianDate);
+	        int month = persianCalendar.GetMonth(gregorianDate);
+	        int day = persianCalendar.GetDayOfMonth(gregorianDate);
+
+	        string[] persianMonths = new string[]
+	        {
+		        "فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور",
+		        "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"
+	        };
+
+	        string monthName = persianMonths[month - 1];
+
+	        return $"{day} {monthName} {year}";
+        }
+	}
 }

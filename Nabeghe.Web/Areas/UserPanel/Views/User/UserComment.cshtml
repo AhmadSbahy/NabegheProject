@@ -1,9 +1,11 @@
 ﻿@using Nabeghe.Application.Extensions
 @using Nabeghe.Application.Statics
 @using Nabeghe.Domain.Enums.Course
+@using Nabeghe.Domain.ViewModels.User
 @model List<Nabeghe.Domain.ViewModels.User.UserCourseCommentViewModel>
 @{
 	ViewData["Title"] = "دیدگاه های من";
+
 }
 
 <div class="lg:col-span-9 md:col-span-8">
@@ -16,7 +18,7 @@
                 </div>
                 <div class="font-black text-foreground">دیدگاه و پرسشهای شما</div>
             </div>
-            <div class="space-y-5" x-data="{ activeTab: 'tabOne'}">>
+            <div class="space-y-5" x-data="{ activeTab: 'tabOne'}">
                 <div>
                     <div x-show="activeTab === 'tabOne'">
                         <div class="divide-y divide-dashed divide-border">
@@ -100,6 +102,10 @@
                                         </div>
                                     </div>
 	                            }
+                            }
+                            else
+                            {
+	                            <partial name="_NotFoundItems"/>
                             }
                         </div>
                     </div>

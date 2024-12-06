@@ -26,7 +26,6 @@ builder.Services.AddDbContext<NabegheContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("NabegheConnectionStrings"));
 });
 
-
 #endregion
 
 #region HtmlEncoder

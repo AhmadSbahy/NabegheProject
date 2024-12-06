@@ -8,11 +8,10 @@ using Nabeghe.Domain.ViewModels.User;
 namespace Nabeghe.Web.Areas.UserPanel.Controllers
 {
 	public class UserController
-		(IUserService _userService)
+		(IUserService _userService,
+			IOrderService orderService)
     : UserPanelBaseController
     {
-
-
         #region Actions
 
         #region Edit Profile
@@ -74,9 +73,19 @@ namespace Nabeghe.Web.Areas.UserPanel.Controllers
 			return View(userComments);
 		}
 
-		#endregion
+        #endregion
 
-		#endregion
-	}
+        #region User Orders
+
+        public async Task<IActionResult> Orders()
+        {
+	        var orders = await orderService.GetOrderByUserIdAsync(User.GetUserId());
+            return View(orders);
+        }
+
+        #endregion
+
+        #endregion
+    }
 }
 	

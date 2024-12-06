@@ -1,0 +1,89 @@
+﻿@using Nabeghe.Application.Extensions
+@using Nabeghe.Application.Convertor
+@model List<Nabeghe.Domain.ViewModels.Order.UserOrderViewModel>
+
+@{
+	ViewData["Title"] = "فاکتور ها";
+}
+<div class="lg:col-span-9 md:col-span-8">
+	<div class="space-y-10">
+		<div class="space-y-5">
+			<!-- section:title -->
+			<div class="flex items-center gap-3">
+				<div class="flex items-center gap-1">
+					<div class="w-1 h-1 bg-foreground rounded-full"></div>
+					<div class="w-2 h-2 bg-foreground rounded-full"></div>
+				</div>
+				<div class="font-black text-foreground">تاریخچه تراکنشها</div>
+			</div>
+			<!-- end section:title -->
+
+			<div class="relative overflow-x-auto">
+				@if (Model.Count > 0)
+				{
+				<table class="w-full text-sm text-right">
+					<thead class="text-xs text-muted uppercase bg-background border-b border-border">
+					<tr>
+						<th class="whitespace-nowrap p-5">وضعیت</th>
+						<th class="whitespace-nowrap p-5">مبلغ</th>
+						<th class="whitespace-nowrap p-5">تاریخ ایجاد</th>
+					</tr>
+					</thead>
+
+					<tbody>
+					@foreach (var item in Model)
+					{
+						<tr class="odd:bg-secondary even:bg-background">
+							@if (item.IsPayed)
+							{
+								<td class="p-5">
+									<div class="flex items-center gap-2">
+										<div class="flex-shrink-0 rounded-full bg-green-500/20 p-1">
+											<div class="h-1.5 w-1.5 rounded-full bg-green-500"></div>
+										</div>
+										<span class="font-bold text-green-500">پرداخت شده</span>
+									</div>
+								</td>
+							}
+							else
+							{
+								<td class="p-5">
+									<div class="flex items-center gap-2">
+										<div style="background-color: hsl(0deg 100% 50% / 28%);" class="flex-shrink-0 rounded-full p-1">
+											<div class="h-1.5 w-1.5 rounded-full bg-red-500">
+											</div>
+										</div>
+										<span class="font-bold text-sm text-red-500">
+											پرداخت نشده
+										</span>
+									</div>
+								</td>
+							}
+							<td class="p-5">
+								<div class="flex items-center gap-1">
+									<span class="font-black text-sm text-foreground">@item.Price.ToMoney()</span>
+									<span class="text-xs text-muted">تومان</span>
+								</div>
+							</td>
+							<td class="p-5">
+								<div class="text-xs text-muted whitespace-nowrap">
+									@item.CreateDate.ToshamsiWithMonthName()
+								</div>
+							</td>
+						</tr>
+					}
+
+					</tbody>
+
+				</table>
+				}
+				else
+				{
+				<tbody>
+				<partial name="_NotFoundItems"/>
+				</tbody>
+				}
+			</div>
+		</div>
+	</div>
+</div>

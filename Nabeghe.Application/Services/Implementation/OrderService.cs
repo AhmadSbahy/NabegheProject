@@ -2,6 +2,7 @@
 using Nabeghe.Domain.Interfaces;
 using Nabeghe.Domain.Models.Order;
 using Nabeghe.Domain.ViewModels.Order;
+using Nabeghe.Domain.ViewModels.User;
 
 namespace Nabeghe.Application.Services.Implementation;
 
@@ -80,4 +81,13 @@ public class OrderService : IOrderService
 
 		return DeleteCourseFromOrderStatus.Success;
 	}
+
+	public async Task<List<UserOrderViewModel>?> GetOrderByUserIdAsync(int userId)
+	{
+		return await _orderRepository.GetAllUserOrders(userId);
+	}
+    public async Task<List<UserPurchasedCourseViewModel>> GetUserPurchasedCoursesAsync(int userId)
+    {
+        return await _orderRepository.GetUserPurchasedCoursesAsync(userId);
+    }
 }
