@@ -26,6 +26,8 @@ namespace Nabeghe.Domain.ViewModels.Course
 
 		public bool IsDeleted { get; set; }
 
+		public int CategoryId { get; set; }
+
 		public DateTime CreateDate { get; set; }
 
         public string ImageName { get; set; }

@@ -9,11 +9,11 @@ namespace Nabeghe.Web.Components
 	{
 		public async Task<IViewComponentResult> InvokeAsync(int courseId)
 		{
-			var productComments = await context.CourseComments
+			var courseComments = await context.CourseComments
 				.Where(cc => cc.CourseId == courseId && cc.Status == CourseCommentStatus.Confirmed)
 				.ToListAsync();
 
-			return View("/Views/Shared/Components/CourseComment.cshtml", productComments);
+			return View("/Views/Shared/Components/CourseComment.cshtml", courseComments);
 		}
 	}
 }

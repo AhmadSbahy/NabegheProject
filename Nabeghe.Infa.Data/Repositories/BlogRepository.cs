@@ -94,10 +94,8 @@ namespace Nabeghe.Infra.Data.Repositories
 
             query = query.OrderByDescending(b => b.CreateDate);
 
-            // دریافت داده‌ها از پایگاه‌داده و تبدیل به لیست
             var blogList = await query.ToListAsync();
 
-            // تبدیل Blog به ClientSideBlogViewModel
             var blogViewModelList = blogList.Select(b => new ClientSideBlogViewModel
             {
                 Id = b.Id,

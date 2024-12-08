@@ -22,6 +22,8 @@ namespace Nabeghe.Domain.ViewModels.Course
 		[Display(Name = "جستجو")]
 		public string ParamRes { get; set; }
 
+		public int? CategoryId { get; set; }
+
 		public bool IsFree { get; set; }
 
 		public bool IsNotFree { get; set; }

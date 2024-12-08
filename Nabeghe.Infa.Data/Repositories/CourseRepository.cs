@@ -105,6 +105,12 @@ namespace Nabeghe.Infra.Data.Repositories
 			{
 				query = query.Where(c => c.CoursePrice > 0);
 			}
+
+			if (model.CategoryId.HasValue)
+			{
+				query = query.Where(c => c.CategoryId == model.CategoryId.Value);
+			}
+
 			switch (model.Status)
 			{
 				case ClientSideFilterCourseStatus.All:
@@ -149,6 +155,7 @@ namespace Nabeghe.Infra.Data.Repositories
 				TeacherName = c.User.FirstName + " " + c.User.LastName,
 				CourseLikes = c.CourseLikes,
 				Slug = c.Slug,
+				CategoryId = c.CategoryId,
 				CourseDiscount = c.CourseDiscount,
 				CourseStatus = c.CourseStatus.StatusTitle// محاسبه زمان کل دوره در کلاینت
 			}).ToList();

@@ -280,17 +280,17 @@
 					}
 				</div>
 				<div class="flex gap-3 mt-3">
-					@if (Model.CoursePrice > 0 && !await UserService.IsUserInCourse(User.GetUserId(), Model.Id))
-					{
-						<partial name="_AddCourseToOrder" model="@(new AddToOrderViewModel { CourseId = Model.Id })" />
-					}
-					else
+					@if (await UserService.IsUserInCourse(User.GetUserId(), Model.Id))
 					{
 						<div class="flex flex-col items-end justify-center h-14">
 							<div class="flex items-center gap-1">
 								<span class="font-black text-md-center text-success">شما این دوره را قبلا خریداری کردید.</span>
 							</div>
-						</div>
+						</div>	
+					}
+					else if (!await UserService.IsUserInCourse(User.GetUserId(), Model.Id) && Model.CoursePrice > 0)
+					{
+						<partial name="_AddCourseToOrder" model="@(new AddToOrderViewModel { CourseId = Model.Id })" />
 					}
 					<button onclick="AddCourseLike()" type="button" class="flex-shrink-0 w-11 h-11 inline-flex items-center justify-center bg-secondary rounded-full text-muted transition-colors @(Model.CourseLikes.Any(c=>User.Identity.IsAuthenticated && c.UserId==User.GetUserId() && c.CourseId == Model.Id )?"text-red-500":"")">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
@@ -314,7 +314,7 @@
 							<img src="@PathTools.GetAvatarPath@Model.User.Avatar" class="w-full h-full object-cover" alt="...">
 						</div>
 						<div class="flex flex-col items-start space-y-1">
-							<a href="./lecturer.html" class="line-clamp-1 font-bold text-sm text-foreground hover:text-primary">
+							<a href="javascript:void(0)" class="line-clamp-1 font-bold text-sm text-foreground hover:text-primary">
 								@Model.User.FirstName @Model.User.LastName
 							</a>
 						</div>
