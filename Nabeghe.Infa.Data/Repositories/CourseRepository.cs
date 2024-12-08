@@ -20,7 +20,7 @@ namespace Nabeghe.Infra.Data.Repositories
 			=> _context.Update(course);
 
 		public async Task<Course?> GetByIdAsync(int id)
-			=> await _context.Courses.FirstOrDefaultAsync(c => c.Id == id);
+			=> await _context.Courses.Include(c=>c.CourseDiscount).FirstOrDefaultAsync(c => c.Id == id);
 
 		public async Task<AdminSideFilterCourseViewModel> FilterCourseAsync(AdminSideFilterCourseViewModel model)
 		{
@@ -180,6 +180,8 @@ namespace Nabeghe.Infra.Data.Repositories
 				.Include(c => c.CourseEpisodes)
 				.Include(c => c.CourseComments)
 				.ThenInclude(c => c.CommentLikes)
+                .Include(c=> c.OrderDetails)
+                .ThenInclude(c=>c.Order)
 				.FirstOrDefaultAsync(c => c.Slug == slug);
 
 		public string GetCourseSlugByIdAsync(int id)

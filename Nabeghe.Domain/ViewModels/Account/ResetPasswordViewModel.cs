@@ -35,6 +35,7 @@ namespace Nabeghe.Domain.ViewModels.Account
     public enum ResetPasswordResult
     {
         Success,
-        UserNotFound
+        UserNotFound,
+        CodeIsNotCorrect
     }
 }

@@ -165,7 +165,8 @@ namespace Nabeghe.Application.Services.Implementation
 				Slug = course.Slug,
 				CourseComments = course.CourseComments,
 				CourseLikes = course.CourseLikes,
-				CourseDiscount = course.CourseDiscount,
+                Participants = course.OrderDetails?.Count(od => od.Order != null && od.Order.IsFinally) ?? 0,
+                CourseDiscount = course.CourseDiscount,
 				totalCourseTime = course.CourseEpisodes
 					.Where(e => !e.IsDeleted)
 					.Aggregate(TimeSpan.Zero, (sum, episode) => sum.Add(episode.EpisodeTime))

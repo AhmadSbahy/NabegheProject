@@ -1,4 +1,8 @@
-﻿<header class="bg-background/80 backdrop-blur-xl border-b border-border sticky top-0 z-30"
+﻿@using Nabeghe.Application.Services.Interfaces
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Nabeghe.Application.Extensions
+@inject IUserService userService
+<header class="bg-background/80 backdrop-blur-xl border-b border-border sticky top-0 z-30"
         x-data="{ offcanvasOpen: false, openSearchBox: false }">
     <!-- container -->
     <div class="max-w-7xl relative px-4 mx-auto">
@@ -352,10 +356,19 @@
                         </span>
                         @if (User.Identity.IsAuthenticated)
                         {
-	                        <span class="xs:flex flex-col items-start hidden text-xs space-y-1">
-		                        <span class="font-semibold text-foreground">جلال بهرامی راد</span>
-		                        <span class="font-semibold text-muted">خوش آمـــدید</span>
-	                        </span>
+	                        @if (!string.IsNullOrWhiteSpace(userService.GetUserFullName(User.GetUserId()).ToString()))
+	                        {
+		                        <span class="xs:flex flex-col items-start hidden text-xs space-y-1">
+			                        <span class="font-semibold text-foreground">@userService.GetUserFullName(User.GetUserId())</span>
+			                        <span class="font-semibold text-muted">خوش آمـــدید</span>
+		                        </span>
+	                        }
+	                        else
+	                        {
+		                        <span class="xs:flex flex-col items-start hidden text-xs space-y-1">
+			                        <span class="font-semibold text-muted">خوش آمـــدید</span>
+		                        </span>
+	                        }
 	                        <span class="text-foreground transition-transform"
 	                              x-bind:class="isOpen ? 'rotate-180' : ''">
 		                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

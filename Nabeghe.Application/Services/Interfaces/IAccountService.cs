@@ -13,5 +13,6 @@ namespace Nabeghe.Application.Services.Interfaces
         Task<LoginResult> LoginAsync(LoginViewModel model);
         Task<ForgotPasswordResult> ForgotPasswordAsync(ForgotPasswordViewModel model);
         Task<ResetPasswordResult> ResetPasswordAsync(ResetPasswordViewModel model);
-    }
+        Task<ActivateUserResult> ActivateUserAsync(ActivateUserViewModel model);
+	}
 }

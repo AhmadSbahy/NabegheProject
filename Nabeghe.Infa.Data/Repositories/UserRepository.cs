@@ -149,6 +149,11 @@ namespace Nabeghe.Infra.Data.Repositories
 			return courseComment;
 		}
 
+        public string GetUserFullName(int userId)
+        {
+            return _context.Users.Where(u => u.Id == userId).Select(u => $"{u.FirstName} {u.LastName}").SingleOrDefault() ?? string.Empty;
+        }
+
         public async Task InsertContactUsAsync(ContactUs contactUs)
         {
             await _context.ContactUs.AddAsync(contactUs);

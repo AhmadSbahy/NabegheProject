@@ -6,7 +6,6 @@ using Nabeghe.Domain.Shared;
 using Nabeghe.Domain.ViewModels.Account;
 using System.Security.Claims;
 using Nabeghe.Domain.Models.User;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace Nabeghe.Web.Controllers
 {
@@ -18,6 +17,7 @@ namespace Nabeghe.Web.Controllers
         #region Actions
 
         #region Register
+       
         [HttpGet("register")]
         public IActionResult Register()
         {
@@ -44,11 +44,16 @@ namespace Nabeghe.Web.Controllers
             {
                 case RegisterResult.Success:
                     TempData[SuccessMessage] = SuccessMessages.RegisterSuccessfullyDone;
-                    return RedirectToAction("Index", "Home");
+                    TempData["Mobile"] = model.Mobile;
+					return RedirectToAction("CheckMobileCode", "Account");
                     break;
 
                 case RegisterResult.MobileDuplicated:
                     TempData[ErrorMessage] = ErrorMessages.DuplicatedMobile;
+                    break;
+
+                case RegisterResult.Error:
+                    TempData[ErrorMessage] = ErrorMessages.OperationFailed;
                     break;
             }
 
@@ -57,8 +62,58 @@ namespace Nabeghe.Web.Controllers
 
         #endregion
 
-        #region Login
-        [HttpGet("login")]
+        #region Check the Rigister Mobile
+
+        [HttpGet("activate")]
+        public IActionResult CheckMobileCode()
+        {
+            string mobile = TempData["Mobile"]?.ToString();
+
+            if (string.IsNullOrEmpty(mobile))
+            {
+                return NotFound();
+            }
+            return View(new ActivateUserViewModel()
+            {
+	            Mobile = mobile
+            });
+        }
+
+        [HttpPost("activate")]
+        public async Task<IActionResult> CheckMobileCode(ActivateUserViewModel model)
+        {
+	        #region Validations
+
+	        if (!ModelState.IsValid)
+	        {
+		        return View(model);
+	        }
+
+	        #endregion
+
+	        ActivateUserResult result = await _accountService.ActivateUserAsync(model);
+
+	        switch (result)
+	        {
+		        case ActivateUserResult.Success:
+			        TempData[SuccessMessage] = SuccessMessages.ActivateUserSuccessfullyDone;
+			        return RedirectToAction(nameof(Login));
+
+		        case ActivateUserResult.CodeIsNotCorrect:
+			        TempData[ErrorMessage] = ErrorMessages.CodeIsNotCorrect;
+			        break;
+		       
+		        case ActivateUserResult.UserNotFound:
+			        TempData[ErrorMessage] = ErrorMessages.UserNotFound;
+					break;
+
+	        }
+	        return View();
+        }
+
+		#endregion
+		#region Login
+		[HttpGet("login")]
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
@@ -221,6 +276,9 @@ namespace Nabeghe.Web.Controllers
                 case ResetPasswordResult.UserNotFound:
                     TempData[ErrorMessage] = ErrorMessages.UserNotFound;
                     return RedirectToAction(nameof(ForgotPassword));
+                case ResetPasswordResult.CodeIsNotCorrect:
+                    TempData[ErrorMessage] = ErrorMessages.CodeIsNotCorrect;
+                    break;
             }
             return View();
         }

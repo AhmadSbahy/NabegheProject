@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Nabeghe.Application.Statics;
 using Nabeghe.Infra.Data.Context;
 using Nabeghe.Infra.IoC.Container;
 using System.Text.Encodings.Web;
@@ -48,6 +49,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 #endregion
 
+#region Config kavenegar api
+
+builder.Configuration.GetSection("KavenegarSms").Get<KavenegarStatics>();
+
+#endregion
 
 var app = builder.Build();
 app.Use(async (context, next) =>

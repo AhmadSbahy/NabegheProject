@@ -17,6 +17,19 @@
 
     <!-- form:field:wrapper -->
     <div class="flex flex-col relative">
+        <input type="text" dir="ltr" asp-for="FirstName"
+               placeholder="نام"
+               class="form-input w-full h-11 !ring-0 !ring-offset-0 bg-secondary border-border focus:border-border rounded-xl text-sm text-foreground placeholder:text-right px-5" />
+        <span class="validation-span-message" asp-validation-for="FirstName"></span>
+    </div> <!-- form:field:wrapper -->
+    <!-- form:field:wrapper -->
+    <div class="flex flex-col relative">
+        <input type="text" dir="ltr" asp-for="LastName"
+               placeholder="نام خانوادگی"
+               class="form-input w-full h-11 !ring-0 !ring-offset-0 bg-secondary border-border focus:border-border rounded-xl text-sm text-foreground placeholder:text-right px-5" />
+        <span class="validation-span-message" asp-validation-for="LastName"></span>
+    </div> <!-- form:field:wrapper -->
+    <div class="flex flex-col relative">
         <input type="text" dir="ltr" asp-for="Mobile"
                placeholder="شماره موبایل"
                class="form-input w-full h-11 !ring-0 !ring-offset-0 bg-secondary border-border focus:border-border rounded-xl text-sm text-foreground placeholder:text-right px-5" />

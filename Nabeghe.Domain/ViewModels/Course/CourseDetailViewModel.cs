@@ -53,6 +53,8 @@ namespace Nabeghe.Domain.ViewModels.Course
         public ICollection<Models.Course.CourseLike>? CourseLikes { get; set; }
 
         public Models.Course.CourseDiscount? CourseDiscount { get; set; }
+
+        public int Participants { get; set; }
     }
 
 }

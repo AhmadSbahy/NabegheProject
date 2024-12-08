@@ -26,7 +26,7 @@ namespace Nabeghe.Domain.Interfaces
 		Task<FilterUserViewModel> FilterUserAsync(FilterUserViewModel model);
         Task<List<UserFavoriteCourseViewModel>> GetCourseFavoriteListAsync(int userId);
         Task<List<UserCourseCommentViewModel>> GetUserCourseCommentListAsync(int userId);
-
+        string GetUserFullName(int userId);
         #region ContactUs
 
         Task InsertContactUsAsync(ContactUs contactUs);

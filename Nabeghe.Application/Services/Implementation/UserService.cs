@@ -309,6 +309,9 @@ namespace Nabeghe.Application.Services.Implementation
             return await _userRepository.GetUserCourseCommentListAsync(userId);
         }
 
-
+        public string GetUserFullName(int userId)
+        {
+            return _userRepository.GetUserFullName(userId);
+        }
     }
 }

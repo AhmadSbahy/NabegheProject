@@ -45,7 +45,7 @@ public class OrderRepository : IOrderRepository
 
 	public async Task AddOrderDetailAsync(OrderDetail orderDetail)
 	{
-		await _context.OrderDetails.AddAsync(orderDetail);
+        await _context.OrderDetails.AddAsync(orderDetail);
 		await _context.SaveChangesAsync();
 	}
 
@@ -56,13 +56,13 @@ public class OrderRepository : IOrderRepository
 
 	public async Task<OrderDetail?> GetOrderDetailByIdForEditAsync(int courseId, int orderId)
 	{
-		return await _context.OrderDetails.FirstOrDefaultAsync(od => od.CourseId == courseId && od.OrderId == orderId);
+		return await _context.OrderDetails.Include(od=>od.Order).FirstOrDefaultAsync(od => od.CourseId == courseId && od.OrderId == orderId);
 	}
 
 	public async Task DeleteOrderDetail(OrderDetail orderDetail)
-	{
-		_context.OrderDetails.Remove(orderDetail);
-		await _context.SaveChangesAsync();
+    {
+        _context.OrderDetails.Remove(orderDetail);
+        await _context.SaveChangesAsync();
 	}
 
 	public async Task<List<UserOrderViewModel>?> GetAllUserOrders(int userId)
@@ -78,16 +78,15 @@ public class OrderRepository : IOrderRepository
 				CreateDate = o.CreateDate,
 				IsPayed = o.IsFinally,
 				Price = o.IsFinally
-					? o.OrderDetails.Sum(od => od.Price) // قیمت اصلی بدون اعمال تخفیف
+					? o.TotalOrderPrice
 					: o.OrderDetails.Sum(od =>
 						(int)(od.Price * (1 - (od.Course.CourseDiscount != null
 							? od.Course.CourseDiscount.DiscountPercent / 100m
-							: 0)))) // قیمت با تخفیف
+							: 0))))
 			})
+			
 			.OrderByDescending(o=> o.CreateDate)
 			.ToListAsync();
-
-
 	}
     public async Task<List<UserPurchasedCourseViewModel>> GetUserPurchasedCoursesAsync(int userId)
     {

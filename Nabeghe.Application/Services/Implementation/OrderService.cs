@@ -39,10 +39,10 @@ public class OrderService : IOrderService
 				OrderId = order.Id,
 				CourseId = courseId,
 				CreateDate = DateTime.Now,
+				Order = order,
 				Price = course.CoursePrice
-			};
-
-			await _orderRepository.AddOrderDetailAsync(orderDetail);
+            };
+            await _orderRepository.AddOrderDetailAsync(orderDetail);
 		}
 		else
 		{
@@ -65,8 +65,7 @@ public class OrderService : IOrderService
 				CreateDate = DateTime.Now,
 				Price = course.CoursePrice
 			};
-
-			await _orderRepository.AddOrderDetailAsync(orderDetail);
+            await _orderRepository.AddOrderDetailAsync(orderDetail);
 		}
 	}
 

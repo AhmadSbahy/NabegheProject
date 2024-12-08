@@ -14,7 +14,8 @@ namespace Eshop.Web.Controllers
 {
 	public class PaymentController
 		(INovinoService novinoService,
-		NabegheContext context
+		NabegheContext context,
+		ICourseService courseService
 		)
 		: SiteBaseController
 	{
@@ -38,15 +39,16 @@ namespace Eshop.Web.Controllers
 
 				int totalPriceWithDiscount = order.OrderDetails.Sum(od =>
 				{
-					if (od.Course.CourseDiscount != null)
+					if (courseService.IsCourseHasDiscount(od.Course.CourseDiscount))
 					{
 						return od.Price - (od.Price * od.Course.CourseDiscount.DiscountPercent / 100);
 					}
 					return od.Price;
 				});
+				
 
 				price = totalPriceWithDiscount * 10;
-
+				
 				invoiceId = $"order_{order.Id}";
 			}
 			else
@@ -87,7 +89,8 @@ namespace Eshop.Web.Controllers
 			if (order != null)
 			{
 				order.Authority = result.Data.authority;
-				context.Orders.Update(order);
+                order.TotalOrderPrice = price;
+                context.Orders.Update(order);
 				await context.SaveChangesAsync();
 			}
 

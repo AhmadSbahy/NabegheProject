@@ -28,11 +28,22 @@ namespace Nabeghe.Domain.ViewModels.Account
 		[Compare(nameof(Password), ErrorMessage = "کلمه عبور و تکرار ان یکسان نمی باشد.")]
 		public string ConfirmPassword { get; set; }
 
-		#endregion
-	}
+        [Display(Name = "نام")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [MaxLength(150, ErrorMessage = "تعداد کاراکتر وارد شده بیش از حد مجاز است.")]
+        public string FirstName { get; set; }
+		
+        [Display(Name = "نام خانوادگی")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [MaxLength(150, ErrorMessage = "تعداد کاراکتر وارد شده بیش از حد مجاز است.")]
+        public string LastName { get; set; }
+		    
+        #endregion
+    }
 	public enum RegisterResult
 	{
 		Success,
+		Error,
 		MobileDuplicated
 	}
 }

@@ -14,6 +14,8 @@ namespace Nabeghe.Domain.Models.Order
 
         public string? RefId { get; set; } = string.Empty;
 
+        public int TotalOrderPrice { get; set; }
+
         #endregion
 
         #region Relations

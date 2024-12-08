@@ -13,7 +13,6 @@ namespace Nabeghe.Domain.Models.Course
         [Key]
         public int DiscountId { get; set; }
 
-        
         public int CourseId { get; set; }
 
         [Display(Name = "درصد تخفیف")]

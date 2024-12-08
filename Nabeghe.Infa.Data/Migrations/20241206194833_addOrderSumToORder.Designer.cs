@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nabeghe.Infra.Data.Context;
 
@@ -11,9 +12,11 @@ using Nabeghe.Infra.Data.Context;
 namespace Nabeghe.Infra.Data.Migrations
 {
     [DbContext(typeof(NabegheContext))]
-    partial class NabegheContextModelSnapshot : ModelSnapshot
+    [Migration("20241206194833_addOrderSumToORder")]
+    partial class addOrderSumToORder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -517,11 +520,11 @@ namespace Nabeghe.Infra.Data.Migrations
                     b.Property<bool>("IsFinally")
                         .HasColumnType("bit");
 
+                    b.Property<int>("OrderSum")
+                        .HasColumnType("int");
+
                     b.Property<string>("RefId")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TotalOrderPrice")
-                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");

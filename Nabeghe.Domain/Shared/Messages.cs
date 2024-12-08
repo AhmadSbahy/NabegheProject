@@ -11,8 +11,9 @@ namespace Nabeghe.Domain.Shared
 		#region Account
 
 		public static string RegisterSuccessfullyDone = "ثبت نام شما با موفقیت انجام شد.";
-		public static string ForgotPasswordSuccessfullyDone = "کد تایید برای شماره موبایل شما ارسال شد.";
+		public static string ForgotPasswordSuccessfullyDone = "کد تائید برای شماره موبایل شما ارسال شد.";
 		public static string ResetPasswordSuccessfullyDone = "تغیر کلمه عبور شما با موفقیت انجام شد.";
+		public static string ActivateUserSuccessfullyDone = "تائید حساب کاربری شما با موفقیت انجام شد.";
 
 		#endregion
 
@@ -125,5 +126,7 @@ namespace Nabeghe.Domain.Shared
 		public static string BlogNotFound = "مقاله ای پیدا نشد.";
 
 		#endregion
+
+		public static string CodeIsNotCorrect = "کد تائید شما صحیح نمی باشد.";
 	}
 }
