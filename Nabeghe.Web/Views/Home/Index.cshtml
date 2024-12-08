@@ -4,9 +4,7 @@
 }
 
 <div class="space-y-14">
-	<!-- container -->
 	<div class="max-w-7xl space-y-14 px-4 mx-auto">
-		<!-- intro -->
 		<div class="bg-gradient-to-l from-secondary to-background rounded-2xl p-5">
 			<div class="flex md:flex-nowrap flex-wrap md:flex-row flex-col items-center justify-center gap-10 py-16">
 				<div class="space-y-5">
@@ -46,8 +44,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- end intro -->
-		<!-- features -->
 		<div class="relative bg-secondary rounded-3xl">
 			<div class="relative right-1/2 translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center h-12 bg-background border border-border rounded-2xl font-black text-foreground text-lg text-center px-8">
 				چرا آکــــادمــــــی نابغه؟
@@ -118,10 +114,7 @@
 				</div>
 			</div>
 		</div>
-		<!-- end features -->
-		<!-- section:latest-courses -->
 		<div class="space-y-8">
-			<!-- section:title -->
 			<div class="flex items-center justify-between gap-8 bg-gradient-to-l from-secondary to-background rounded-2xl p-5">
 				<div class="flex items-center gap-5">
 					<span class="flex items-center justify-center w-12 h-12 bg-primary text-primary-foreground rounded-full">
@@ -148,15 +141,9 @@
 					</svg>
 				</a>
 			</div>
-			<!-- end section:title -->
-			<!-- section:latest-courses:slider -->
-			@await Component.InvokeAsync("LatestCourses")
-			<!-- end section:latest-courses -->
+			<cache expires-after="@TimeSpan.FromMinutes(30)">@await Component.InvokeAsync("LatestCourses")</cache>
 		</div>
-		<!-- end container -->
-		<!-- feedback -->
 		<div class="overflow-x-hidden py-20">
-			<!-- container -->
 			<div class="max-w-7xl px-4 mx-auto">
 				<div class="md:grid md:grid-cols-12 md:gap-10 md:space-y-0 space-y-5">
 					<div class="md:col-span-4 flex items-center gap-5">
@@ -245,71 +232,66 @@
 					</div>
 				</div>
 			</div>
-			<!-- end container -->
 		</div>
-		<!-- end feedback -->
-		<!-- container -->
-		@await Component.InvokeAsync("LatestBlogs")
-		<!-- end container -->
+		<cache expires-after="@TimeSpan.FromMinutes(30)">@await Component.InvokeAsync("LatestBlogs")</cache>
 	</div>
 </div>
 @section Scripts
 {
-	<script>
-		async function AddBlogLike(blogId) {
-			await fetch('/Blog/AddBlogLike', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({ UserId: @User.GetUserId() , BlogId: blogId })
-			})
-				.then(response => response.json())
-				.then(data => {
-					if (data.success) {
-						window.location.reload();
-					} else if (data.status == 400) {
-						Swal.fire({
-							position: 'top-start',
-							icon: 'error',
-							title: 'برای افزودن مقاله به علاقه مندی باید وارد سایت شوید',
-							showConfirmButton: false,
-							timer: 2300
-						});
-					} else {
-						console.error("Failed to add like.");
-					}
+	<cache expires-after="@TimeSpan.FromMinutes(30)">
+		<script>
+			async function AddBlogLike(blogId) {
+				await fetch('/Blog/AddBlogLike', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ UserId: @User.GetUserId() , BlogId: blogId })
 				})
-				.catch(error => console.error('Error:', error));
-		}
-					async function AddCourseLike(courseId) {
-							await fetch('/Course/AddCourseLike', {
-								method: 'POST',
-								headers: {
-									'Content-Type': 'application/json'
-								},
-								body: JSON.stringify({ UserId: @User.GetUserId() , CourseId: courseId })
-						})
-							.then(response => response.json())
-							.then(data => {
-								if (data.success) {
-									window.location.reload();
-								} else if (data.status == 400) {
-									Swal.fire({
-										position: 'top-start',
-										icon: 'error',
-										title: 'برای افزودن دوره به علاقه مندی باید وارد سایت شوید',
-										showConfirmButton: false,
-										timer: 2000
-									});
-								} else {
-									console.error("Failed to add like.");
+					.then(response => response.json())
+					.then(data => {
+						if (data.success) {
+							window.location.reload();
+						} else if (data.status == 400) {
+							Swal.fire({
+								position: 'top-start',
+								icon: 'error',
+								title: 'برای افزودن مقاله به علاقه مندی باید وارد سایت شوید',
+								showConfirmButton: false,
+								timer: 2300
+							});
+						} else {
+							console.error("Failed to add like.");
+						}
+					})
+					.catch(error => console.error('Error:', error));
+			}
+							async function AddCourseLike(courseId) {
+										await fetch('/Course/AddCourseLike', {
+											method: 'POST',
+											headers: {
+												'Content-Type': 'application/json'
+											},
+											body: JSON.stringify({ UserId: @User.GetUserId() , CourseId: courseId })
+									})
+										.then(response => response.json())
+										.then(data => {
+											if (data.success) {
+												window.location.reload();
+											} else if (data.status == 400) {
+												Swal.fire({
+													position: 'top-start',
+													icon: 'error',
+													title: 'برای افزودن دوره به علاقه مندی باید وارد سایت شوید',
+													showConfirmButton: false,
+													timer: 2000
+												});
+											} else {
+												console.error("Failed to add like.");
+											}
+										})
+										.catch(error => console.error('Error:', error));
 								}
-							})
-							.catch(error => console.error('Error:', error));
-					}
-
-
-
-	</script>
+		</script>
+	</cache>
 }

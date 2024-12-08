@@ -4,28 +4,28 @@
 <head>
 	<partial name="_MetaTags" />
 	<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
+	<cache expires-after="@TimeSpan.FromDays(30)">
 	<partial name="_StyleReferences" />
+	</cache>
 	<title>@ViewBag.Title | سایت اموزشی نابغه</title>
 </head>
 <body>
 	<div class="flex flex-col min-h-screen bg-background">
-		<!-- header -->
 		<partial name="_PageHeader" />
-		<!-- end header -->
-        <main class="flex-auto py-5">
-            <div class="max-w-7xl space-y-14 px-4 mx-auto">
-                <div class="grid md:grid-cols-12 grid-cols-1 items-start gap-5">
-	                @await Component.InvokeAsync("UserPanelSideBar",new {userId = User.GetUserId()})
-                    @RenderBody()
-                </div>
-            </div>
-        </main>
-		<!-- footer -->
+		<main class="flex-auto py-5">
+			<div class="max-w-7xl space-y-14 px-4 mx-auto">
+				<div class="grid md:grid-cols-12 grid-cols-1 items-start gap-5">
+					<cache expires-after="@TimeSpan.FromDays(30)">@await Component.InvokeAsync("UserPanelSideBar", new { userId = User.GetUserId() })</cache>
+					@RenderBody()
+				</div>
+			</div>
+		</main>
 		<partial name="_Footer" />
-		<!-- end footer -->
 	</div>
-	<partial name="_JsReferences" />
-	<partial name="_SiteNotification" />
+	<cache expires-after="@TimeSpan.FromDays(30)">
+		<partial name="_JsReferences" />
+		<partial name="_SiteNotification" />
+	</cache>
 	@RenderSection("Scripts", false)
 </body>
 </html>
