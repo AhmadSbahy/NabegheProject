@@ -28,5 +28,7 @@ namespace Nabeghe.Application.Services.Interfaces
         Task<List<UserFavoriteCourseViewModel>> GetCourseFavoriteListAsync(int userId);
         Task<List<UserCourseCommentViewModel>> GetUserCourseCommentListAsync(int userId);
         string GetUserFullName(int userId);
+        Task<bool> IsUserInCourse(int userId, int courseId);
+
     }
 }

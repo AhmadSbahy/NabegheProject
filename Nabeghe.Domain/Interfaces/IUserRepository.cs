@@ -27,9 +27,11 @@ namespace Nabeghe.Domain.Interfaces
         Task<List<UserFavoriteCourseViewModel>> GetCourseFavoriteListAsync(int userId);
         Task<List<UserCourseCommentViewModel>> GetUserCourseCommentListAsync(int userId);
         string GetUserFullName(int userId);
-        #region ContactUs
+        Task<bool> IsUserInCourse(int userId, int courseId);
 
-        Task InsertContactUsAsync(ContactUs contactUs);
+		#region ContactUs
+
+		Task InsertContactUsAsync(ContactUs contactUs);
         Task<FilterContactUsViewModel> GetContactUsListAsync(FilterContactUsViewModel model);
         Task<ContactUsViewModel?> GetContactUsByIdAsync(int id);
 		Task UpdateContactUs(int id,ContactUsViewModel model);

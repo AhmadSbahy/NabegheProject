@@ -154,7 +154,17 @@ namespace Nabeghe.Infra.Data.Repositories
             return _context.Users.Where(u => u.Id == userId).Select(u => $"{u.FirstName} {u.LastName}").SingleOrDefault() ?? string.Empty;
         }
 
-        public async Task InsertContactUsAsync(ContactUs contactUs)
+        public async Task<bool> IsUserInCourse(int userId, int courseId)
+        {
+	        return await _context.Orders
+		        .Include(o=> o.OrderDetails)
+		        .Where(order => order.UserId == userId && order.IsFinally) // سفارش‌های کاربر که پرداخت شده‌اند
+		        .SelectMany(order => order.OrderDetails) // دریافت جزئیات سفارش
+		        .AnyAsync(orderDetail => orderDetail.CourseId == courseId); // بررسی دوره
+        }
+
+
+		public async Task InsertContactUsAsync(ContactUs contactUs)
         {
             await _context.ContactUs.AddAsync(contactUs);
         }

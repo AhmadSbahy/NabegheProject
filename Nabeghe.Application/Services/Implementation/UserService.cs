@@ -313,5 +313,9 @@ namespace Nabeghe.Application.Services.Implementation
         {
             return _userRepository.GetUserFullName(userId);
         }
-    }
+        public async Task<bool> IsUserInCourse(int userId, int courseId)
+        {
+	        return await _userRepository.IsUserInCourse(userId, courseId);
+        }
+	}
 }

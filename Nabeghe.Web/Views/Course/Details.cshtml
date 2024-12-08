@@ -6,8 +6,14 @@
 @using Nabeghe.Domain.ViewModels.Order
 @model Nabeghe.Domain.ViewModels.Course.CourseDetailViewModel
 @inject ICourseService CourseService
+@inject IUserService UserService
 @{
 	ViewData["slug"] = Model.Slug;
+	if (await UserService.IsUserInCourse(User.GetUserId(), Model.Id) || Model.CoursePrice == 0)
+	{
+		ViewData["UserHasAccess"] = "true";	
+	}
+	
 }
 <div class="max-w-7xl space-y-14 px-4 mx-auto">
 	<div class="flex md:flex-nowrap flex-wrap items-start gap-5">
@@ -91,7 +97,6 @@
 									@if (Model.CoursePrice > 0)
 									{
 										<span class="font-bold text-sm text-foreground line-clamp-1">
-											ویژه /
 											نقدی
 										</span>
 									}
@@ -275,9 +280,17 @@
 					}
 				</div>
 				<div class="flex gap-3 mt-3">
-					@if (Model.CoursePrice > 0)
+					@if (Model.CoursePrice > 0 && !await UserService.IsUserInCourse(User.GetUserId(), Model.Id))
 					{
 						<partial name="_AddCourseToOrder" model="@(new AddToOrderViewModel { CourseId = Model.Id })" />
+					}
+					else
+					{
+						<div class="flex flex-col items-end justify-center h-14">
+							<div class="flex items-center gap-1">
+								<span class="font-black text-md-center text-success">شما این دوره را قبلا خریداری کردید.</span>
+							</div>
+						</div>
 					}
 					<button onclick="AddCourseLike()" type="button" class="flex-shrink-0 w-11 h-11 inline-flex items-center justify-center bg-secondary rounded-full text-muted transition-colors @(Model.CourseLikes.Any(c=>User.Identity.IsAuthenticated && c.UserId==User.GetUserId() && c.CourseId == Model.Id )?"text-red-500":"")">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
@@ -316,6 +329,17 @@
 {
 
 	<script>
+
+			function showAccessWarning() {
+				Swal.fire({
+					position: 'top-start',
+					icon: 'warning',
+					title: 'شما به این دوره دسترسی ندارید.',
+					showConfirmButton: false,
+					timer: 1500
+				});
+				}
+
 		async function AddCourseLike() {
 			await fetch('/Course/AddCourseLike', {
 				method: 'POST',

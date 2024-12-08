@@ -3,6 +3,11 @@
 @{
 	int episodeNumber = 0;
 }
+<style>
+	.disabled-link {
+		cursor: pointer; /* نشانگر موس به pointer تغییر می‌کند */
+	}
+</style>
 <div class="flex flex-col space-y-3">
 	<div class="w-full" x-data="{ open: true }">
 		<div class="flex flex-col relative py-3 sm:pr-8 sm:pl-16" x-show="open">
@@ -12,28 +17,57 @@
 					episodeNumber++;
 					<div class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 border border-border rounded-xl p-3">
 						<span class="text-xs text-muted">@episodeNumber</span>
-						<div class="w-1 h-1 bg-muted-foreground rounded-full">
-						</div>
-						<a asp-area="" asp-controller="Course" asp-action="Details" asp-route-slug="@ViewData["slug"]" asp-route-episodeId="@ep.Id" class="font-semibold text-xs text-foreground line-clamp-1 transition-all hover:underline">
-							@ep.EpisodeTitle
-						</a>
+						<div class="w-1 h-1 bg-muted-foreground rounded-full"></div>
+						@if (ViewData["UserHasAccess"]?.ToString() == "true")
+						{
+							<a asp-area="" asp-controller="Course" asp-action="Details"
+							   asp-route-slug="@ViewData["slug"]" asp-route-episodeId="@ep.Id"
+							   class="font-semibold text-xs text-foreground line-clamp-1 transition-all hover:underline">
+								@ep.EpisodeTitle
+							</a>
+						}
+						else
+						{
+							<a href="javascript:void(0);"
+							   class="font-semibold text-xs text-muted line-clamp-1 transition-all hover:underline disabled-link"
+							   onclick="showAccessWarning();">
+								@ep.EpisodeTitle
+							</a>
+						}
 						<div class="flex items-center justify-end gap-3 sm:w-auto w-full mr-auto">
 							<span class="flex items-center gap-1 text-muted">
 								<span class="text-xs">@ep.EpisodeTime</span>
 								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-									<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z">
-									</path>
+									<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
 								</svg>
 							</span>
-							<a asp-area="" asp-controller="Course" asp-action="Details" asp-route-slug="@ViewData["slug"]" asp-route-episodeId="@ep.Id" class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
-								<span class="text-xs">مشاهده</span>
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-									<path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd"></path>
-								</svg>
-							</a>
+							@if (ViewData["UserHasAccess"]?.ToString() == "true")
+							{
+								<a asp-area="" asp-controller="Course" asp-action="Details"
+								   asp-route-slug="@ViewData["slug"]" asp-route-episodeId="@ep.Id"
+								   class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
+									<span class="text-xs">مشاهده</span>
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+										<path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd"></path>
+									</svg>
+								</a>
+							}
+							else
+							{
+								<a href="javascript:void(0);"
+								   class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted px-4 disabled-link"
+								   onclick="showAccessWarning();">
+									<span class="text-xs">مشاهده</span>
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+										<path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd"></path>
+									</svg>
+								</a>
+							}
 						</div>
 					</div>
 				}
+
+
 			</div>
 		</div>
 	</div>

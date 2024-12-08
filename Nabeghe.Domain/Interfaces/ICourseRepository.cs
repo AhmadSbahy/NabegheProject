@@ -26,6 +26,5 @@ namespace Nabeghe.Domain.Interfaces
         bool IsUserLikedCourse(int userId, int courseId);
         Task CreateCourseLikeAsync(int userId, int courseId);
         Task DeleteCourseLikeAsync(int userId, int courseId);
-
 	}
 }
