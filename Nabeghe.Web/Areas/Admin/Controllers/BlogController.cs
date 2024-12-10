@@ -5,31 +5,32 @@ using Nabeghe.Domain.Shared;
 using Nabeghe.Domain.ViewModels.Blog;
 using Nabeghe.Domain.ViewModels.Course;
 using Nabeghe.Domain.ViewModels.Role;
+using Nabeghe.Web.Utilities;
 
 namespace Nabeghe.Web.Areas.Admin.Controllers
 {
     public class BlogController(IBlogService blogService) : AdminBaseController
     {
-	    #region List
-
+		#region List
+		[CheckPermission("ManageBlog")]
 	    public async Task<IActionResult> Index(AdminFilterBlogViewModel filter)
 	    {
 		    var model = await blogService.FilterBlogAsync(filter);
 		    return View(model);
 		}
 
-
 		#endregion
 
 		#region Create
 		// GET: Admin/Blog/Create
+		[CheckPermission("AddBlog")]
 		public IActionResult Create()
 		{
 			return View();
 		}
 
 		// POST: Admin/Blog/Create
-		[HttpPost,ValidateAntiForgeryToken]
+		[HttpPost, CheckPermission("AddBlog"), ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(AdminCreateBlogViewModel model)
 		{
 			if (!ModelState.IsValid)
@@ -53,6 +54,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		#region Update
 
 		// GET: Admin/Blog/Edit/5
+		[CheckPermission("EditBlog")]
 		public async Task<IActionResult> Edit(int id)
 		{
 			var role = await blogService.GetBlogDetailsAsync(id);
@@ -64,7 +66,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		}
 
 		// POST: Admin/Blog/Edit/5
-		[HttpPost, ValidateAntiForgeryToken]
+		[HttpPost, CheckPermission("EditBlog"), ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(AdminEditBlogViewModel model)
 		{
 			if (!ModelState.IsValid)
@@ -90,6 +92,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 
 		#region Delete
 		// GET: Admin/Roles/Delete/5
+		[CheckPermission("DeleteBlog")]
 		public async Task<IActionResult> Delete(int id)
 		{
 			var result = await blogService.DeleteBlogAsync(id);

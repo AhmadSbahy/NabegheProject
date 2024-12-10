@@ -20,5 +20,6 @@ namespace Nabeghe.Domain.Interfaces
 	    Task<FilterCourseCategoryViewModel> FilterCourseCategoryAsync(FilterCourseCategoryViewModel model);
 	    Task<List<CourseCategoryViewModel>> GetAllChildCategoriesAsync();
         Task<List<CourseStatusViewModel>> GetAllCourseStatusAsync();
-    }
+        Task<List<CourseCategory>> GetAllCategoriesAsync();
+	}
 }

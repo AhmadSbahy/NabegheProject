@@ -6,13 +6,13 @@
 		<nav aria-label="Page navigation example">
 			<ul class="pagination round-pagination justify-content-center">
 				<!-- دکمه قبلی -->
-				<li class="page-item @(Model.Page == 1 ? "disabled" : "")"> <a style="cursor: pointer;" class="page-link" onclick="fillPageId('@(Model.Page - 1)')" tabindex="0"><span aria-hidden="true">&laquo;</span></a></li> <!-- شماره صفحات -->
+				<li class="page-item @(Model.Page == 1 ? "disabled" : "")"> <button style="cursor: pointer;" class="page-link" onclick="fillPageId('@(Model.Page - 1)')" tabindex="0"><span aria-hidden="true">&laquo;</span></button></li> <!-- شماره صفحات -->
 				@for (int i = Model.StartPage; i <= Model.EndPage; i++)
 				{
-					<li class="page-item @(i == Model.Page ? "active" : "")"> <a style="cursor: pointer;" class="page-link" onclick="fillPageId('@i')" tabindex="0">@i</a> </li>
+					<li class="page-item @(i == Model.Page ? "active" : "")"> <button style="cursor: pointer;" class="page-link" onclick="fillPageId('@i')" tabindex="0">@i</button> </li>
 				}
 				<!-- دکمه بعدی -->
-				<li class="page-item @(Model.Page == Model.PageCount ? "disabled" : "")"> <a style="cursor: pointer;" class="page-link" onclick="fillPageId('@(Model.Page + 1)')" tabindex="0"><span aria-hidden="true">&raquo;</span></a></li>
+				<li class="page-item @(Model.Page == Model.PageCount ? "disabled" : "")"> <button style="cursor: pointer;" class="page-link" onclick="fillPageId('@(Model.Page + 1)')" tabindex="0"><span aria-hidden="true">&raquo;</span></button></li>
 			</ul>
 		</nav>
 	</div>

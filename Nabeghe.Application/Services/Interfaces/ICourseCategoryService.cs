@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Nabeghe.Domain.Models.CourseCategory;
 using Nabeghe.Domain.ViewModels.CourseCategory;
 using Nabeghe.Domain.ViewModels.CourseStatus;
 
@@ -18,5 +19,6 @@ namespace Nabeghe.Application.Services.Interfaces
 		Task<FilterCourseCategoryViewModel> FilterCourseCategoryAsync(FilterCourseCategoryViewModel model);
 		Task<List<CourseCategoryViewModel>> GetAllChildCategoriesAsync();
 		Task<List<CourseStatusViewModel>> GetAllCourseStatusAsync();
+		Task<List<CourseCategory>> GetAllCategoriesAsync();
 	}
 }

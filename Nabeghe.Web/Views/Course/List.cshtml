@@ -5,7 +5,6 @@
 @{
 	ViewData["Title"] = "دوره ها";
 }
-
 <div class="max-w-7xl space-y-14 px-4 mx-auto">
 	<div class="space-y-8">
 		<div class="flex items-center gap-5 bg-gradient-to-l from-secondary to-background rounded-2xl p-5">
@@ -54,11 +53,11 @@
 							<div class="bg-secondary rounded-2xl relative p-3" x-show="open" style="">
 								<div class="space-y-2">
 									<label class="flex items-center gap-2 cursor-pointer">
-										<input asp-for="IsFree" onchange="document.getElementById('filter-search').submit()" class="form-radio !ring-0 !ring-offset-0 bg-border border-0">
+										<input asp-for="IsFree" value="True" onchange="this.form.submit()" class="form-radio !ring-0 !ring-offset-0 bg-border border-0">
 										<span class="text-sm text-muted">رایگان</span>
 									</label>
 									<label class="flex items-center gap-2 cursor-pointer">
-										<input asp-for="IsNotFree" onchange="document.getElementById('filter-search').submit()" class="form-radio !ring-0 !ring-offset-0 bg-border border-0">
+										<input asp-for="IsNotFree" onchange="this.form.submit()" class="form-radio !ring-0 !ring-offset-0 bg-border border-0">
 										<span class="text-sm text-muted">فقط نقدی</span>
 									</label>
 								</div>
@@ -66,7 +65,6 @@
 						</div>
 					</div>
 				</div>
-
 				<div class="lg:col-span-9 md:col-span-8">
 					<div class="flex items-center gap-3 mb-3" x-data="{ offcanvasOpen: false }">
 						<div x-data="{ range: function(start, end) { return Array(end - start + 1).fill().map((_, idx) => start + idx) } }">
@@ -78,14 +76,10 @@
 									مرتب سازی:
 								</label>
 								<div class="w-52 relative">
-									<select class="flex items-center w-full h-11 bg-secondary rounded-2xl font-semibold text-xs text-foreground px-4 pr-10 appearance-none cursor-pointer"
+									<select onchange="this.form.submit()" class="flex items-center w-full h-11 bg-secondary rounded-2xl font-semibold text-xs text-foreground px-4 pr-10 appearance-none cursor-pointer"
 											style="appearance: none; -moz-appearance: none; -webkit-appearance: none;"
 											asp-for="Status"
-											onchange="document.getElementById('filter-search').submit()">
-										@foreach (var item in Html.GetEnumSelectList<ClientSideFilterCourseStatus>())
-										{
-											<option value="@item.Value">@item.Text</option>
-										}
+											asp-items="Html.GetEnumSelectList<ClientSideFilterCourseStatus>()">
 									</select>
 								</div>
 							</div>
@@ -98,7 +92,6 @@
 						</button>
 						<div>
 							<div class="fixed inset-y-0 right-0 xs:w-80 w-72 h-full bg-background rounded-l-2xl overflow-y-auto transition-transform z-50 translate-x-full" x-bind:class="offcanvasOpen ? '!translate-x-0' : 'translate-x-full'">
-
 								<div class="flex items-center justify-between gap-x-4 sticky top-0 bg-background p-4 z-10">
 									<div class="font-bold text-sm text-foreground">فیلتر دوره ها</div>
 									<button x-on:click="offcanvasOpen = false" class="text-black dark:text-white focus:outline-none hover:text-red-500">
@@ -142,11 +135,11 @@
 											<div class="bg-secondary rounded-2xl relative p-3" x-show="open">
 												<div class="space-y-2">
 													<label class="flex items-center gap-2 cursor-pointer">
-														<input asp-for="IsFreeRes" onchange="document.getElementById('filter-search').submit()" class="form-radio !ring-0 !ring-offset-0 bg-border border-0">
+														<input asp-for="IsFreeRes" onchange="this.form.submit()" class="form-radio !ring-0 !ring-offset-0 bg-border border-0">
 														<span class="text-sm text-muted">رایگان</span>
 													</label>
 													<label class="flex items-center gap-2 cursor-pointer">
-														<input asp-for="IsNotFreeRes" onchange="document.getElementById('filter-search').submit()" class="form-radio !ring-0 !ring-offset-0 bg-border border-0">
+														<input asp-for="IsNotFreeRes" onchange="this.form.submit()" class="form-radio !ring-0 !ring-offset-0 bg-border border-0">
 														<span class="text-sm text-muted">فقط نقدی</span>
 													</label>
 												</div>

@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Nabeghe.Application.Services.Interfaces;
 using Nabeghe.Domain.ViewModels.CourseComment;
+using Nabeghe.Web.Utilities;
 
 namespace Nabeghe.Web.Areas.Admin.Controllers
 {
 	public class CourseCommentController(ICourseCommentService courseCommentService) : AdminBaseController
 	{
 		#region List
-
+		[CheckPermission("ManageCourseComment")]
 		public async Task<IActionResult> Index(FilterCourseCommentViewModel filter)
 		{
 			if (filter.CourseId < 1)
@@ -22,6 +23,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 
 		#region Confirm
 
+		[CheckPermission("ConfirmComment")]
 		public async Task<IActionResult> ConfirmComment(int commentId)
 		{
 			var result = await courseCommentService.ConfirmComment(commentId);
@@ -35,7 +37,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		#endregion
 
 		#region Reject
-
+		[CheckPermission("RejectComment")]
 		public async Task<IActionResult> RejectComment(int commentId)
 		{
 			var result = await courseCommentService.RejectComment(commentId);
@@ -43,6 +45,6 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 			return Ok(result);
 		}
 
-		#endregion
+		#endregion  
 	}
 }

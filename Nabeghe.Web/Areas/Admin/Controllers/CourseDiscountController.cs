@@ -2,6 +2,7 @@
 using Nabeghe.Application.Services.Interfaces;
 using Nabeghe.Domain.Shared;
 using Nabeghe.Domain.ViewModels.CourseDiscount;
+using Nabeghe.Web.Utilities;
 
 namespace Nabeghe.Web.Areas.Admin.Controllers
 {
@@ -9,6 +10,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
     {
 		#region Create
 		// GET: Admin/CourseDiscount/Create/1
+		[CheckPermission("AddCourseDiscount")]
 		public IActionResult Create(int id)
 		{
 			return View(new CreateCourseDiscountViewModel()
@@ -18,7 +20,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		}
 
 		// POST: Admin/CourseDiscount/Create
-		[HttpPost,ValidateAntiForgeryToken]
+		[HttpPost , CheckPermission("AddCourseDiscount") ,ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(CreateCourseDiscountViewModel model)
 		{
 			if (!ModelState.IsValid)
@@ -40,6 +42,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 
 		#region Update
 		// GET: Admin/CourseDiscount/Edit/5
+		[CheckPermission("EditCourseDiscount")]
 		public async Task<IActionResult> Edit(int id)
 		{
 			var courseDiscount = await discountService.GetForEditAsync(id);
@@ -51,7 +54,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		}
 
 		// POST: Admin/CourseDiscount/Edit/5
-		[HttpPost, ValidateAntiForgeryToken]
+		[HttpPost, CheckPermission("EditCourseDiscount"), ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(UpdateCourseDiscountViewModel model)
 		{
 			if (!ModelState.IsValid)
@@ -76,6 +79,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 
 		#region Delete
 		// GET: Admin/CourseDiscount/Delete/5
+		[CheckPermission("DeleteCourseDiscount")]
 		public async Task<IActionResult> Delete(int id)
 		{
 			var result = await discountService.DeleteAsync(id);

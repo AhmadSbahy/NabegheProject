@@ -221,7 +221,17 @@ namespace Nabeghe.Infra.Data.Repositories
 				await SaveAsync();
 			}
 		}
-
-		
+		public async Task<List<Course>> GetLatestCoursesAsync(int count)
+		{
+			return await _context.Courses
+				.Include(c => c.CourseStatus)
+				.Include(c => c.CourseCategory)
+				.Include(c => c.CourseDiscount)
+				.Include(c => c.CourseLikes)
+				.Include(c => c.User)
+				.OrderByDescending(c => c.CreateDate)
+				.Take(count)
+				.ToListAsync();
+		}
 	}
 }

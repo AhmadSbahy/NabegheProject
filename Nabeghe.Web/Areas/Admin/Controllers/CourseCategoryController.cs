@@ -3,14 +3,16 @@ using Nabeghe.Application.Services.Interfaces;
 using Nabeghe.Domain.Shared;
 using Nabeghe.Domain.ViewModels.CourseCategory;
 using Nabeghe.Domain.ViewModels.User;
+using Nabeghe.Web.Utilities;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Nabeghe.Web.Areas.Admin.Controllers
 {
 	public class CourseCategoryController(ICourseCategoryService _courseCategoryService) : AdminBaseController
 	{
 		#region Index
-
+		[CheckPermission("ManageCourseCategory")]
 		public async Task<IActionResult> Index(FilterCourseCategoryViewModel filter)
 		{
 			var model = await _courseCategoryService.FilterCourseCategoryAsync(filter);
@@ -22,6 +24,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		#region Create
 
 		// GET: Admin/Users/Create
+		[CheckPermission("AddCourseCategory")]
 		public async Task<IActionResult> Create()
 		{
 			ViewData["ParentCategories"] = await _courseCategoryService.GetAllParentsAsync();
@@ -29,7 +32,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		}
 
 		// POST: Admin/Users/Create
-		[HttpPost, ValidateAntiForgeryToken]
+		[HttpPost, CheckPermission("AddCourseCategory"), ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(CreateCourseCategoryViewModel model)
 		{
 			#region Validations
@@ -57,6 +60,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		#endregion
 
 		#region Update
+		[CheckPermission("EditCourseCategory")]
 		public async Task<IActionResult> Edit(int id)
 		{
 			var courseCategory = await _courseCategoryService.GetForEditAsync(id);
@@ -67,7 +71,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 			return View(courseCategory);
 		}
 
-		[HttpPost, ValidateAntiForgeryToken]
+		[HttpPost, CheckPermission("EditCourseCategory"), ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(UpdateCourseCategoryViewModel model)
 		{
 			#region Validations
@@ -98,7 +102,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		#endregion
 
 		#region Delete
-
+		[CheckPermission("DeleteCourseCategory")]
 		public async Task<IActionResult> Delete(int id)
 		{
 			var result = await _courseCategoryService.DeleteAsync(id);

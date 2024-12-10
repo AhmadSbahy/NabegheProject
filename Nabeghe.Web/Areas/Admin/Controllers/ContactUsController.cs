@@ -4,13 +4,14 @@ using Nabeghe.Application.Extensions;
 using Nabeghe.Application.Services.Interfaces;
 using Nabeghe.Domain.ViewModels.ContactUs;
 using Nabeghe.Infra.Data.Context;
+using Nabeghe.Web.Utilities;
 
 namespace Nabeghe.Web.Areas.Admin.Controllers
 {
     public class ContactUsController(IContactUsService contactUsService) : AdminBaseController
     {
 		#region List
-
+		[CheckPermission("ManageContactUs")]
 		public async Task<IActionResult> Index(FilterContactUsViewModel filter)
 		{
 			var model = await contactUsService.GetContactUsListAsync(filter);
@@ -21,7 +22,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		#endregion
 
 		#region Details
-
+		[CheckPermission("ContactUsDetail")]
 		public async Task<IActionResult> Details(int id)
 		{
 			var contactUs = await contactUsService.GetContactUsByIdAsync(id);
@@ -37,6 +38,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		#region Answer
 
 		[HttpPost]
+		[CheckPermission("AnswerContactUs")]
 		public async Task<IActionResult> Answer(CreateAnswerContactUsViewModel model)
 		{
 			var result = await contactUsService.CreateAnswerAsync(model, User.GetUserId());

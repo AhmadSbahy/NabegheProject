@@ -4,7 +4,7 @@
 <head>
 	<partial name="_MetaTags" />
 	<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
-	<cache expires-after="@TimeSpan.FromDays(30)"><partial name="_StyleReferences" /></cache>
+	<partial name="_StyleReferences" />
 	<title>@ViewBag.Title | سایت اموزشی نابغه</title>
 </head>
 
@@ -14,12 +14,11 @@
 		<main class="flex-auto py-5">
 			@RenderBody()
 		</main>
-		<cache expires-after="@TimeSpan.FromDays(30)"><partial name="_Footer" /></cache>
+		<partial name="_Footer" />
 	</div>
-	<cache expires-after="@TimeSpan.FromDays(30)">
+	
 		<partial name="_JsReferences" />
 		<partial name="_SiteNotification" />
-	</cache>
 	@RenderSection("Scripts", false)
 
 </body>

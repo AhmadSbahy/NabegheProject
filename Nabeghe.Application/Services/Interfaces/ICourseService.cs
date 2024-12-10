@@ -19,6 +19,8 @@ namespace Nabeghe.Application.Services.Interfaces
         Task DeleteCourseLikeAsync(int userId, int courseId);
         bool IsCourseHasDiscount(CourseDiscount? courseDiscount);
         Task<Course?> GetCourseByIdAsync(int courseId);
+        Task<List<Course>> GetLatestCoursesAsync(int count);
+
 	}
 }	
 	

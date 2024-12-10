@@ -90,5 +90,9 @@ namespace Nabeghe.Application.Services.Implementation
         {
             return await _courseCategoryRepository.GetAllCourseStatusAsync();
         }
-    }
+        public Task<List<CourseCategory>> GetAllCategoriesAsync()
+        {
+	        return _courseCategoryRepository.GetAllCategoriesAsync();
+        }
+	}
 }

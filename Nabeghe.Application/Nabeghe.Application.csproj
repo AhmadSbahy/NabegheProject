@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="kavenegar" Version="1.2.4" />
+    <PackageReference Include="MailKit" Version="4.8.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
   </ItemGroup>
 </Project>

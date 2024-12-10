@@ -6,11 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Nabeghe.Application.Senders.Interfaces;
 using Nabeghe.Domain.Interfaces;
 
 namespace Nabeghe.Application.Services.Implementation
 {
-	public class ContactUsService(IUserRepository _userRepository) : IContactUsService
+	public class ContactUsService(IUserRepository _userRepository,IEmailSender emailSender) : IContactUsService
 	{
 		public async Task CreateContactUsAsync(CreateContactUsViewModel model)
 		{
@@ -62,8 +63,10 @@ namespace Nabeghe.Application.Services.Implementation
 <p>پاسخ: {contactUs.Answer}</p>
 
 ";
-			// await emailSender.Send(contactUs.Email, "پاسخ به تماس با ما", body);
-			//TODO Send Email
+			#region Send Activation Email
+			 await emailSender.SendEmail(contactUs.Email, "پاسخ به تماس با ما", body);
+			 #endregion
+			
 
 			return ("به تماس با ما با موفقیت پاسخ داده شد.", 100);
 		}

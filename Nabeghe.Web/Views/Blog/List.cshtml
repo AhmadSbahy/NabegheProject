@@ -4,16 +4,16 @@
 @model Nabeghe.Domain.ViewModels.Blog.ClientSideFilterBlogViewModel
 
 @{
-    ViewData["Title"] = "مقاله ها";
+	ViewData["Title"] = "مقاله ها";
 }
+<form asp-controller="Blog" asp-action="List" id="filter-search">
 
-<div class="max-w-7xl space-y-14 px-4 mx-auto">
-	<div class="space-y-8">
-		<div class="grid md:grid-cols-12 grid-cols-1 items-start gap-5">
-			<div class="md:block hidden lg:col-span-3 md:col-span-4 md:sticky md:top-24">
-				<div class="w-full flex flex-col space-y-3 mb-5">
-					<span class="font-bold text-sm text-foreground">جستجو مقالات</span>
-					<form asp-controller="Blog" asp-action="List" id="filter-search">
+	<div class="max-w-7xl space-y-14 px-4 mx-auto">
+		<div class="space-y-8">
+			<div class="grid md:grid-cols-12 grid-cols-1 items-start gap-5">
+				<div class="md:block hidden lg:col-span-3 md:col-span-4 md:sticky md:top-24">
+					<div class="w-full flex flex-col space-y-3 mb-5">
+						<span class="font-bold text-sm text-foreground">جستجو مقالات</span>
 						<input type="hidden" asp-for="Page" />
 						<div class="flex items-center relative">
 							<input asp-for="SearchParam" type="text" class="form-input w-full !ring-0 !ring-offset-0 h-10 bg-secondary !border-0 rounded-xl text-sm text-foreground" placeholder="عنوان مقاله..">
@@ -23,56 +23,56 @@
 								</svg>
 							</span>
 						</div>
-					</form>
+					</div>
 				</div>
-			</div>
 
-			<div class="lg:col-span-9 md:col-span-8">
-				<!-- articles:wrapper -->
-				<div class="grid lg:grid-cols-3 sm:grid-cols-2 gap-x-5 gap-y-10">
-					@foreach (var item in Model.Entities)
-					{
-						<div class="relative bg-background rounded-xl shadow-xl shadow-black/5 p-4">
-							<div class="relative mb-3 z-20">
-								<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-id="@item.Id" class="block">
-									<img src="@PathTools.BlogImagePath@item.BlogImage" class="max-w-full rounded-xl" alt="...">
-								</a>
-								<button onclick="AddBlogLike(@item.Id)" type="button" class="absolute left-3 -bottom-3 w-9 h-9 inline-flex items-center justify-center bg-secondary rounded-full shadow-xl text-muted transition-colors @(item.BlogLikes.Any(c=>User.Identity.IsAuthenticated && c.UserId==User.GetUserId() && c.BlogId == item.Id )?"text-red-500":"") z-10">
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-										<path d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z">
-										</path>
-									</svg>
-								</button>
-							</div>
-							<div class="relative space-y-3 z-10">
-								<h2 class="font-bold text-sm">
-									<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-id="@item.Id" class="line-clamp-1 text-foreground transition-colors hover:text-primary">
-										@item.BlogTitle
+				<div class="lg:col-span-9 md:col-span-8">
+					<!-- articles:wrapper -->
+					<div class="grid lg:grid-cols-3 sm:grid-cols-2 gap-x-5 gap-y-10">
+						@foreach (var item in Model.Entities)
+						{
+							<div class="relative bg-background rounded-xl shadow-xl shadow-black/5 p-4">
+								<div class="relative mb-3 z-20">
+									<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-id="@item.Id" class="block">
+										<img src="@PathTools.BlogImagePath@item.BlogImage" class="max-w-full rounded-xl" alt="...">
 									</a>
-								</h2>
-								<div class="flex items-center justify-between">
-									<div class="flex items-center gap-1">
-										<div class="flex-shrink-0 w-8 h-8 border border-white rounded-full overflow-hidden">
-											<img src="@PathTools.GetAvatarPath@item.AuthorAvatar" class="w-full h-full object-cover" alt="...">
-										</div>
-										<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-id="@item.Id" class="line-clamp-1 font-bold text-xs text-foreground transition-colors hover:text-primary">
-											@item.AuthorName
+									<button onclick="AddBlogLike(@item.Id)" type="button" class="absolute left-3 -bottom-3 w-9 h-9 inline-flex items-center justify-center bg-secondary rounded-full shadow-xl text-muted transition-colors @(item.BlogLikes.Any(c=>User.Identity.IsAuthenticated && c.UserId==User.GetUserId() && c.BlogId == item.Id )?"text-red-500":"") z-10">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+											<path d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z">
+											</path>
+										</svg>
+									</button>
+								</div>
+								<div class="relative space-y-3 z-10">
+									<h2 class="font-bold text-sm">
+										<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-id="@item.Id" class="line-clamp-1 text-foreground transition-colors hover:text-primary">
+											@item.BlogTitle
 										</a>
+									</h2>
+									<div class="flex items-center justify-between">
+										<div class="flex items-center gap-1">
+											<div class="flex-shrink-0 w-8 h-8 border border-white rounded-full overflow-hidden">
+												<img src="@PathTools.GetAvatarPath@item.AuthorAvatar" class="w-full h-full object-cover" alt="...">
+											</div>
+											<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-id="@item.Id" class="line-clamp-1 font-bold text-xs text-foreground transition-colors hover:text-primary">
+												@item.AuthorName
+											</a>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					}
-				</div>
-				<!-- end articles:wrapper -->
+						}
+					</div>
+					<!-- end articles:wrapper -->
 
-				<div class="flex justify-center mt-8">
-					<partial name="_SitePaging" model="@Model.GetCurrentPaging()" />
+					<div class="flex justify-center mt-8">
+						<partial name="_SitePaging" model="@Model.GetCurrentPaging()" />
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
+</form>
 
 @section Scripts
 {

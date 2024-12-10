@@ -17,6 +17,7 @@ namespace Nabeghe.Infra.IoC.Container
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IAccountService, AccountService>();
 			services.AddSingleton<ISmsSender, SmsSender>();
+			services.AddSingleton<IEmailSender, EmailSender>();
 			services.AddScoped<ICourseCategoryService, CourseCategoryService>();
 			services.AddScoped<ICourseService, CourseService>();
 			services.AddScoped<ICourseCommentService, CourseCommentService>();

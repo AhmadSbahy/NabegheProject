@@ -2,13 +2,14 @@
 using Nabeghe.Application.Services.Implementation;
 using Nabeghe.Application.Services.Interfaces;
 using Nabeghe.Domain.ViewModels.BlogComment;
+using Nabeghe.Web.Utilities;
 
 namespace Nabeghe.Web.Areas.Admin.Controllers
 {
 	public class BlogCommentController(IBlogCommentService blogCommentService) : AdminBaseController
 	{
 		#region List
-
+		[CheckPermission("ManageBlogComment")]
 		public async Task<IActionResult> Index(FilterBlogCommentViewModel filter)
 		{
 			var model = await blogCommentService.FilterBlogCommentAsync(filter);
@@ -18,7 +19,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		#endregion
 
 		#region Confirm
-
+		[CheckPermission("ConfirmBlogComment")]
 		public async Task<IActionResult> ConfirmComment(int commentId)
 		{
 			var result = await blogCommentService.ConfirmComment(commentId);
@@ -32,7 +33,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		#endregion
 
 		#region Reject
-
+		[CheckPermission("RejectBlogComment")]
 		public async Task<IActionResult> RejectComment(int commentId)
 		{
 			var result = await blogCommentService.RejectComment(commentId);

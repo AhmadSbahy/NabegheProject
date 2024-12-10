@@ -4,9 +4,7 @@
 <head>
 	<partial name="_MetaTags" />
 	<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
-	<cache expires-after="@TimeSpan.FromDays(30)">
 	<partial name="_StyleReferences" />
-	</cache>
 	<title>@ViewBag.Title | سایت اموزشی نابغه</title>
 </head>
 <body>
@@ -15,17 +13,15 @@
 		<main class="flex-auto py-5">
 			<div class="max-w-7xl space-y-14 px-4 mx-auto">
 				<div class="grid md:grid-cols-12 grid-cols-1 items-start gap-5">
-					<cache expires-after="@TimeSpan.FromDays(30)">@await Component.InvokeAsync("UserPanelSideBar", new { userId = User.GetUserId() })</cache>
+					@await Component.InvokeAsync("UserPanelSideBar", new { userId = User.GetUserId() })
 					@RenderBody()
 				</div>
 			</div>
 		</main>
 		<partial name="_Footer" />
 	</div>
-	<cache expires-after="@TimeSpan.FromDays(30)">
 		<partial name="_JsReferences" />
 		<partial name="_SiteNotification" />
-	</cache>
 	@RenderSection("Scripts", false)
 </body>
 </html>

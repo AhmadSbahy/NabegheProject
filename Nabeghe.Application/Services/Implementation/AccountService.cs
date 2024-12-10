@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kavenegar.Models;
+using Kavenegar.Models.Enums;
 using Nabeghe.Application.Extensions;
 using Nabeghe.Application.Generators;
 using Nabeghe.Application.Security;
@@ -45,11 +46,10 @@ namespace Nabeghe.Application.Services.Implementation
 			await _userRepository.InsertAsync(user);
 			await _userRepository.SaveAsync();
 
-			var result = _smsSender.SendSms(user.Mobile, $" سلام خانم/اقای {user.GetUserFullName()} " +
-														 $" از ثبت نام شما در سایت نابغه ممنونیم " +
-														 $" کد تائید شما {user.ConfirmCode} ");
-		
-			if (result.Status == 200 || result.Status == 1)
+			
+			var result = _smsSender.SendSms(user.Mobile,user.ConfirmCode,"","","",user.GetUserFullName(),"SendSms",VerifyLookupType.Sms);
+
+			if (result.Status == 200 || result.Status == 1 || result.Status == 5)
 			{
 				return RegisterResult.Success;
 			}
@@ -86,11 +86,9 @@ namespace Nabeghe.Application.Services.Implementation
 			string randomCode = CodeGenerator.GenerateCode();
 
 
-			var result = _smsSender.SendSms(user.Mobile, $" سلام خانم/اقای {user.GetUserFullName()} " +
-														 $" این کد شما هست جهت تغییر کلمه عبور " +
-														 $" کد تایید شما : {randomCode} ");
+			var result = _smsSender.SendSms(user.Mobile, randomCode, "", "", "", user.GetUserFullName(), "ForgotPasswordSms", VerifyLookupType.Sms);
 
-			if (result.Status == 200 || result.Status == 1)
+			if (result.Status == 200 || result.Status == 1 || result.Status == 5)
 			{
 				#region Update User
 
@@ -99,6 +97,7 @@ namespace Nabeghe.Application.Services.Implementation
 				await _userRepository.SaveAsync();
 
 				#endregion
+
 				return ForgotPasswordResult.success;
 			}
 			else

@@ -167,7 +167,9 @@ function confirmDelete(url, e) {
         }
     });
 }
-function fillPageId(pageId) {
+function fillPageId(pageId)
+{
+    console.log("test")
     $("#Page").val(pageId);
     $("#filter-search").submit();
 }

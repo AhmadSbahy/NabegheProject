@@ -4,7 +4,9 @@
         Swal.fire({
             title: "عملیات موفق",
             text: "@TempData["SuccessMessage"]",
-            icon: "success"
+            icon: "success",
+            confirmButtonText:"باشه",
+            confirmButtonColor: "rgb(23, 63, 173)"
         });
     </script>
 }
@@ -14,7 +16,10 @@
         Swal.fire({
             title: "خطا",
             text: "@TempData["ErrorMessage"]",
-            icon: "error"
+            icon: "error",
+            confirmButtonText: "باشه",
+            confirmButtonColor: "rgb(23, 63, 173)"
+
         });
     </script>
 }
@@ -24,7 +29,9 @@
         Swal.fire({
             title: "هشدار",
             text: "@TempData["WarningMessage"]",
-            icon: "warning"
+            icon: "warning",
+            confirmButtonText: "باشه",
+            confirmButtonColor: "rgb(23, 63, 173)"
         });
     </script>
 }
@@ -34,7 +41,9 @@
         Swal.fire({
             title: "اطلاعات",
             text: "@TempData["InfoMessage"]",
-            icon: "info"
+            icon: "info",
+            confirmButtonText: "باشه",
+            confirmButtonColor: "rgb(23, 63, 173)"
         });
     </script>
 }

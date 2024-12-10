@@ -317,5 +317,19 @@ namespace Nabeghe.Application.Services.Implementation
         {
 	        return await _userRepository.IsUserInCourse(userId, courseId);
         }
+        public bool UserHasPermission(int userId, string permission)
+        {
+	        var userRoles = _roleRepository.GetRolesUser(userId);
+	        var roleInPermission = _roleRepository
+		        .GetRolesInPermission(permission);
+
+	        foreach (var role in userRoles)
+	        {
+		        if (roleInPermission.Any(r => r.Id == role.Id))
+			        return true;
+	        }
+
+	        return false;
+		}
 	}
 }

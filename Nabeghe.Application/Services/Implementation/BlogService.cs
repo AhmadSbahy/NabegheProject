@@ -129,5 +129,9 @@ namespace Nabeghe.Application.Services.Implementation
 		{
 			return await _blogRepository.FilterBlogAsync(model);
 		}
+		public Task<List<Blog>> GetLatestBlogsAsync(int count)
+		{
+			return _blogRepository.GetLatestBlogsAsync(count);
+		}
 	}
 }

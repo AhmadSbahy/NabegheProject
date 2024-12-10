@@ -189,5 +189,14 @@ namespace Nabeghe.Infra.Data.Repositories
 		{
 			await _context.SaveChangesAsync();
 		}
-    }
+		public async Task<List<Blog>> GetLatestBlogsAsync(int count)
+		{
+			return await _context.Blogs
+				.Include(c => c.User)
+				.Include(c => c.BlogLikes)
+				.OrderByDescending(c => c.CreateDate)
+				.Take(count)
+				.ToListAsync();
+		}
+	}
 }

@@ -3,13 +3,14 @@ using Nabeghe.Application.Extensions;
 using Nabeghe.Application.Services.Interfaces;
 using Nabeghe.Domain.Shared;
 using Nabeghe.Domain.ViewModels.Course;
+using Nabeghe.Web.Utilities;
 
 namespace Nabeghe.Web.Areas.Admin.Controllers
 {
 	public class CourseController(ICourseService _courseService, ICourseCategoryService _courseCategoryService) : AdminBaseController
 	{
 		#region Index
-
+		[CheckPermission("ManageCourse")]
 		public async Task<IActionResult> Index(AdminSideFilterCourseViewModel filter)
 		{
 			var model = await _courseService.FilterCourseAsync(filter);
@@ -22,6 +23,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		#region Create
 
 		// GET: Admin/Users/Create
+		[CheckPermission("AddCourse")]
 		public async Task<IActionResult> Create()
 		{
 			ViewData["Categories"] = await _courseCategoryService.GetAllChildCategoriesAsync();
@@ -34,7 +36,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		}
 
 		// POST: Admin/Users/Create
-		[HttpPost, ValidateAntiForgeryToken]
+		[HttpPost, CheckPermission("AddCourse"), ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(CreateCourseViewModel model)
 		{
 
@@ -63,11 +65,11 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
             return View(model);
 		}
 
-        #endregion
+		#endregion
 
-        #region Update
-       
-        public async Task<IActionResult> Edit(int id)
+		#region Update
+		[CheckPermission("EditCourse")]
+		public async Task<IActionResult> Edit(int id)
         {
             var course = await _courseService.GetForEditAsync(id);
             if (course == null)
@@ -78,7 +80,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
             return View(course);
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost, CheckPermission("EditCourse"), ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(UpdateCourseViewModel model)
         {
             #region Validations
@@ -108,11 +110,12 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
             ViewData["CourseStatus"] = await _courseCategoryService.GetAllCourseStatusAsync();
             return View(model);
         }
-        #endregion
+		#endregion
 
-        #region Delete
-        // GET: Admin/Users/Delete/5
-        public async Task<IActionResult> Delete(int id)
+		#region Delete
+		// GET: Admin/Users/Delete/5
+		[CheckPermission("DeleteCourse")]
+		public async Task<IActionResult> Delete(int id)
         {
             var result = await _courseService.DeleteAsync(id);
             switch (result)

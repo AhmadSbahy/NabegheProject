@@ -211,6 +211,10 @@ namespace Nabeghe.Application.Services.Implementation
 		{
 			return await _courseRepository.GetByIdAsync(courseId);
 		}
+		public Task<List<Course>> GetLatestCoursesAsync(int count)
+		{
+			return _courseRepository.GetLatestCoursesAsync(count);
+		}
 	}
 }
 

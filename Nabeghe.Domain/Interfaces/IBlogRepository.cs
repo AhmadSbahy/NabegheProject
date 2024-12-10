@@ -21,5 +21,6 @@ namespace Nabeghe.Domain.Interfaces
         Task<bool> IsUserLikedBlogAsync(int userId, int blogId);
         Task<AdminFilterBlogViewModel> FilterBlogAsync(AdminFilterBlogViewModel model);
         Task SaveAsync();
-    }
+        Task<List<Blog>> GetLatestBlogsAsync(int count);
+	}
 }

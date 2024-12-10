@@ -2,13 +2,14 @@
 using Nabeghe.Application.Services.Interfaces;
 using Nabeghe.Domain.Shared;
 using Nabeghe.Domain.ViewModels.Role;
+using Nabeghe.Web.Utilities;
 
 namespace Nabeghe.Web.Areas.Admin.Controllers
 {
 	public class RolesController(IRoleService roleService) : AdminBaseController
-    {
+	{
 		#region List
-		// GET: Admin/Roles
+		[CheckPermission("ManageRole")]
 		public async Task<IActionResult> Index(FilterRoleViewModel filter)
 		{
 			var model = await roleService.FilterRoleAsync(filter);
@@ -17,7 +18,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		#endregion
 
 		#region Create
-		// GET: Admin/Roles/Create
+		[CheckPermission("AddRole")]
 		public async Task<IActionResult> Create()
 		{
 			ViewData["Permissions"] = await roleService.GetAllPermissionsAsync();
@@ -25,9 +26,8 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		}
 
 		// POST: Admin/Roles/Create
-		// To protect from overposting attacks, enable the specific properties you want to bind to.
-		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
+		[CheckPermission("AddRole")]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(CreateRoleViewModel model)
 		{
@@ -53,7 +53,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		#endregion
 
 		#region Update
-		// GET: Admin/Roles/Edit/5
+		[CheckPermission("EditRole")]
 		public async Task<IActionResult> Edit(int id)
 		{
 			var role = await roleService.GetForEditAsync(id);
@@ -67,7 +67,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		}
 
 		// POST: Admin/Roles/Edit/5
-		[HttpPost, ValidateAntiForgeryToken]
+		[HttpPost, CheckPermission("EditRole"), ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(UpdateRoleViewModel model)
 		{
 			if (!ModelState.IsValid)
@@ -96,6 +96,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 
 		#region Delete
 		// GET: Admin/Roles/Delete/5
+		[CheckPermission("DeleteRole")]
 		public async Task<IActionResult> Delete(int id)
 		{
 			var result = await roleService.DeleteAsync(id);

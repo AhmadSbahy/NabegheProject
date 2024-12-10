@@ -29,6 +29,6 @@ namespace Nabeghe.Application.Services.Interfaces
         Task<List<UserCourseCommentViewModel>> GetUserCourseCommentListAsync(int userId);
         string GetUserFullName(int userId);
         Task<bool> IsUserInCourse(int userId, int courseId);
-
+        bool UserHasPermission(int currentUserId, string permissionName);
     }
 }

@@ -112,6 +112,7 @@ namespace Nabeghe.Web.Controllers
         }
 
 		#endregion
+
 		#region Login
 		[HttpGet("login")]
         public IActionResult Login()
@@ -161,9 +162,6 @@ namespace Nabeghe.Web.Controllers
 
                     #endregion
 
-                    TempData[SuccessMessage] = "خوش امدید";
-
-                   // return RedirectToAction("Index", "Home", new { area = "UserPanel" });
                     return RedirectToAction("Index", "Home");
                     break;
 

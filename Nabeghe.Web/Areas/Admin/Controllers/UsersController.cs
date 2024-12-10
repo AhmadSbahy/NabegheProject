@@ -2,29 +2,30 @@
 using Nabeghe.Application.Services.Interfaces;
 using Nabeghe.Domain.Shared;
 using Nabeghe.Domain.ViewModels.User;
+using Nabeghe.Web.Utilities;
 
 namespace Nabeghe.Web.Areas.Admin.Controllers
 {
 	public class UsersController(IRoleService _roleService, IUserService _userService) : AdminBaseController
     {
-	    // GET: Admin/Users
+		[CheckPermission("ManageUser")]
         public async Task<IActionResult> Index(FilterUserViewModel filter)
         {
 	        var model = await _userService.FilterUserAsync(filter);
 			return View(model);
 		}
 
-        #region Create
+		#region Create
 
-        // GET: Admin/Users/Create
-        public async Task<IActionResult> Create()
+		[CheckPermission("AddUser")]
+		public async Task<IActionResult> Create()
         {
 	        ViewData["Roles"] = await _roleService.GetAllAsync();
 	        return View();
         }
 
         // POST: Admin/Users/Create
-        [HttpPost,ValidateAntiForgeryToken]
+        [HttpPost,CheckPermission("AddUser"),ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AdminSideCreateUserViewModel model)
 		{
 			#region Validations
@@ -62,7 +63,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 
 		#region Update
 
-		// GET: Admin/Users/Edit/5
+		[CheckPermission("EditUser")]
 		public async Task<IActionResult> Edit(int id)
 		{
 			var user = await _userService.AdminSideGetForEditAsync(id);
@@ -75,7 +76,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		}
 
 		// POST: Admin/Users/Edit/5
-		[HttpPost, ValidateAntiForgeryToken]
+		[HttpPost,CheckPermission("EditUser"), ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(AdminSideEditUserViewModel model)
 		{
 			#region Validations
@@ -121,6 +122,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 
 		#region Delete
 		// GET: Admin/Users/Delete/5
+		[CheckPermission("DeleteUser")]
 		public async Task<IActionResult> Delete(int id)
 		{
 			var result = await _userService.DeleteAsync(id);

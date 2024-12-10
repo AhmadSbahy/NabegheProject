@@ -128,5 +128,22 @@ namespace Nabeghe.Infra.Data.Repositories
                 .Include(c => c.Replies)
                 .FirstOrDefaultAsync(c => c.Id == commentId);
         }
-    }
+        public async Task<List<CourseComment>> GetCommentsByCourseIdAsync(int courseId)
+        {
+	        return await _context.CourseComments
+		        .Where(cc => cc.CourseId == courseId && cc.Status == CourseCommentStatus.Confirmed)
+		        .ToListAsync();
+        }
+
+        public async Task<List<CourseComment>> GetLatestCommentsAsync(int count)
+        {
+	        return await _context.CourseComments
+		        .Include(c => c.User)
+		        .Include(c => c.Course)
+		        .Where(c => c.Status == CourseCommentStatus.Confirmed)
+		        .OrderByDescending(c => c.CreateDate)
+		        .Take(count)
+		        .ToListAsync();
+        }
+	}
 }

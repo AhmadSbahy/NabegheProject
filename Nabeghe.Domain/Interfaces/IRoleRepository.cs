@@ -23,5 +23,8 @@ namespace Nabeghe.Domain.Interfaces
 		Task InsertRolePermissionAsync(RolePermission rolePermission);
 		void DeleteRolePermission(int roleId);
 		Task DisposeAsync();
+		List<Role> GetRolesInPermission(string permission);
+		List<Role> GetRolesUser(int userId);
+		int GetPermissionIdByName(string permissionName);
 	}
 }

@@ -98,5 +98,11 @@ namespace Nabeghe.Infra.Data.Repositories
 					Id = cs.Id
                 }).ToListAsync();
         }
-    }
+        public async Task<List<CourseCategory>> GetAllCategoriesAsync()
+        {
+	        return await _context.CourseCategories
+		        .Where(c => !c.IsDeleted)
+		        .ToListAsync();
+        }
+	}
 }

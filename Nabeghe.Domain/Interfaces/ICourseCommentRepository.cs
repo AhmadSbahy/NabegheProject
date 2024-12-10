@@ -21,5 +21,7 @@ namespace Nabeghe.Domain.Interfaces
         Task<CourseComment?> GetCommentByIdAsync(int commentId);
         void UpdateComment(CourseComment model);
         Task SaveAsync();
+        Task<List<CourseComment>> GetCommentsByCourseIdAsync(int courseId);
+        Task<List<CourseComment>> GetLatestCommentsAsync(int count);
 	}
 }

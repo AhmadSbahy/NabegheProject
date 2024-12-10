@@ -1,6 +1,7 @@
 ﻿using Nabeghe.Application.Services.Interfaces;
 using Nabeghe.Domain.Enums.Course;
 using Nabeghe.Domain.Interfaces;
+using Nabeghe.Domain.Models.Course;
 using Nabeghe.Domain.ViewModels.CourseComment;
 
 namespace Nabeghe.Application.Services.Implementation
@@ -48,6 +49,15 @@ namespace Nabeghe.Application.Services.Implementation
 				message = "کامنت مدنظر شما با موفقیت رد شد.",
 				status = 100
 			};
+		}
+		public Task<List<CourseComment>> GetCommentsByCourseIdAsync(int courseId)
+		{
+			return courseCommentRepository.GetCommentsByCourseIdAsync(courseId);
+		}
+
+		public Task<List<CourseComment>> GetLatestCommentsAsync(int count)
+		{
+			return courseCommentRepository.GetLatestCommentsAsync(count);
 		}
 	}
 }

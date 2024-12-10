@@ -90,9 +90,28 @@ namespace Nabeghe.Infra.Data.Repositories
             }
         }
 
+		public int GetPermissionIdByName(string permissionName)
+		{
+			return _context.Permissions.First(p => p.PermissionName == permissionName).PermissionId;
+		}
+
 		public async Task DisposeAsync()
 		{
 			await _context.DisposeAsync();
+		}
+		public List<Role> GetRolesInPermission(string permission)
+		{
+			int permissionId = GetPermissionIdByName(permission);
+			return _context.RolePermissions.Include(p => p.Role)
+				.Where(r => r.PermissionId == permissionId)
+				.Select(r => r.Role).ToList();
+		}
+
+		public List<Role> GetRolesUser(int userId)
+		{
+			return _context.UserRoles.Include(r => r.Role)
+				.Where(r => r.UserId == userId)
+				.Select(r => r.Role).ToList();
 		}
 	}
 }

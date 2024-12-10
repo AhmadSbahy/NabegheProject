@@ -2,11 +2,15 @@
 using Nabeghe.Application.Services.Interfaces;
 using Nabeghe.Domain.Shared;
 using Nabeghe.Domain.ViewModels.CourseEpisode;
+using Nabeghe.Web.Utilities;
 
 namespace Nabeghe.Web.Areas.Admin.Controllers
 {
 	public class CourseEpisodeController(ICourseEpisodeService _courseEpisodeService, ICourseService _courseService) : AdminBaseController
 	{
+
+		#region List
+		[CheckPermission("ManageEpisode")]
 		public async Task<IActionResult> Index(FilterCourseEpisodeViewModel filter)
 		{
 			if (filter.CourseId == 0 || !await _courseService.IsCourseExist(filter.CourseId))
@@ -16,9 +20,12 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 			return View(model);
 		}
 
+		#endregion
+
 		#region Create
 
 		// GET: Admin/CourseEpisode/Create
+		[CheckPermission("AddEpisode")]
 		public async Task<IActionResult> Create(int id)
 		{
 			if (id == 0 || !await _courseService.IsCourseExist(id))
@@ -32,7 +39,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		}
 
 		// POST: Admin/CourseEpisode/Create
-		[HttpPost, ValidateAntiForgeryToken]
+		[HttpPost,CheckPermission("AddEpisode"), ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(CreateCourseEpisodeViewModel model)
 		{
 
@@ -62,6 +69,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		#region Update
 
 		// GET: Admin/CourseEpisode/Edit
+		[CheckPermission("EditEpisode")]
 		public async Task<IActionResult> Edit(int id)
 		{
 
@@ -73,10 +81,9 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		}
 
 		// POST: Admin/CourseEpisode/Edit
-		[HttpPost, ValidateAntiForgeryToken]
+		[HttpPost, CheckPermission("EditEpisode"), ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(UpdateCourseEpisodeViewModel model)
 		{
-
 			#region Validations
 
 			if (!ModelState.IsValid)
@@ -106,6 +113,7 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 
 		#region Delete
 		// GET: Admin/CourseEpisode/Delete/5
+		[CheckPermission("DeleteEpisode")]
 		public async Task<IActionResult> Delete(int id)
 		{
 			var result = await _courseEpisodeService.DeleteAsync(id);
