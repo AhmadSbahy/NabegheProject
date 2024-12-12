@@ -3149,3 +3149,14 @@ body, html {
     color: #ffffff; /* تغییر رنگ متن دکمه غیرفعال */
     pointer-events: none;
 }
+.description menu,
+.description ol,
+.description ul {
+    list-style: initial;
+    margin: initial;
+    padding: initial;
+}
+.description a {
+    color: blue !important;
+    text-decoration: none !important; /* این خط برای نمایش خط زیر لینک است */
+}

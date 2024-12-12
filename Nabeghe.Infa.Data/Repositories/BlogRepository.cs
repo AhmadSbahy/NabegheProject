@@ -67,8 +67,7 @@ namespace Nabeghe.Infra.Data.Repositories
             #region Filters
             if (!string.IsNullOrWhiteSpace(model.SearchParam))
             {
-                query = query.Where(b => b.BlogTitle.Contains(model.SearchParam)
-                                      || b.BlogDescription.Contains(model.SearchParam));
+                query = query.Where(b => b.BlogTitle.Contains(model.SearchParam));
             }
 
             if (model.AuthorId.HasValue)

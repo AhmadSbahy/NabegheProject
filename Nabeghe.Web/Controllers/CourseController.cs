@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Nabeghe.Application.Extensions;
 using Nabeghe.Application.Services.Interfaces;
+using Nabeghe.Domain.Enums.Course;
 using Nabeghe.Domain.Interfaces;
 using Nabeghe.Domain.Models.Course;
 using Nabeghe.Domain.ViewModels.Course;
@@ -103,7 +104,8 @@ namespace Nabeghe.Web.Controllers
 				CourseId = model.courseId,
 				UserId = User.GetUserId(),
 				CommentText = model.commentText,
-				CreateDate = DateTime.Now
+				CreateDate = DateTime.Now,
+				Status = CourseCommentStatus.Pending
 			};
 
 			await commentRepository.AddCommentAsync(comment);

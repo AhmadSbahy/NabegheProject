@@ -65,7 +65,7 @@ namespace Eshop.Web.Controllers
 			{
 				MerchantId = "test",
 				Amount = price,
-				CallbackUrl = $"https://localhost:44372/payment/NovinoCallback?orderId={order.Id}",
+				CallbackUrl = $"https://mynabeghe.ir/payment/NovinoCallback?orderId={order.Id}",
 				Description = "خرید دوره",
 				InvoiceId = invoiceId,
 				CallbackMethod = "POST",
@@ -88,7 +88,7 @@ namespace Eshop.Web.Controllers
 
 			if (order != null)
 			{
-				order.Authority = result.Data.authority;
+				order.Authority = result.Data.Authority;
                 order.TotalOrderPrice = price;
                 context.Orders.Update(order);
 				await context.SaveChangesAsync();
@@ -96,7 +96,7 @@ namespace Eshop.Web.Controllers
 
 			#endregion
 
-			return Redirect($"https://ipg.novinopay.com/StartPay/{result.Data.authority}");
+			return Redirect(result.Data.PaymentUrl);
 		}
 
 		[HttpPost]
@@ -110,6 +110,9 @@ namespace Eshop.Web.Controllers
 				if (orderId > 0)
 				{
 					var order = await context.Orders
+						.Include(o=>o.OrderDetails)
+						.ThenInclude(o=>o.Course)
+						.ThenInclude(o=>o.CourseDiscount)
 						 .FirstOrDefaultAsync(w => w.Id == orderId);
 
 					if (order != null)
@@ -162,26 +165,18 @@ namespace Eshop.Web.Controllers
 
 					#endregion
 
-
-					return View("SuccessPayment", new SuccessPaymentViewModel()
-					{
-						Message = "پرداخت شما با موفقیت انجام شد.",
-						RefId = result.Data.RefId
-					});
+					TempData[SuccessMessage] = "پرداخت شما با موفقیت انجام شد..";
+					return RedirectToAction("Index", "Home", new { area = "" });
 				}
 			}
 			else
 			{
-				return View("ErrorPayment", new ErrorPaymentViewModel()
-				{
-					Message = "خطایی رخ داده است. لطفا از طریق تیکت به پشتیبانی اعلام کنید."
-				});
+				TempData[ErrorMessage] = "عملیات پرداخت با خطا مواجه شد. لطفا به پشتیبانی اطلاع دهید.";
+				return RedirectToAction("Index","Home",new{area=""});
 			}
 
-			return View("ErrorPayment", new ErrorPaymentViewModel()
-			{
-				Message = "خطایی رخ داده است. لطفا از طریق تیکت به پشتیبانی اعلام کنید."
-			});
+			TempData[ErrorMessage] = "عملیات پرداخت با خطا مواجه شد. لطفا به پشتیبانی اطلاع دهید.";
+			return RedirectToAction("Index", "Home", new { area = "" });
 		}
 	}
 }

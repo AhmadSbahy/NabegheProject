@@ -143,64 +143,64 @@
 			</div>
 			@await Component.InvokeAsync("LatestCourses")
 		</div>
-		@await Component.InvokeAsync("LatestComments")
+		<cache  expires-after="@TimeSpan.FromMinutes(5)">@await Component.InvokeAsync("LatestComments")</cache>
 		@await Component.InvokeAsync("LatestBlogs")
 	</div>
 </div>
 @section Scripts
 {
-		<script>
-			async function AddBlogLike(blogId) {
-				await fetch('/Blog/AddBlogLike', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({ UserId: @User.GetUserId() , BlogId: blogId })
+	<script>
+		async function AddBlogLike(blogId) {
+			await fetch('/Blog/AddBlogLike', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ UserId: @User.GetUserId() , BlogId: blogId })
+			})
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						window.location.reload();
+					} else if (data.status == 400) {
+						Swal.fire({
+							position: 'top-start',
+							icon: 'error',
+							title: 'برای افزودن مقاله به علاقه مندی باید وارد سایت شوید',
+							showConfirmButton: false,
+							timer: 2300
+						});
+					} else {
+						console.error("Failed to add like.");
+					}
 				})
-					.then(response => response.json())
-					.then(data => {
-						if (data.success) {
-							window.location.reload();
-						} else if (data.status == 400) {
-							Swal.fire({
-								position: 'top-start',
-								icon: 'error',
-								title: 'برای افزودن مقاله به علاقه مندی باید وارد سایت شوید',
-								showConfirmButton: false,
-								timer: 2300
-							});
-						} else {
-							console.error("Failed to add like.");
-						}
-					})
-					.catch(error => console.error('Error:', error));
-			}
-							async function AddCourseLike(courseId) {
-										await fetch('/Course/AddCourseLike', {
-											method: 'POST',
-											headers: {
-												'Content-Type': 'application/json'
-											},
-											body: JSON.stringify({ UserId: @User.GetUserId() , CourseId: courseId })
-									})
-										.then(response => response.json())
-										.then(data => {
-											if (data.success) {
-												window.location.reload();
-											} else if (data.status == 400) {
-												Swal.fire({
-													position: 'top-start',
-													icon: 'error',
-													title: 'برای افزودن دوره به علاقه مندی باید وارد سایت شوید',
-													showConfirmButton: false,
-													timer: 2000
-												});
-											} else {
-												console.error("Failed to add like.");
-											}
-										})
-										.catch(error => console.error('Error:', error));
-								}
-		</script>
+				.catch(error => console.error('Error:', error));
+		}
+		async function AddCourseLike(courseId) {
+			await fetch('/Course/AddCourseLike', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ UserId: @User.GetUserId() , CourseId: courseId })
+			})
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						window.location.reload();
+					} else if (data.status == 400) {
+						Swal.fire({
+							position: 'top-start',
+							icon: 'error',
+							title: 'برای افزودن دوره به علاقه مندی باید وارد سایت شوید',
+							showConfirmButton: false,
+							timer: 2000
+						});
+					} else {
+						console.error("Failed to add like.");
+					}
+				})
+				.catch(error => console.error('Error:', error));
+		}
+	</script>
 }

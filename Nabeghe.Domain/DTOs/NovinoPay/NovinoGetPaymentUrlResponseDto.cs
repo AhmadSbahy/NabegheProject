@@ -22,13 +22,13 @@ namespace Nabeghe.Domain.DTOs.NovinoPay
         [JsonProperty("wage")]
         public int Wage { get; set; }
 
-        [JsonProperty("WagePayer")]
-        public string wage_payer { get; set; }
+        [JsonProperty("wage_payer")]
+        public string WagePayer { get; set; }
 
-        [JsonProperty("Authority")]
-        public string authority { get; set; }
+        [JsonProperty("authority")]
+        public string Authority { get; set; }
 
-        [JsonProperty("PaymentUrl")]
-        public string payment_url { get; set; }
+        [JsonProperty("payment_url")]
+        public string PaymentUrl { get; set; }
     }
 }

@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Nabeghe.Application.Statics;
@@ -55,6 +57,28 @@ builder.Configuration.GetSection("KavenegarSms").Get<KavenegarStatics>();
 
 #endregion
 
+builder.Services.Configure<FormOptions>(o =>
+{
+	o.ValueLengthLimit = int.MaxValue;
+	o.MultipartBodyLengthLimit = 4L * 1024L * 1024L * 1024L;
+	o.MultipartBoundaryLengthLimit = int.MaxValue;
+	o.MultipartHeadersCountLimit = int.MaxValue;
+	o.MultipartHeadersLengthLimit = int.MaxValue;
+	o.BufferBodyLengthLimit = 4L * 1024L * 1024L * 1024L;
+	o.BufferBody = true;
+	o.ValueCountLimit = int.MaxValue;
+});
+
+builder.Services.Configure<IISServerOptions>(options =>
+{
+	options.MaxRequestBodySize = Int64.MaxValue;
+});
+
+builder.Services.Configure<KestrelServerOptions>(options =>
+{
+	options.Limits.MaxRequestBodySize = Int64.MaxValue;
+});
+
 var app = builder.Build();
 app.Use(async (context, next) =>
 {
@@ -68,7 +92,6 @@ app.Use(async (context, next) =>
 if (!app.Environment.IsDevelopment())
 {
 	app.UseExceptionHandler("/Home/Error");
-	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 	app.UseHsts();
 }
 

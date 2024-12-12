@@ -1,6 +1,7 @@
 ﻿using Nabeghe.Application.Security;
 using Nabeghe.Application.Services.Interfaces;
 using Nabeghe.Application.Statics;
+using Nabeghe.Domain.Enums.User;
 using Nabeghe.Domain.Interfaces;
 using Nabeghe.Domain.Models.ContactUs;
 using Nabeghe.Domain.Models.User;
@@ -130,8 +131,9 @@ namespace Nabeghe.Application.Services.Implementation
                 Password = PasswordHasher.EncodePasswordMd5(model.Password),
                 Email = model.Email,
                 IsDeleted = false,
-                Status = model.Status,
+                Status = UserStatus.Active,
                 Avatar = null,
+                
             };
 
 

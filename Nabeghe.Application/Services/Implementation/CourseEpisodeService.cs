@@ -39,7 +39,7 @@ namespace Nabeghe.Application.Services.Implementation
 			{
 				string videoName = Guid.NewGuid() + Path.GetExtension(model.EpisodeFile.FileName);
 				string path = PathTools.CourseFilePath;
-				await model.EpisodeFile.AddVideoToServer(videoName, path);
+				await model.EpisodeFile.AddVideoToServer(videoName, path,null,false);
 				courseEpisode.EpisodeFileName = videoName;
 			}
 

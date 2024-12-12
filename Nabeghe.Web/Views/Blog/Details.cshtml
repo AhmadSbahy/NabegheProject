@@ -7,7 +7,7 @@
 			<div class="relative">
 				<!-- article:thumbnail -->
 				<div class="relative z-10">
-					<img src="@PathTools.BlogImagePath@Model.BlogImage" class="max-w-full rounded-3xl" alt="...">
+					<img style="width:1000px;height:450px" src="@PathTools.BlogImagePath@Model.BlogImage" class="max-w-full rounded-3xl" alt="...">
 				</div>
 
 				<div class="-mt-12 pt-12">
@@ -17,9 +17,10 @@
 					</div>
 					<div class="space-y-10 py-5">
 						<!-- article:description -->
-						<div class="description">
+						<div class="description custom-reset">
 							@Html.Raw(Model.BlogDescription)
 						</div>
+
 						<!-- end article:description -->
 						<!-- article:comments:container -->
 						<div class="space-y-5">

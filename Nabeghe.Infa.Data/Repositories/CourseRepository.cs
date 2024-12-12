@@ -85,6 +85,7 @@ namespace Nabeghe.Infra.Data.Repositories
 				.Include(c => c.CourseStatus)
 				.Include(c => c.CourseCategory)
 				.Include(c => c.CourseEpisodes)
+				.OrderByDescending(c=>c.CreateDate)
 				.Where(c => !c.IsDeleted).AsQueryable();
 
 			// فیلتر کردن و مرتب‌سازی
@@ -108,7 +109,7 @@ namespace Nabeghe.Infra.Data.Repositories
 
 			if (model.CategoryId.HasValue)
 			{
-				query = query.Where(c => c.CategoryId == model.CategoryId.Value);
+				query = query.Where(c => c.CategoryId == model.CategoryId.Value || c.CourseCategory.ParentId == model.CategoryId.Value);
 			}
 
 			switch (model.Status)
