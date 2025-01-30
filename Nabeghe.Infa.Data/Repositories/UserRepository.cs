@@ -135,6 +135,7 @@ namespace Nabeghe.Infra.Data.Repositories
         {
 			var courseComment = await _context.CourseComments
 				.Where(c => c.UserId == userId)
+				.OrderByDescending(c=>c.CreateDate)
 				.Select(c => new UserCourseCommentViewModel
 				{
 					CourseId = c.Course.Id,

@@ -7,9 +7,6 @@ namespace Nabeghe.Domain.Models.Course
 	{
 		#region Properties
 
-		[Display(Name = "عنوان وضعیت")]
-		[Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-		[MaxLength(150, ErrorMessage = "تعداد کاراکتر وارد شده بیش از حد مجاز است.")]
 		public string StatusTitle { get; set; }
 
 		#endregion

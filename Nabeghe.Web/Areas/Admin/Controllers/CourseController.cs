@@ -17,7 +17,6 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 			return View(model);
 		}
 
-
 		#endregion
 
 		#region Create

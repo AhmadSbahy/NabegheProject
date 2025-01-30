@@ -1,0 +1,15 @@
+﻿@model Nabeghe.Web.Models.CourseStatus.CourseStatusViewModel
+@{
+	ViewData["Title"] = "ویرایش وضعیت دوره";
+}
+<form method="post">
+	<input type="hidden" asp-for="Id"/>
+	<input type="hidden" asp-for="CreateDate"/>
+	<div class="col-12">
+		<label class="form-label">عنوان وضعیت</label>
+		<input class="form-control mb-3" asp-for="StatusTitle" placeholder="عنوان وضعیت" aria-label="default input example">
+		<span class="text text-danger" asp-validation-for="StatusTitle"></span>
+	</div>
+
+	<button type="submit" class="btn btn-outline-warning px-5 mb-3">ویرایش</button>
+</form>

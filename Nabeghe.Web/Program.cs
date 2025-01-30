@@ -2,23 +2,36 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Nabeghe.Application.Statics;
 using Nabeghe.Infra.Data.Context;
 using Nabeghe.Infra.IoC.Container;
+using Nabeghe.Web;
+using Nabeghe.Web.Services.Base;
+using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
 
 #region IOC
 
 builder.Services.RegisterServices();
-
+builder.Services.ConfigureWebRegisterServices();
 builder.Services.AddHttpClient();
+
+var apiAddress = builder.Configuration["ApiAddress"];
+
+builder.Services.AddHttpClient<IClient, Client>(client =>
+
+{
+	client.BaseAddress = new Uri(apiAddress);
+});
 
 #endregion
 
@@ -57,6 +70,8 @@ builder.Configuration.GetSection("KavenegarSms").Get<KavenegarStatics>();
 
 #endregion
 
+#region AppConfigs
+
 builder.Services.Configure<FormOptions>(o =>
 {
 	o.ValueLengthLimit = int.MaxValue;
@@ -78,6 +93,8 @@ builder.Services.Configure<KestrelServerOptions>(options =>
 {
 	options.Limits.MaxRequestBodySize = Int64.MaxValue;
 });
+
+#endregion
 
 var app = builder.Build();
 app.Use(async (context, next) =>

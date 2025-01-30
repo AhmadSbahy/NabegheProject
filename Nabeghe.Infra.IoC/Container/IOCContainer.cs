@@ -38,6 +38,7 @@ namespace Nabeghe.Infra.IoC.Container
 			services.AddScoped<IRoleRepository, RoleRepository>();
 			services.AddScoped<ICourseCategoryRepository, CourseCategoryRepository>();
 			services.AddScoped<ICourseRepository, CourseRepository>();
+			services.AddScoped<ICourseStatusRepository, CourseStatusRepository>();
 			services.AddScoped<ICourseCommentRepository, CourseCommentRepository>();
 			services.AddScoped<ICourseEpisodeRepository, CourseEpisodeRepository>();
 			services.AddScoped<IUserRoleRepository, UserRoleRepository>();

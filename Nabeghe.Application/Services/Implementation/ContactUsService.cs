@@ -64,7 +64,7 @@ namespace Nabeghe.Application.Services.Implementation
 
 ";
 			#region Send Activation Email
-			 await emailSender.SendEmail(contactUs.Email, "پاسخ به تماس با ما", body);
+			  emailSender.SendEmail(contactUs.Email, "پاسخ به تماس با ما", body);
 			 #endregion
 			
 

@@ -8,6 +8,6 @@ namespace Nabeghe.Application.Senders.Interfaces
 {
     public interface IEmailSender
     {
-	    Task<bool> SendEmail(string email, string subject, string body, bool isHtml = true);
+	    bool SendEmail(string email, string subject, string body, bool isHtml = true);
 	}
 }

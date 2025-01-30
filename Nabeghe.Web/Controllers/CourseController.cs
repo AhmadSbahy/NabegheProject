@@ -8,7 +8,7 @@ using Nabeghe.Domain.Models.Course;
 using Nabeghe.Domain.ViewModels.Course;
 using Nabeghe.Domain.ViewModels.CourseComment;
 using Nabeghe.Infra.Data.Context;
-
+using HtmlAgilityPack;
 namespace Nabeghe.Web.Controllers
 {
 	public class CourseController(ICourseCommentRepository commentRepository, ICourseService _courseService
