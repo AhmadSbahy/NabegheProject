@@ -1,6 +1,9 @@
 ﻿@using Nabeghe.Application.Statics
 @using Nabeghe.Application.Extensions
 @model Nabeghe.Domain.Models.Blog.Blog
+@{
+	ViewData["Title"] = Model.BlogTitle;
+}
 <div class="max-w-7xl space-y-14 px-4 mx-auto">
 	<div class="flex md:flex-nowrap flex-wrap items-start gap-5">
 		<div class="md:w-8/12 w-full">

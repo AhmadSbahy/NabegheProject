@@ -2,6 +2,7 @@
 using Nabeghe.Application.Services.Interfaces;
 using Nabeghe.Domain.Shared;
 using Nabeghe.Domain.ViewModels.Role;
+using Nabeghe.Web.Filters;
 using Nabeghe.Web.Utilities;
 
 namespace Nabeghe.Web.Areas.Admin.Controllers
@@ -26,16 +27,9 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		}
 
 		// POST: Admin/Roles/Create
-		[HttpPost]
-		[CheckPermission("AddRole")]
-		[ValidateAntiForgeryToken]
+		[HttpPost, ValidateModel, CheckPermission("AddRole"), ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(CreateRoleViewModel model)
 		{
-			if (!ModelState.IsValid)
-			{
-				return View(model);
-			}
-
 			var result = await roleService.CreateAsync(model);
 			switch (result)
 			{
@@ -67,13 +61,9 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		}
 
 		// POST: Admin/Roles/Edit/5
-		[HttpPost, CheckPermission("EditRole"), ValidateAntiForgeryToken]
+		[HttpPost, ValidateModel, CheckPermission("EditRole"), ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(UpdateRoleViewModel model)
 		{
-			if (!ModelState.IsValid)
-			{
-				return View(model);
-			}
 			var result = await roleService.UpdateAsync(model);
 			switch (result)
 			{

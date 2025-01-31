@@ -41,7 +41,7 @@ namespace Nabeghe.Application.Features.CourseStatus.Handlers.Commands
 			{
 				response.ErroresList = validate.Errors.Select(e => e.ErrorMessage).ToList();
 				response.IsSuccess = false;
-				response.Message = "ایجاد وضعیت دوره با شکست مواجه شد";
+				response.Message = validate.Errors.First().ToString();
 			}
 			return response;
 		}
