@@ -27,12 +27,12 @@ namespace Nabeghe.Web.Services.Base
 	{
 		/// <returns>Success</returns>
 		/// <exception cref="ApiException">A server side error occurred.</exception>
-		System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CourseStatusDto>> CourseStatusAllAsync();
+		System.Threading.Tasks.Task<CourseStatusFilterDto> CourseStatusPUTAsync(CourseStatusFilterDto body);
 
 		/// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
 		/// <returns>Success</returns>
 		/// <exception cref="ApiException">A server side error occurred.</exception>
-		System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CourseStatusDto>> CourseStatusAllAsync(System.Threading.CancellationToken cancellationToken);
+		System.Threading.Tasks.Task<CourseStatusFilterDto> CourseStatusPUTAsync(CourseStatusFilterDto body, System.Threading.CancellationToken cancellationToken);
 
 		/// <returns>Success</returns>
 		/// <exception cref="ApiException">A server side error occurred.</exception>
@@ -54,12 +54,12 @@ namespace Nabeghe.Web.Services.Base
 
 		/// <returns>Success</returns>
 		/// <exception cref="ApiException">A server side error occurred.</exception>
-		System.Threading.Tasks.Task<BaseCommandResponse> CourseStatusPUTAsync(int id, UpdateCourseStatusDto body);
+		System.Threading.Tasks.Task<BaseCommandResponse> CourseStatusPUT2Async(int id, UpdateCourseStatusDto body);
 
 		/// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
 		/// <returns>Success</returns>
 		/// <exception cref="ApiException">A server side error occurred.</exception>
-		System.Threading.Tasks.Task<BaseCommandResponse> CourseStatusPUTAsync(int id, UpdateCourseStatusDto body, System.Threading.CancellationToken cancellationToken);
+		System.Threading.Tasks.Task<BaseCommandResponse> CourseStatusPUT2Async(int id, UpdateCourseStatusDto body, System.Threading.CancellationToken cancellationToken);
 
 		/// <returns>Success</returns>
 		/// <exception cref="ApiException">A server side error occurred.</exception>
@@ -131,15 +131,15 @@ namespace Nabeghe.Web.Services.Base
 
 		/// <returns>Success</returns>
 		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CourseStatusDto>> CourseStatusAllAsync()
+		public virtual System.Threading.Tasks.Task<CourseStatusFilterDto> CourseStatusPUTAsync(CourseStatusFilterDto body)
 		{
-			return CourseStatusAllAsync(System.Threading.CancellationToken.None);
+			return CourseStatusPUTAsync(body, System.Threading.CancellationToken.None);
 		}
 
 		/// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
 		/// <returns>Success</returns>
 		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CourseStatusDto>> CourseStatusAllAsync(System.Threading.CancellationToken cancellationToken)
+		public virtual async System.Threading.Tasks.Task<CourseStatusFilterDto> CourseStatusPUTAsync(CourseStatusFilterDto body, System.Threading.CancellationToken cancellationToken)
 		{
 			var client_ = _httpClient;
 			var disposeClient_ = false;
@@ -147,7 +147,11 @@ namespace Nabeghe.Web.Services.Base
 			{
 				using (var request_ = new System.Net.Http.HttpRequestMessage())
 				{
-					request_.Method = new System.Net.Http.HttpMethod("GET");
+					var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(body, JsonSerializerSettings);
+					var content_ = new System.Net.Http.StringContent(json_);
+					content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+					request_.Content = content_;
+					request_.Method = new System.Net.Http.HttpMethod("PUT");
 					request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
 					var urlBuilder_ = new System.Text.StringBuilder();
@@ -180,7 +184,7 @@ namespace Nabeghe.Web.Services.Base
 						var status_ = (int)response_.StatusCode;
 						if (status_ == 200)
 						{
-							var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<CourseStatusDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+							var objectResponse_ = await ReadObjectResponseAsync<CourseStatusFilterDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
 							if (objectResponse_.Object == null)
 							{
 								throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -373,15 +377,15 @@ namespace Nabeghe.Web.Services.Base
 
 		/// <returns>Success</returns>
 		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public virtual System.Threading.Tasks.Task<BaseCommandResponse> CourseStatusPUTAsync(int id, UpdateCourseStatusDto body)
+		public virtual System.Threading.Tasks.Task<BaseCommandResponse> CourseStatusPUT2Async(int id, UpdateCourseStatusDto body)
 		{
-			return CourseStatusPUTAsync(id, body, System.Threading.CancellationToken.None);
+			return CourseStatusPUT2Async(id, body, System.Threading.CancellationToken.None);
 		}
 
 		/// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
 		/// <returns>Success</returns>
 		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public virtual async System.Threading.Tasks.Task<BaseCommandResponse> CourseStatusPUTAsync(int id, UpdateCourseStatusDto body, System.Threading.CancellationToken cancellationToken)
+		public virtual async System.Threading.Tasks.Task<BaseCommandResponse> CourseStatusPUT2Async(int id, UpdateCourseStatusDto body, System.Threading.CancellationToken cancellationToken)
 		{
 			if (id == null)
 				throw new System.ArgumentNullException("id");
@@ -755,6 +759,44 @@ namespace Nabeghe.Web.Services.Base
 	}
 
 	[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+	public partial class CourseStatusFilterDto
+	{
+		[Newtonsoft.Json.JsonProperty("page", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+		public int Page { get; set; }
+
+		[Newtonsoft.Json.JsonProperty("pageCount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+		public int PageCount { get; set; }
+
+		[Newtonsoft.Json.JsonProperty("allEntitiesCount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+		public int AllEntitiesCount { get; set; }
+
+		[Newtonsoft.Json.JsonProperty("startPage", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+		public int StartPage { get; set; }
+
+		[Newtonsoft.Json.JsonProperty("endPage", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+		public int EndPage { get; set; }
+
+		[Newtonsoft.Json.JsonProperty("takeEntity", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+		public int TakeEntity { get; set; }
+
+		[Newtonsoft.Json.JsonProperty("skipEntity", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+		public int SkipEntity { get; set; }
+
+		[Newtonsoft.Json.JsonProperty("howManyShowPageAfterAndBefore", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+		public int HowManyShowPageAfterAndBefore { get; set; }
+
+		[Newtonsoft.Json.JsonProperty("entities", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+		public System.Collections.Generic.ICollection<CourseStatusDto> Entities { get; set; }
+
+		[Newtonsoft.Json.JsonProperty("param", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+		public string? Param { get; set; }
+
+		[Newtonsoft.Json.JsonProperty("filterCourseStatusOrder", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+		public FilterCourseStatusOrder? FilterCourseStatusOrder { get; set; }
+
+	}
+
+	[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
 	public partial class CreateCourseStatusDto
 	{
 		[Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -812,6 +854,16 @@ namespace Nabeghe.Web.Services.Base
 	}
 
 	[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+	public enum FilterCourseStatusOrder
+	{
+
+		_0 = 0,
+
+		_1 = 1,
+
+	}
+
+	[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
 	public partial class UpdateCourseStatusDto
 	{
 		[Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -841,8 +893,6 @@ namespace Nabeghe.Web.Services.Base
 		public string Summary { get; set; }
 
 	}
-
-
 
 	[System.CodeDom.Compiler.GeneratedCode("NSwag", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
 	public partial class ApiException : System.Exception

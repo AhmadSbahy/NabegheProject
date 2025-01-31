@@ -3,6 +3,7 @@ using Nabeghe.Domain.Shared;
 using Nabeghe.Web.Contracts;
 using Nabeghe.Web.Models.CourseStatus;
 using Nabeghe.Web.Services.Base;
+using FilterCourseStatusOrder = Nabeghe.Web.Services.Base.FilterCourseStatusOrder;
 
 namespace Nabeghe.Web.Services
 {
@@ -19,10 +20,11 @@ namespace Nabeghe.Web.Services
 			_localStorage = localStorage;
 		}
 
-		public async Task<List<CourseStatusViewModel>> GetCourseStatusListAsync()
+		public async Task<FilterCourseStatusViewModel> GetCourseStatusListAsync(FilterCourseStatusViewModel model)
 		{
-			var courseStatusList = await _httpClient.CourseStatusAllAsync();
-			return _mapper.Map<List<CourseStatusViewModel>>(courseStatusList);
+			var courseStatusFilterDto = _mapper.Map<CourseStatusFilterDto>(model);
+			var courseStatusList = await _httpClient.CourseStatusPUTAsync(courseStatusFilterDto);
+			return _mapper.Map<FilterCourseStatusViewModel>(courseStatusList);
 		}
 
 		public async Task<CourseStatusViewModel> GetCourseStatusDetailAsync(int id)
@@ -69,7 +71,7 @@ namespace Nabeghe.Web.Services
 				UpdateCourseStatusDto courseStatusDto =
 					_mapper.Map<UpdateCourseStatusDto>(model);
 				//Todo Auth
-				var apiResponse = await _httpClient.CourseStatusPUTAsync(model.Id,courseStatusDto);
+				var apiResponse = await _httpClient.CourseStatusPUT2Async(model.Id,courseStatusDto);
 
 				if (apiResponse.IsSuccess)
 				{

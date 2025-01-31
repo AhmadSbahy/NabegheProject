@@ -5,7 +5,7 @@ namespace Nabeghe.Web.Contracts
 {
 	public interface ICourseStatusService
 	{
-		Task<List<CourseStatusViewModel>> GetCourseStatusListAsync();
+		Task<FilterCourseStatusViewModel> GetCourseStatusListAsync(FilterCourseStatusViewModel model);
 		Task<CourseStatusViewModel> GetCourseStatusDetailAsync(int id);
 		Task<Response<int>> CreateCourseStatusAsync(CreateCourseStatusViewModel model);
 		Task<Response<int>> UpdateCourseStatusAsync(CourseStatusViewModel model);

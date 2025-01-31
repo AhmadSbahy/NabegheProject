@@ -1,17 +1,16 @@
 ﻿using Nabeghe.Domain.ViewModels.Common;
 using System.ComponentModel.DataAnnotations;
 
-namespace Nabeghe.Web.Models.CourseStatus
+namespace Nabeghe.Domain.ViewModels.CourseStatus
 {
-	public class FilterCourseStatusViewModel : BasePaging<CourseStatusViewModel>
+	public class CourseStatusFilterViewModel : BasePaging<CourseStatusViewModel>
 	{
 		[Display(Name = "جستجو")]
-		public string? Param { get; set; }
+		public string Param { get; set; }
 
 		[Display(Name = "وضعیت")]
-		public FilterCourseStatusOrder? FilterCourseStatusOrder { get; set; }
+		public FilterCourseStatusOrder FilterCourseStatusOrder { get; set; }
 	}
-
 	public enum FilterCourseStatusOrder
 	{
 		[Display(Name = "جدید ترین")]

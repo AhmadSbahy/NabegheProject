@@ -1,11 +1,7 @@
-﻿using Nabeghe.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Nabeghe.Domain.Interfaces;
 using Nabeghe.Domain.Models.Course;
+using Nabeghe.Domain.ViewModels.CourseStatus;
 using Nabeghe.Infra.Data.Context;
 
 namespace Nabeghe.Infra.Data.Repositories
@@ -27,10 +23,38 @@ namespace Nabeghe.Infra.Data.Repositories
 			return courseStatuses ?? new CourseStatus();
 		}
 
-		public async Task<IReadOnlyList<CourseStatus>> GetAllAsync()
+		public async Task<CourseStatusFilterViewModel> GetAllAsync(CourseStatusFilterViewModel model)
 		{
-			var courseStatuses = await _context.CourseStatus.ToListAsync();
-			return courseStatuses;
+			var query = _context.CourseStatus.AsQueryable();
+
+			#region Filter
+
+			if (!string.IsNullOrWhiteSpace(model.Param))
+			{
+				query = query.Where(c => c.StatusTitle.Contains(model.Param));
+			}
+
+			switch (model.FilterCourseStatusOrder)
+			{
+				case FilterCourseStatusOrder.Newest:
+					query = query.OrderByDescending(cs => cs.CreateDate);
+					break;
+
+				case FilterCourseStatusOrder.Oldest:
+					query = query.OrderBy(cs => cs.CreateDate);
+					break;
+			}
+			#endregion
+
+
+			await model.Paging(query.Select(c => new CourseStatusViewModel()
+			{
+				Id = c.Id,
+				StatusTitle = c.StatusTitle,
+				CreateDate = c.CreateDate
+			}));
+
+			return model;
 		}
 
 		public async Task<bool> IsExist(int id)

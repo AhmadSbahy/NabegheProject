@@ -22,9 +22,9 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 
 		#region List
 
-		public async Task<IActionResult> List()
+		public async Task<IActionResult> List(FilterCourseStatusViewModel filter)
 		{
-			var courseStatusList = await _courseStatusService.GetCourseStatusListAsync();
+			var courseStatusList = await _courseStatusService.GetCourseStatusListAsync(filter);
 			return View(courseStatusList);
 		}
 

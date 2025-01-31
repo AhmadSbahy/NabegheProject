@@ -11,10 +11,10 @@ namespace Nabeghe.Application.DTOs.CourseStatus
 	public class CourseStatusFilterDto : BasePaging<CourseStatusDto>
 	{
 		[Display(Name = "جستجو")]
-		public string Param { get; set; }
+		public string? Param { get; set; }
 
 		[Display(Name = "وضعیت")]
-		public FilterCourseStatusOrder FilterCourseStatusOrder { get; set; }
+		public FilterCourseStatusOrder? FilterCourseStatusOrder { get; set; }
 	}
 	public enum FilterCourseStatusOrder
 	{

@@ -20,10 +20,10 @@ namespace Nabeghe.Api.Controllers
 			_mediator = mediator;
 		}
 		// GET: api/<CourseStatusController>
-		[HttpGet]
-		public async Task<ActionResult<List<CourseStatusDto>>> Get()
+		[HttpPut]
+		public async Task<ActionResult<CourseStatusFilterDto>> GetAll(CourseStatusFilterDto filterDto)
 		{
-			var courseStatus = await _mediator.Send(new GetCourseStatusListRequest());
+			var courseStatus = await _mediator.Send(new GetCourseStatusListRequest() { CourseStatusFilterDto = filterDto });
 			return Ok(courseStatus);
 		}
 

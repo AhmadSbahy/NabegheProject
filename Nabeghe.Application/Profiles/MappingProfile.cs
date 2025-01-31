@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Nabeghe.Application.DTOs.CourseStatus;
 using Nabeghe.Domain.Models.Course;
+using Nabeghe.Domain.ViewModels.CourseStatus;
 
 namespace Nabeghe.Application.Profiles
 {
@@ -8,13 +9,20 @@ namespace Nabeghe.Application.Profiles
     {
         public MappingProfile()
         {
-            #region Course Status
+	        #region Course Status
 
-            CreateMap<CourseStatus, CourseStatusDto>().ReverseMap();
-            CreateMap<CourseStatus, CreateCourseStatusDto>().ReverseMap();
-            CreateMap<CourseStatus, UpdateCourseStatusDto>().ReverseMap();
+	        // مپینگ اصلی
+	        CreateMap<CourseStatus, CourseStatusDto>().ReverseMap();
+	        CreateMap<CourseStatus, CreateCourseStatusDto>().ReverseMap();
+	        CreateMap<CourseStatus, UpdateCourseStatusDto>().ReverseMap();
 
-            #endregion
-        }
-    }
+	        // مپینگ جدید برای DTO به ViewModel و بالعکس
+	        CreateMap<CourseStatusDto, CourseStatusViewModel>().ReverseMap(); // این خط را اضافه کنید
+
+	        // مپینگ فیلترها
+	        CreateMap<CourseStatusFilterViewModel, CourseStatusFilterDto>().ReverseMap();
+
+	        #endregion
+		}
+	}
 }

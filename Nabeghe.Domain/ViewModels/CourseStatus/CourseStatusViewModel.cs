@@ -13,5 +13,7 @@ namespace Nabeghe.Domain.ViewModels.CourseStatus
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(150, ErrorMessage = "تعداد کاراکتر وارد شده بیش از حد مجاز است.")]
         public string StatusTitle { get; set; }
+
+        public DateTime CreateDate { get; set; }
     }
 }

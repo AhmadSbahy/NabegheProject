@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Nabeghe.Domain.Models.Course;
+using Nabeghe.Domain.ViewModels.CourseStatus;
 
 namespace Nabeghe.Domain.Interfaces
 {
     public interface ICourseStatusRepository
     {
 	    Task<CourseStatus> GetAsync(int id);
-	    Task<IReadOnlyList<CourseStatus>> GetAllAsync();
+	    Task<CourseStatusFilterViewModel> GetAllAsync(CourseStatusFilterViewModel model);
 	    Task<bool> IsExist(int id);
 	    Task<CourseStatus> AddAsync(CourseStatus courseStatus);
 	    Task UpdateAsync(CourseStatus courseStatus);
