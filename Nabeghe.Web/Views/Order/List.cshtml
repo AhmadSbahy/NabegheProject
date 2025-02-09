@@ -9,7 +9,8 @@
 
 	// مجموع تخفیف‌ها
 	int totalDiscount = Model.OrderDetails
-		.Where(od => od.Course.CourseDiscount != null)
+		.Where(od => od.Course.CourseDiscount != null && od.Course.CourseDiscount.StartDate <= DateTime.Now &&
+		             od.Course.CourseDiscount.EndDate >= DateTime.Now && !od.Course.CourseDiscount.IsDeleted)
 		.Sum(od => od.Price * od.Course.CourseDiscount.DiscountPercent / 100);
 
 	// مجموع قیمت کل با اعمال تخفیف

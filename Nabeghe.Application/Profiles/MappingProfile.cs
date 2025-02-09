@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Nabeghe.Application.DTOs.CourseStatus;
 using Nabeghe.Domain.Models.Course;
+using Nabeghe.Domain.Models.NewsLetter;
 using Nabeghe.Domain.ViewModels.CourseStatus;
+using Nabeghe.Domain.ViewModels.NewsLetter;
 
 namespace Nabeghe.Application.Profiles
 {
@@ -22,7 +24,15 @@ namespace Nabeghe.Application.Profiles
 	        // مپینگ فیلترها
 	        CreateMap<CourseStatusFilterViewModel, CourseStatusFilterDto>().ReverseMap();
 
-	        #endregion
+
+
+			#endregion
+
+			#region NewsLetter
+
+			CreateMap<NewsLetter, NewsLetterViewModel>().ReverseMap();
+
+			#endregion
 		}
 	}
 }

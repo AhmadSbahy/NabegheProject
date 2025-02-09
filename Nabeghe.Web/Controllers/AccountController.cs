@@ -57,7 +57,7 @@ namespace Nabeghe.Web.Controllers
                     break;
             }
 
-            return View();
+            return View(model);
         }
 
         #endregion

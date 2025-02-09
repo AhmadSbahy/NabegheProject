@@ -9,24 +9,41 @@ namespace Nabeghe.Application.Services.Implementation
 {
     public class CourseDiscountService(ICourseDiscountRepository courseDiscountRepository) : ICourseDiscountService
 	{
+		
 		public async Task<CreateCourseDiscountResult> CreateAsync(CreateCourseDiscountViewModel model)
 		{
-            string[] std = model.StartDate.Split('/');
-            string[] edd = model.EndDate.Split('/');
+			// تبدیل تاریخ‌ها به DateTime
+			string[] std = model.StartDate.Split('/');
+			string[] edd = model.EndDate.Split('/');
 
-            CourseDiscount courseDiscount = new CourseDiscount()
+			var existingRecord = await courseDiscountRepository.GetCourseDiscountAsync(model.CourseId);
+
+			if (existingRecord != null)
 			{
-				CourseId = model.CourseId,
-				DiscountPercent = model.DiscountPercent,
-				IsDeleted = false,
-				EndDate = new DateTime(int.Parse(edd[0]), int.Parse(edd[1]), int.Parse(edd[2]), new PersianCalendar()),
-				StartDate = new DateTime(int.Parse(std[0]), int.Parse(std[1]), int.Parse(std[2]), new PersianCalendar())
-            };
-			await courseDiscountRepository.InsertAsync(courseDiscount);
+				existingRecord.DiscountPercent = model.DiscountPercent;
+				existingRecord.StartDate = new DateTime(int.Parse(std[0]), int.Parse(std[1]), int.Parse(std[2]), new PersianCalendar());
+				existingRecord.EndDate = new DateTime(int.Parse(edd[0]), int.Parse(edd[1]), int.Parse(edd[2]), new PersianCalendar());
+				existingRecord.IsDeleted = false;
+
+				 courseDiscountRepository.Update(existingRecord);
+			}
+			else
+			{
+				CourseDiscount courseDiscount = new CourseDiscount()
+				{
+					CourseId = model.CourseId,
+					DiscountPercent = model.DiscountPercent,
+					IsDeleted = false,
+					EndDate = new DateTime(int.Parse(edd[0]), int.Parse(edd[1]), int.Parse(edd[2]), new PersianCalendar()),
+					StartDate = new DateTime(int.Parse(std[0]), int.Parse(std[1]), int.Parse(std[2]), new PersianCalendar())
+				};
+
+				await courseDiscountRepository.InsertAsync(courseDiscount);
+			}
+
 			await courseDiscountRepository.SaveAsync();
 			return CreateCourseDiscountResult.Success;
 		}
-
 		public async Task<UpdateCourseDiscountViewModel?> GetForEditAsync(int id)
 		{
 			var courseDiscount = await courseDiscountRepository.GetByIdAsync(id);

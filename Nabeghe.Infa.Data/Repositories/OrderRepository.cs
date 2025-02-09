@@ -80,7 +80,7 @@ public class OrderRepository : IOrderRepository
 				Price = o.IsFinally
 					? o.TotalOrderPrice
 					: o.OrderDetails.Sum(od =>
-						(int)(od.Price * (1 - (od.Course.CourseDiscount != null
+						(int)(od.Price * (1 - (od.Course.CourseDiscount != null  && od.Course.CourseDiscount.StartDate <= DateTime.Now && od.Course.CourseDiscount.EndDate >= DateTime.Now && !od.Course.CourseDiscount.IsDeleted
 							? od.Course.CourseDiscount.DiscountPercent / 100m
 							: 0))))
 			})

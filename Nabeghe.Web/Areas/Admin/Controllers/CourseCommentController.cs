@@ -21,6 +21,9 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 
 		#endregion
 
+
+		#region Comment
+
 		#region Confirm
 
 		[CheckPermission("ConfirmComment")]
@@ -46,5 +49,37 @@ namespace Nabeghe.Web.Areas.Admin.Controllers
 		}
 
 		#endregion  
+
+		#endregion
+		
+		#region CommentReply
+
+		#region Reply
+
+		[CheckPermission("ConfirmComment")]
+		public async Task<IActionResult> ConfirmCommentReply(int commentId)
+		{
+			var result = await courseCommentService.ConfirmCommentReply(commentId);
+
+			if (!result.Success)
+				return BadRequest(new { message = result.Message, status = result.StatusCode });
+
+			return Ok(new { message = result.Message, status = result.StatusCode });
+		}
+
+		#endregion
+
+		#region Reject
+		[CheckPermission("RejectComment")]
+		public async Task<IActionResult> RejectCommentReply(int commentId)
+		{
+			var result = await courseCommentService.RejectCommentReply(commentId);
+
+			return Ok(result);
+		}
+
+		#endregion  
+
+		#endregion
 	}
 }

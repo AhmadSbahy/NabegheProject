@@ -15,6 +15,8 @@ namespace Nabeghe.Domain.ViewModels.Blog
         [Display(Name = "عنوان مقاله")]
         public string BlogTitle { get; set; }
 
+        public string Slug { get; set; }
+
         [Display(Name = "نام نویسنده")]
         public string AuthorName { get; set; }
 

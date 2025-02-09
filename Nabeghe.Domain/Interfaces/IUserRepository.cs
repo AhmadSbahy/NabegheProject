@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Nabeghe.Domain.Models.ContactUs;
+using Nabeghe.Domain.Models.NewsLetter;
 using Nabeghe.Domain.ViewModels.ContactUs;
 using Nabeghe.Domain.ViewModels.User;
 using Nabeghe.Domain.ViewModels.Course;
@@ -35,6 +36,14 @@ namespace Nabeghe.Domain.Interfaces
         Task<FilterContactUsViewModel> GetContactUsListAsync(FilterContactUsViewModel model);
         Task<ContactUsViewModel?> GetContactUsByIdAsync(int id);
 		Task UpdateContactUs(int id,ContactUsViewModel model);
-        #endregion
+		#endregion
+
+		#region News Latter
+		Task InsertNewsLatterAsync(NewsLetter model);
+		Task<bool> CheckEmailForNewsLatter(string email);
+		Task<List<NewsLetter>> GetNewsLetterListAsync();
+		Task<List<string>> GetEmailsListForNewsLetter();
+
+		#endregion
 	}
 }

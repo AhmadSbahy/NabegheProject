@@ -8,6 +8,35 @@
 @{
 	ViewData["Title"] = "نظرات محصول";
 }
+<style>
+	/* استایل پاسخ‌ها */
+	.reply-list {
+		max-height: 200px;
+		overflow-y: auto;
+	}
+
+	.reply-item {
+		border: 1px solid #dee2e6;
+		border-radius: 4px;
+		margin-bottom: 4px;
+	}
+
+	/* آیکون‌های کوچک */
+	.small-icon {
+		font-size: 14px;
+		vertical-align: middle;
+	}
+
+	/* متن کوچک */
+	.small {
+		font-size: 12px;
+	}
+
+	/* دکمه‌های فشرده */
+	.btn-sm {
+		padding: 0.25rem 0.5rem;
+	}
+</style>
 <div class="card">
 	<div class="card-body">
 		<div class="d-flex align-items-center justify-content-between mb-3">
@@ -49,9 +78,15 @@
 			<table class="table align-middle">
 				<thead class="table-secondary">
 					<tr>
+						@* 	<th>متن</th>
+						<th>وضعیت</th>
+						<th>تاریخ ایجاد</th>
+						<th>دستورات</th> *@
 						<th>متن</th>
 						<th>وضعیت</th>
 						<th>تاریخ ایجاد</th>
+						<th>پاسخ‌ها</th> <!-- افزودن ستون پاسخ‌ها -->
+						<th>لایک‌ها</th> <!-- افزودن ستون لایک‌ها -->
 						<th>دستورات</th>
 					</tr>
 				</thead>
@@ -59,15 +94,55 @@
 					@foreach (var item in Model.Entities)
 					{
 						<tr>
+							@* <td>@item.CommentText</td>
+						<td>@item.Status.GetDisplayName()</td>
+						<td>@item.CreateDate.Toshamsi()</td> *@
 							<td>@item.CommentText</td>
 							<td>@item.Status.GetDisplayName()</td>
 							<td>@item.CreateDate.Toshamsi()</td>
+							<td>
+								@if (item.Replies != null && item.Replies.Any())
+								{
+									foreach (var reply in item.Replies)
+									{
+										<div class="reply-item bg-light rounded p-2 mb-2">
+											<div class="d-flex justify-content-between align-items-center">
+												<span class="small">@reply.ReplyText</span>
+												@switch (reply.Status)
+												{
+													case CourseCommentStatus.Pending:
+													{
+														<button type="button" class="btn btn-success btn-sm" onclick="confirmedCourseCommentReply('@Url.Action("ConfirmCommentReply", "CourseComment", new { commentId = reply.Id })',event)"><ion-icon name="checkmark-circle-sharp" role="img" class="md hydrated" aria-label="checkmark circle sharp"></ion-icon>قبول</button>
+														<button type="button" class="btn btn-danger btn-sm" onclick="rejectedCourseCommentReply('@Url.Action("RejectCommentReply", "CourseComment", new { commentId = reply.Id })',event)"><ion-icon name="close-circle-sharp" role="img" class="md hydrated" aria-label="close circle sharp"></ion-icon>رد</button>
+														break;
+													}
+													case CourseCommentStatus.Confirmed:
+													{
+														<button type="button" class="btn btn-danger btn-sm" onclick="rejectedCourseCommentReply('@Url.Action("RejectCommentReply", "CourseComment", new { commentId = reply.Id})',event)"><ion-icon name="close-circle-sharp" role="img" class="md hydrated" aria-label="close circle sharp"></ion-icon>رد</button>
+														break;
+													}
+													case CourseCommentStatus.Rejected:
+													{
+														<button type="button" class="btn btn-success btn-sm" onclick="confirmedCourseCommentReply('@Url.Action("ConfirmCommentReply", "CourseComment", new { commentId = reply.Id })',event)"><ion-icon name="checkmark-circle-sharp" role="img" class="md hydrated" aria-label="checkmark circle sharp"></ion-icon>قبول</button>
+														break;
+													}
+												}
+											</div>
+										</div>
+									}
+								}
+								else
+								{
+									<span class="text-muted small">پاسخی وجود ندارد</span>
+								}
+							</td>
+							<td>@item.CommentLikes.Count</td>
 							<td>
 								@switch (item.Status)
 								{
 									case CourseCommentStatus.Pending:
 										{
-											<button type="button" class="btn btn-success"  onclick="confirmedCourseComment('@Url.Action("ConfirmComment", "CourseComment", new { commentId = item.Id })',event)"><ion-icon name="checkmark-circle-sharp" role="img" class="md hydrated" aria-label="checkmark circle sharp"></ion-icon>قبول</button>
+											<button type="button" class="btn btn-success" onclick="confirmedCourseComment('@Url.Action("ConfirmComment", "CourseComment", new { commentId = item.Id })',event)"><ion-icon name="checkmark-circle-sharp" role="img" class="md hydrated" aria-label="checkmark circle sharp"></ion-icon>قبول</button>
 											<button type="button" class="btn btn-danger" onclick="rejectedCourseComment('@Url.Action("RejectComment", "CourseComment", new { commentId = item.Id })',event)"><ion-icon name="close-circle-sharp" role="img" class="md hydrated" aria-label="close circle sharp"></ion-icon>رد</button>
 											break;
 										}
@@ -83,8 +158,8 @@
 										}
 								}
 								@* <a onclick="confirmDelete('@Url.Action("Delete", "CourseCategory", new { id = item.Id })',event)" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Delete" aria-label="Delete">
-									<ion-icon name="trash-outline" role="img" class="md hydrated" aria-label="trash outline"></ion-icon>
-								</a> *@
+							<ion-icon name="trash-outline" role="img" class="md hydrated" aria-label="trash outline"></ion-icon>
+							</a> *@
 							</td>
 						</tr>
 					}

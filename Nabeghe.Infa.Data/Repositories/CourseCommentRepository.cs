@@ -60,9 +60,19 @@ namespace Nabeghe.Infra.Data.Repositories
 	        return await _context.CourseComments.FirstOrDefaultAsync(cc => cc.Id == commentId);
         }
 
-        public void UpdateComment(CourseComment model)
+        public async Task<CommentReply?> GetCommentReplyByIdAsync(int replyId)
+        {
+			return await _context.CommentReplies.FirstOrDefaultAsync(cr => cr.Id == replyId);
+		}
+
+		public void UpdateComment(CourseComment model)
         {
 	        _context.CourseComments.Update(model);
+        }
+		
+		public void UpdateCommentReply(CommentReply model)
+        {
+	        _context.CommentReplies.Update(model);
         }
 
         public async Task SaveAsync()
@@ -70,53 +80,94 @@ namespace Nabeghe.Infra.Data.Repositories
 	        await _context.SaveChangesAsync();
         }
 
-        public async Task<FilterCourseCommentViewModel> FilterCourseCommentAsync(FilterCourseCommentViewModel filterCourseCommentViewModel)
-        {
-			var query = _context.CourseComments.Where(c=>c.CourseId == filterCourseCommentViewModel.CourseId).AsQueryable();
+		//      public async Task<FilterCourseCommentViewModel> FilterCourseCommentAsync(FilterCourseCommentViewModel filterCourseCommentViewModel)
+		//      {
+		//	var query = _context.CourseComments.Where(c=>c.CourseId == filterCourseCommentViewModel.CourseId).AsQueryable();
 
-			#region Filter
+		//	#region Filter
 
-			if (!string.IsNullOrEmpty(filterCourseCommentViewModel.Param))
+		//	if (!string.IsNullOrEmpty(filterCourseCommentViewModel.Param))
+		//	{
+		//		query = query.Where(c => c.CommentText.Contains(filterCourseCommentViewModel.Param));
+		//	}
+		//	switch (filterCourseCommentViewModel.Status)
+		//	{
+		//		case FilterCourseCommentStatus.All:
+		//			query = query;
+		//			break;
+
+		//		case FilterCourseCommentStatus.Pending:
+		//			query = query.Where(c => c.Status == CourseCommentStatus.Pending);
+		//			break;
+
+		//		case FilterCourseCommentStatus.Confirmed:
+		//			query = query.Where(c => c.Status == CourseCommentStatus.Confirmed);
+		//			break;
+
+		//		case FilterCourseCommentStatus.Rejected:
+		//			query = query.Where(c => c.Status == CourseCommentStatus.Rejected);
+		//			break;
+		//	}
+
+		//	#endregion
+
+		//	query = query.OrderByDescending(c => c.CreateDate);
+
+		//	await filterCourseCommentViewModel.Paging(query.Select(c => new CourseCommentViewModel()
+		//	{
+		//		Id = c.Id,
+		//		CreateDate = c.CreateDate,
+		//              CommentText = c.CommentText,
+		//              CourseId = c.CourseId,
+		//              UserId = c.UserId,
+		//              Status = c.Status
+		//	}));
+
+		//	return filterCourseCommentViewModel;
+		//}
+		public async Task<FilterCourseCommentViewModel> FilterCourseCommentAsync(FilterCourseCommentViewModel filter)
+		{
+			var query = _context.CourseComments
+				.Include(c => c.Replies)    // بارگذاری پاسخ‌ها
+				.Include(c => c.CommentLikes) // بارگذاری لایک‌ها
+				.Where(c => c.CourseId == filter.CourseId)
+				.AsQueryable();
+
+			// فیلترها
+			if (!string.IsNullOrEmpty(filter.Param))
+				query = query.Where(c => c.CommentText.Contains(filter.Param));
+
+			switch (filter.Status)
 			{
-				query = query.Where(c => c.CommentText.Contains(filterCourseCommentViewModel.Param));
-			}
-			switch (filterCourseCommentViewModel.Status)
-			{
-				case FilterCourseCommentStatus.All:
-					query = query;
-					break;
-
 				case FilterCourseCommentStatus.Pending:
 					query = query.Where(c => c.Status == CourseCommentStatus.Pending);
 					break;
-
 				case FilterCourseCommentStatus.Confirmed:
 					query = query.Where(c => c.Status == CourseCommentStatus.Confirmed);
 					break;
-
 				case FilterCourseCommentStatus.Rejected:
 					query = query.Where(c => c.Status == CourseCommentStatus.Rejected);
 					break;
 			}
 
-			#endregion
-
 			query = query.OrderByDescending(c => c.CreateDate);
 
-			await filterCourseCommentViewModel.Paging(query.Select(c => new CourseCommentViewModel()
+			await filter.Paging(query.Select(c => new CourseCommentViewModel
 			{
 				Id = c.Id,
 				CreateDate = c.CreateDate,
-                CommentText = c.CommentText,
-                CourseId = c.CourseId,
-                UserId = c.UserId,
-                Status = c.Status
+				CommentText = c.CommentText,
+				CourseId = c.CourseId,
+				UserId = c.UserId,
+				Status = c.Status,
+				Replies = c.Replies,          // افزودن پاسخ‌ها
+				CommentLikes = c.CommentLikes // افزودن لایک‌ها
 			}));
 
-			return filterCourseCommentViewModel;
+			return filter;
 		}
 
-        public async Task AddCommentAsync(CourseComment comment)
+		public async Task AddCommentAsync(CourseComment comment)
         {
             await _context.CourseComments.AddAsync(comment);
             await _context.SaveChangesAsync();

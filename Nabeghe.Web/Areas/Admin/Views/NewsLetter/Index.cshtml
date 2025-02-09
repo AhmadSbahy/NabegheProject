@@ -1,0 +1,41 @@
+﻿@using Nabeghe.Application.Convertor
+
+@model List<Nabeghe.Domain.ViewModels.NewsLetter.NewsLetterViewModel>
+
+@{
+	ViewData["Title"] = "ليست ایمیل های خبر نامه";
+}
+
+<div class="card">
+	<div class="card-body">
+		<div class="card-body">
+			<div class="d-flex align-items-center justify-content-between mb-3">
+				<h5 class="mb-0">@ViewData["Title"]</h5>
+				<div class="col-auto d-flex align-items-end">
+					<a asp-action="SendEmail" type="submit" class="btn btn-success">ارسال ایمیل</a>
+				</div>
+			</div>
+		</div>
+		<div class="table-responsive mt-3">
+			<table class="table align-middle">
+				<thead class="table-secondary">
+					<tr>
+						<th>ایمیل</th>
+						<th>Ip</th>
+						<th>تاریخ ایجاد</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in Model)
+					{
+						<tr>
+							<td>@item.Email</td>
+							<td>@item.Ip</td>
+							<td>@item.CreateDate.Toshamsi()</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

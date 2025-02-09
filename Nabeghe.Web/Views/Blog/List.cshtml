@@ -35,7 +35,7 @@
 							{
 								<div class="relative bg-background rounded-xl shadow-xl shadow-black/5 p-4">
 									<div class="relative mb-3 z-20">
-										<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-id="@item.Id" class="block">
+										<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-slug="@item.Slug" class="block">
 											<img src="@PathTools.BlogImagePath@item.BlogImage" class="max-w-full rounded-xl" alt="...">
 										</a>
 										<button onclick="AddBlogLike(@item.Id)" type="button" class="absolute left-3 -bottom-3 w-9 h-9 inline-flex items-center justify-center bg-secondary rounded-full shadow-xl text-muted transition-colors @(item.BlogLikes.Any(c=>User.Identity.IsAuthenticated && c.UserId==User.GetUserId() && c.BlogId == item.Id )?"text-red-500":"") z-10">
@@ -47,7 +47,7 @@
 									</div>
 									<div class="relative space-y-3 z-10">
 										<h2 class="font-bold text-sm">
-											<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-id="@item.Id" class="line-clamp-1 text-foreground transition-colors hover:text-primary">
+											<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-slug="@item.Slug" class="line-clamp-1 text-foreground transition-colors hover:text-primary">
 												@item.BlogTitle
 											</a>
 										</h2>
@@ -56,7 +56,7 @@
 												<div class="flex-shrink-0 w-8 h-8 border border-white rounded-full overflow-hidden">
 													<img src="@PathTools.GetAvatarPath@item.AuthorAvatar" class="w-full h-full object-cover" alt="...">
 												</div>
-												<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-id="@item.Id" class="line-clamp-1 font-bold text-xs text-foreground transition-colors hover:text-primary">
+												<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-slug="@item.Slug" class="line-clamp-1 font-bold text-xs text-foreground transition-colors hover:text-primary">
 													@item.AuthorName
 												</a>
 											</div>

@@ -27,7 +27,16 @@ namespace Nabeghe.Application.Senders.Implementation
 				message.Subject = subject;
 				var builder = new BodyBuilder();
 
-				builder.HtmlBody = body;
+
+				if (isHtml)
+				{
+					builder.HtmlBody = body;
+				}
+				else
+				{
+					builder.TextBody = body;
+				}
+
 				message.Body = builder.ToMessageBody();
 				SmtpClient client = new SmtpClient();
 				client.Connect(_configuration.GetSection("EmailSettings:DomainName").Value, 25, SecureSocketOptions.None);

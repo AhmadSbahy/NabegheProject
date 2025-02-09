@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Nabeghe.Domain.Enums.Course;
 using Nabeghe.Domain.Enums.User;
 using Nabeghe.Domain.Models.ContactUs;
+using Nabeghe.Domain.Models.NewsLetter;
 using Nabeghe.Domain.Models.User;
 using Nabeghe.Domain.ViewModels.Course;
 using Nabeghe.Domain.ViewModels.User;
@@ -247,5 +248,23 @@ namespace Nabeghe.Infra.Data.Repositories
            contactUs.AnswerUserId = model.AnswerUserId;
             if (contactUs != null) _context.ContactUs.Update(contactUs);
         }
+
+        public async Task InsertNewsLatterAsync(NewsLetter model)
+        {
+			await _context.NewsLetters.AddAsync(model);
+		}
+
+        public async Task<bool> CheckEmailForNewsLatter(string email)
+		=> await _context.NewsLetters.AnyAsync(n=> n.Email == email);
+
+        public async Task<List<NewsLetter>> GetNewsLetterListAsync()
+        {
+	        return await _context.NewsLetters.OrderByDescending(n=>n.CreateDate).ToListAsync();
+        }
+
+        public async Task<List<string>> GetEmailsListForNewsLetter()
+        {
+			return await _context.NewsLetters.Select(p=> p.Email).ToListAsync();
+		}
     }
 }

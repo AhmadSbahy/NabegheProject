@@ -19,7 +19,9 @@ namespace Nabeghe.Domain.Interfaces
         Task DeleteCommentLikeAsync(int userId,int commentId);
         Task <List<CourseComment>> GetCourseCommentsAsync(int courseId);
         Task<CourseComment?> GetCommentByIdAsync(int commentId);
+        Task<CommentReply?> GetCommentReplyByIdAsync(int replyId);
         void UpdateComment(CourseComment model);
+        void UpdateCommentReply(CommentReply model);
         Task SaveAsync();
         Task<List<CourseComment>> GetCommentsByCourseIdAsync(int courseId);
         Task<List<CourseComment>> GetLatestCommentsAsync(int count);

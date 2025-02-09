@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nabeghe.Infra.Data.Context;
 
@@ -11,9 +12,11 @@ using Nabeghe.Infra.Data.Context;
 namespace Nabeghe.Infra.Data.Migrations
 {
     [DbContext(typeof(NabegheContext))]
-    partial class NabegheContextModelSnapshot : ModelSnapshot
+    [Migration("20250205160005_addslugtoBlog")]
+    partial class addslugtoBlog
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -260,9 +263,6 @@ namespace Nabeghe.Infra.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -504,32 +504,6 @@ namespace Nabeghe.Infra.Data.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("CourseCategories");
-                });
-
-            modelBuilder.Entity("Nabeghe.Domain.Models.NewsLetter.NewsLetter", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(350)
-                        .HasColumnType("nvarchar(350)");
-
-                    b.Property<string>("Ip")
-                        .IsRequired()
-                        .HasMaxLength(350)
-                        .HasColumnType("nvarchar(350)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("NewsLetters");
                 });
 
             modelBuilder.Entity("Nabeghe.Domain.Models.Order.Order", b =>

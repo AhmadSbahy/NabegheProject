@@ -3,6 +3,7 @@ using Nabeghe.Domain.Models.Blog;
 using Nabeghe.Domain.Models.ContactUs;
 using Nabeghe.Domain.Models.Course;
 using Nabeghe.Domain.Models.CourseCategory;
+using Nabeghe.Domain.Models.NewsLetter;
 using Nabeghe.Domain.Models.Order;
 using Nabeghe.Domain.Models.User;
 
@@ -88,11 +89,17 @@ namespace Nabeghe.Infra.Data.Context
 
         public DbSet<ContactUs> ContactUs { get; set; }
 
-        #endregion
+		#endregion
+
+		#region NewsLetter
+
+		public DbSet<NewsLetter> NewsLetters { get; set; }
 
 		#endregion
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+		#endregion
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

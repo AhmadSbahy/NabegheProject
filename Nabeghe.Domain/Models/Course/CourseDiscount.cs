@@ -31,5 +31,7 @@ namespace Nabeghe.Domain.Models.Course
 			
         [ForeignKey(nameof(CourseId))]
         public Course? Course { get; set; }
+
+       
     }
 }

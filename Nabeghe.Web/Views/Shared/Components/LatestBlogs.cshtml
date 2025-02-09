@@ -32,7 +32,7 @@
 					{
 						<div class="relative bg-background rounded-xl p-4">
 							<div class="relative mb-3 z-20">
-								<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-id="@blog.Id" class="block">
+								<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-slug="@blog.Slug" class="block">
 									<img style="width: 300px;height: 120px;" src="@PathTools.BlogImagePath@blog.BlogImage" class="max-w-full rounded-xl"
 									     alt="..." />
 								</a>
@@ -47,7 +47,7 @@
 							</div>
 							<div class="relative space-y-3 z-10">
 								<h2 class="font-bold text-sm">
-									<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-id="@blog.Id"
+									<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-slug="@blog.Slug"
 									   class="line-clamp-1 text-foreground transition-colors hover:text-primary">
 										@blog.BlogTitle
 									</a>
@@ -76,7 +76,7 @@
 						{
 							<div class="relative bg-background rounded-xl p-4">
 								<div class="relative mb-3 z-20">
-									<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-id="@blog.Id" class="block">
+									<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-slug="@blog.Slug" class="block">
 										<img style="width: 300px;height: 120px;" src="@PathTools.BlogImagePath@blog.BlogImage" class="max-w-full rounded-xl"
 										     alt="..." />
 									</a>
@@ -91,7 +91,7 @@
 								</div>
 								<div class="relative space-y-3 z-10">
 									<h2 class="font-bold text-sm">
-										<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-id="@blog.Id"
+										<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-slug="@blog.Slug"
 										   class="line-clamp-1 text-foreground transition-colors hover:text-primary">
 											@blog.BlogTitle
 										</a>

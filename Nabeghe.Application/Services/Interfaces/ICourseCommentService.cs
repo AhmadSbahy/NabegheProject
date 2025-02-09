@@ -13,7 +13,9 @@ namespace Nabeghe.Application.Services.Interfaces
 	    Task<FilterCourseCommentViewModel> FilterCourseCommentAsync(FilterCourseCommentViewModel filter);
 	    Task<(bool Success, string Message, int StatusCode)> ConfirmComment(int commentId);
 		Task<object> RejectComment(int commentId);
+		Task<(bool Success, string Message, int StatusCode)> ConfirmCommentReply(int replyId);
+		Task<object> RejectCommentReply(int replyId);
 		Task<List<CourseComment>> GetCommentsByCourseIdAsync(int courseId);
 		Task<List<CourseComment>> GetLatestCommentsAsync(int count);
-	}
+    }
 }

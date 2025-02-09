@@ -11,6 +11,10 @@ public class AdminEditBlogViewModel
 	[Required(ErrorMessage = "لطفا {0} را وارد کنید")]
 	public string BlogTitle { get; set; }
 
+	[Display(Name = "Slug")] 
+	[Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+	public string Slug { get; set; }
+
 	[Display(Name = "توضیحات مقاله")]
 	[Required(ErrorMessage = "لطفا {0} را وارد کنید")]
 	public string BlogDescription { get; set; }

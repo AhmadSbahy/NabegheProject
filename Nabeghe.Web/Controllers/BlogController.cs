@@ -26,10 +26,10 @@ namespace Nabeghe.Web.Controllers
 
         #region Details
 
-        [HttpGet("/blog-details/{id}")]
-        public async Task<IActionResult> Details(int id)
+        [HttpGet("/blog-details/{slug}")]
+        public async Task<IActionResult> Details(string slug)
         {
-            var blog = await blogService.GetBlogDetailsByIdAsync(id);
+            var blog = await blogService.GetBlogDetailsBySlugAsync(slug);
 
             if (blog == null)
                 return NotFound();

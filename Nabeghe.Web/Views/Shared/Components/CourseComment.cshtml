@@ -1,6 +1,7 @@
 ﻿@using Nabeghe.Application.Convertor
 @using Nabeghe.Application.Extensions
 @using Nabeghe.Application.Statics
+@using Nabeghe.Domain.Enums.Course
 @model ICollection<Nabeghe.Domain.Models.Course.CourseComment>
 @{
 	int currentUserId = User.GetUserId();
@@ -51,7 +52,7 @@
 		</div>
 		@if (comment.Replies.CheckValue())
 		{
-			@foreach (var reply in comment.Replies)
+			@foreach (var reply in comment.Replies.Where(cr=>cr.Status == CourseCommentStatus.Confirmed))
 			{
 				<div class="relative before:content-[''] before:absolute before:-top-3 before:right-8 before:w-px before:h-[calc(100%-24px)]   after:content-[''] after:absolute after:bottom-9 after:right-8 after:w-8 after:h-px  space-y-3 pr-16">
 					<div class="bg-background border border-border rounded-3xl space-y-3 p-5">

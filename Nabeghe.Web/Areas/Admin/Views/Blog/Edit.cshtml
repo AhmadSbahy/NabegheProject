@@ -14,6 +14,11 @@
 		<span class="text text-danger" asp-validation-for="BlogTitle"></span>
 	</div>
 	<div class="mb-4">
+		<label for="Product_ProductName" class="form-label">Slug</label>
+		<input class="form-control mb-3" asp-for="BlogTitle" placeholder="Slug" aria-label="default input example">
+		<span class="text text-danger" asp-validation-for="Slug"></span>
+	</div>
+	<div class="mb-4">
 		<label for="Product_ProductDescription" class="form-label">توضيح مقاله</label>
 		<textarea class="form-control mb-3" asp-for="BlogDescription" placeholder="توضيح مقاله" aria-label="default input example"></textarea>
 		<span class="text text-danger" asp-validation-for="BlogDescription"></span>

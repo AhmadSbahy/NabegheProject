@@ -26,8 +26,12 @@ namespace Nabeghe.Infra.Data.Repositories
         {
             return await _context.Blogs.Include(b => b.User).FirstOrDefaultAsync(b => b.Id == id);
         }
+		public async Task<Blog?> GetBlogBySlugAsync(string slug)
+		{
+			return await _context.Blogs.Include(b => b.User).FirstOrDefaultAsync(b => b.Slug == slug);
+		}
 
-        public async Task<IEnumerable<Blog>> GetAllBlogsAsync()
+		public async Task<IEnumerable<Blog>> GetAllBlogsAsync()
         {
             return await _context.Blogs.Include(b => b.User).ToListAsync();
         }
@@ -107,7 +111,8 @@ namespace Nabeghe.Infra.Data.Repositories
                 Status = b.BlogComments.Any(c => c.Status == BlogCommentStatus.Confirmed) ? "منتشر شده" : "در انتظار",
                 CommentCount = b.BlogComments.Count,
                 LikeCount = b.BlogComments.SelectMany(c => c.CommentLikes).Count(),
-                BlogLikes = b.BlogLikes
+                BlogLikes = b.BlogLikes,
+                Slug = b.Slug
 			}).ToList();
 
             // صفحه‌بندی
@@ -197,5 +202,7 @@ namespace Nabeghe.Infra.Data.Repositories
 				.Take(count)
 				.ToListAsync();
 		}
-	}
+
+		
+    }
 }

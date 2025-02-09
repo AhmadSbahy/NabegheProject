@@ -22,5 +22,6 @@ namespace Nabeghe.Domain.Interfaces
         Task<AdminFilterBlogViewModel> FilterBlogAsync(AdminFilterBlogViewModel model);
         Task SaveAsync();
         Task<List<Blog>> GetLatestBlogsAsync(int count);
-	}
+        Task<Blog?> GetBlogBySlugAsync(string slug);
+    }
 }

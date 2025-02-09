@@ -18,12 +18,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-
 #region IOC
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.RegisterServices();
 builder.Services.ConfigureWebRegisterServices();
 builder.Services.AddHttpClient();
+
 
 var apiAddress = builder.Configuration["ApiAddress"];
 

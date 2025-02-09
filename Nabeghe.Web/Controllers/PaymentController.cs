@@ -15,7 +15,8 @@ namespace Eshop.Web.Controllers
 	public class PaymentController
 		(INovinoService novinoService,
 		NabegheContext context,
-		ICourseService courseService
+		ICourseService courseService,
+		IHttpContextAccessor contextAccessor
 		)
 		: SiteBaseController
 	{
@@ -61,11 +62,13 @@ namespace Eshop.Web.Controllers
 
 			#region Send request to payment gateway
 
+			string domainName = contextAccessor.HttpContext?.Request.Host.Value ?? String.Empty ;
+
 			var result = await novinoService.CreateRequestAsync(new NovinoGetPaymentUrlRequestDto()
 			{
 				MerchantId = "test",
 				Amount = price,
-				CallbackUrl = $"https://mynabeghe.ir/payment/NovinoCallback?orderId={order.Id}",
+				CallbackUrl = $"https://{domainName}/payment/NovinoCallback?orderId={order.Id}",
 				Description = "خرید دوره",
 				InvoiceId = invoiceId,
 				CallbackMethod = "POST",
@@ -119,7 +122,8 @@ namespace Eshop.Web.Controllers
 					{
 						int totalPriceWithDiscount = order.OrderDetails.Sum(od =>
 						{
-							if (od.Course.CourseDiscount != null)
+							if (od.Course.CourseDiscount != null && od.Course.CourseDiscount.StartDate <= DateTime.Now &&
+							    od.Course.CourseDiscount.EndDate >= DateTime.Now && !od.Course.CourseDiscount.IsDeleted)
 							{
 								return od.Price - (od.Price * od.Course.CourseDiscount.DiscountPercent / 100);
 							}

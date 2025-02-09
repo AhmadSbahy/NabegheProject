@@ -134,7 +134,8 @@ namespace Nabeghe.Web.Controllers
 				CommentId = model.commentId,
 				UserId = User.GetUserId(),
 				ReplyText = model.replyText,
-				CreateDate = DateTime.Now
+				CreateDate = DateTime.Now,
+				Status = CourseCommentStatus.Pending
 			};
 
 			await commentRepository.AddReplyAsync(reply);

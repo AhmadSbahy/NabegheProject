@@ -26,6 +26,11 @@ namespace Nabeghe.Application.Services.Implementation
 			return await _blogRepository.GetBlogByIdAsync(blogId);
 		}
 
+		public async Task<Blog?> GetBlogDetailsBySlugAsync(string slug)
+		{
+			return await _blogRepository.GetBlogBySlugAsync(slug);
+		}
+
 		public async Task<AdminEditBlogViewModel?> GetBlogDetailsAsync(int blogId)
 		{
 			var blog = await _blogRepository.GetBlogByIdAsync(blogId);
@@ -35,11 +40,12 @@ namespace Nabeghe.Application.Services.Implementation
 			}
 			return new AdminEditBlogViewModel()
 			{
-				AuthorId = blog.AuthorId,
-				BlogDescription = blog.BlogDescription,
-				BlogImageName = blog.BlogImage,
+				Id = blog.Id,
 				BlogTitle = blog.BlogTitle,
-				Id = blog.Id
+				Slug = blog.Slug,
+				BlogDescription = blog.BlogDescription,
+				AuthorId = blog.AuthorId,
+				BlogImageName = blog.BlogImage,
 			};
 		}
 
@@ -48,6 +54,7 @@ namespace Nabeghe.Application.Services.Implementation
 			var newBlog = new Blog
 			{
 				BlogTitle = model.BlogTitle,
+				Slug = model.Slug,
 				BlogDescription = model.BlogDescription,
 				AuthorId = model.AuthorId,
 				CreateDate = DateTime.Now
@@ -75,6 +82,7 @@ namespace Nabeghe.Application.Services.Implementation
 			if (blog == null) return AdminEditBlogStatus.NotFound;
 
 			blog.BlogTitle = model.BlogTitle;
+			blog.Slug = model.Slug;
 			blog.BlogDescription = model.BlogDescription;
 
 			#region Add Image
